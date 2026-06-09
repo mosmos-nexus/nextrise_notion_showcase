@@ -1,5 +1,6 @@
 {
   "enabledPlugins": {
-    "frontend-slides@frontend-slides": true
+    "frontend-slides@frontend-slides": true,
+    "oh-my-claudecode@omc": true
   }
 }
