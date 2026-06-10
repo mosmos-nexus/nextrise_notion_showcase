@@ -4,12 +4,13 @@
 
 /* s3a — Lead by Design whole-asset + stagger (WP5) */
 #s3a{--bloom:.5}
-#s3a .center{position:absolute;left:0;right:0;top:150px;display:flex;flex-direction:column;align-items:center;text-align:center}
-#s3a .center .kicker{justify-content:center}
-#s3a .banner{position:absolute;left:50%;transform:translateX(-50%);bottom:104px;width:1660px;
+/* D4: 한 덩어리 센터 그룹 — 로고는 킥커 행에 인라인, 카피→배너 리듬 통일 */
+#s3a .center{position:absolute;left:0;right:0;top:168px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#s3a .center .kicker{justify-content:center;align-items:center}
+#s3a .kicker .plogo-inline{height:46px;width:auto;margin-right:6px}
+#s3a .banner{position:absolute;left:50%;transform:translateX(-50%);bottom:136px;width:1660px;
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);padding:44px 56px}
 #s3a .banner img{width:100%;object-fit:contain}
-#s3a .plogo{position:absolute;right:140px;top:128px;width:96px;opacity:.92}
 /* Mon decorations (분석/실행 theme) */
 #s3a .mon-deco{position:absolute;z-index:5}
 #s3a .mon-deco.a{left:140px;bottom:120px;width:58px;height:58px}

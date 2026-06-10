@@ -232,13 +232,17 @@ body.no-fade .slide,body.no-fade .slide.active{
 .sub{font-size:30px;line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
 .sub b{color:var(--text-strong);font-weight:700}
 
-/* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정) */
+/* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정)
+   D4 근본 수정: transform이 아닌 독립 속성(translate/scale)을 애니메이션해
+   요소의 정적 transform(예: translateX(-50%) 센터링)을 클로버하지 않는다.
+   (구버전 rise의 to{transform:none}이 left:50% 요소들의 센터링을 풀어
+   배너/칩/로고가 우측으로 밀려 잘리던 버그의 원인) */
 .rv{opacity:0}
 .slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:var(--d,0s)}
-@keyframes rise{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;translate:0 36px}to{opacity:1;translate:0 0}}
 .slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
 .rv-pop{opacity:0}
-@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes pop{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
 @media print{.rv,.rv-pop{opacity:1 !important}}
 
 /* SVG path draw — pathLength="1" 기반 */

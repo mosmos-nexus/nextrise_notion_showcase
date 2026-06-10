@@ -12,11 +12,14 @@
     <h2 class="headline rv" style="--d:.18s">개인에서 시작해, <em>비즈니스</em>가 되다</h2>
   </header>
   <div class="tl">
+    <!-- D1: 메인 라인은 디스크 중심 높이(y=115)를 정확히 통과해 불투명 디스크 뒤로 숨고,
+         점선 커넥터는 캡션 박스(y≈200-330) 아래(y≥345)에서 끝나 글자와 겹치지 않는다 -->
     <svg class="tl-lines" viewBox="0 0 1664 560" preserveAspectRatio="none" aria-hidden="true">
-      <path class="main draw" pathLength="1" style="--d:.55s" d="M183 150 C 500 80, 1160 80, 1481 150"/>
-      <path class="dash draw" pathLength="1" style="--d:2.45s" d="M832 440 L832 250"/>
-      <path class="dash draw" pathLength="1" style="--d:2.6s" d="M770 462 C 470 440, 260 330, 195 240"/>
-      <path class="dash draw" pathLength="1" style="--d:2.75s" d="M894 462 C 1194 440, 1404 330, 1469 240"/>
+      <!-- 미세한 2px 아치: 완전 수평선은 objectBoundingBox 그라데이션이 퇴화(높이 0)해 투명해진다 -->
+      <path class="main draw" pathLength="1" style="--d:.55s" d="M183 115 C 500 113, 1164 113, 1481 115"/>
+      <path class="dash draw" pathLength="1" style="--d:2.45s" d="M832 435 L832 345"/>
+      <path class="dash draw" pathLength="1" style="--d:2.6s" d="M662 468 C 480 460, 260 420, 183 345"/>
+      <path class="dash draw" pathLength="1" style="--d:2.75s" d="M1002 468 C 1184 460, 1404 420, 1481 345"/>
     </svg>
     <div class="tl-node n1 rv" style="--d:.85s">
       <div class="disc"><img src="assets/logo/joongheon_archive.svg" alt="중헌아카이브">

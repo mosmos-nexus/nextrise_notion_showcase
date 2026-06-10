@@ -256,13 +256,17 @@ body.no-fade .slide,body.no-fade .slide.active{
 .sub{font-size:30px;line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
 .sub b{color:var(--text-strong);font-weight:700}
 
-/* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정) */
+/* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정)
+   D4 근본 수정: transform이 아닌 독립 속성(translate/scale)을 애니메이션해
+   요소의 정적 transform(예: translateX(-50%) 센터링)을 클로버하지 않는다.
+   (구버전 rise의 to{transform:none}이 left:50% 요소들의 센터링을 풀어
+   배너/칩/로고가 우측으로 밀려 잘리던 버그의 원인) */
 .rv{opacity:0}
 .slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:var(--d,0s)}
-@keyframes rise{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;translate:0 36px}to{opacity:1;translate:0 0}}
 .slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
 .rv-pop{opacity:0}
-@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes pop{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
 @media print{.rv,.rv-pop{opacity:1 !important}}
 
 /* SVG path draw — pathLength="1" 기반 */
@@ -547,12 +551,13 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
 /* s3a — Lead by Design whole-asset + stagger (WP5) */
 #s3a{--bloom:.5}
-#s3a .center{position:absolute;left:0;right:0;top:150px;display:flex;flex-direction:column;align-items:center;text-align:center}
-#s3a .center .kicker{justify-content:center}
-#s3a .banner{position:absolute;left:50%;transform:translateX(-50%);bottom:104px;width:1660px;
+/* D4: 한 덩어리 센터 그룹 — 로고는 킥커 행에 인라인, 카피→배너 리듬 통일 */
+#s3a .center{position:absolute;left:0;right:0;top:168px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#s3a .center .kicker{justify-content:center;align-items:center}
+#s3a .kicker .plogo-inline{height:46px;width:auto;margin-right:6px}
+#s3a .banner{position:absolute;left:50%;transform:translateX(-50%);bottom:136px;width:1660px;
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);padding:44px 56px}
 #s3a .banner img{width:100%;object-fit:contain}
-#s3a .plogo{position:absolute;right:140px;top:128px;width:96px;opacity:.92}
 /* Mon decorations (분석/실행 theme) */
 #s3a .mon-deco{position:absolute;z-index:5}
 #s3a .mon-deco.a{left:140px;bottom:120px;width:58px;height:58px}
@@ -783,13 +788,14 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
    S6b · 3축 — 함께 자랄 세 갈래 (data-steps=3)
    ============================================================ */
 #s6b{--bloom:.7}
-#s6b .kicker{position:absolute;left:0;right:0;top:148px;text-align:center;
+/* D7: .kicker 베이스가 flex이므로 justify-content로 센터링 — 헤드라인과 한 축 */
+#s6b .kicker{position:absolute;left:0;right:0;top:152px;justify-content:center;
   font-size:18px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-core);opacity:.75}
-#s6b .head{position:absolute;left:0;right:0;top:196px;text-align:center;
+#s6b .head{position:absolute;left:0;right:0;top:200px;text-align:center;
   font-family:var(--font-display);font-size:60px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
-#s6b .axes{position:absolute;left:140px;right:140px;top:420px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+#s6b .axes{position:absolute;left:140px;right:140px;top:448px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
 #s6b .axis{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
-  padding:64px 40px 46px;box-shadow:var(--e2);text-align:center}
+  padding:68px 44px 52px;box-shadow:var(--e2);text-align:center}
 #s6b .axis .mon{position:absolute;left:50%;top:-30px;margin-left:-26px;width:52px;height:52px;
   opacity:0;transform:translateY(-80px);transition:none}
 #s6b .axis.step-shown .mon{opacity:1;transform:none;
@@ -962,11 +968,14 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <h2 class="headline rv" style="--d:.18s">개인에서 시작해, <em>비즈니스</em>가 되다</h2>
   </header>
   <div class="tl">
+    <!-- D1: 메인 라인은 디스크 중심 높이(y=115)를 정확히 통과해 불투명 디스크 뒤로 숨고,
+         점선 커넥터는 캡션 박스(y≈200-330) 아래(y≥345)에서 끝나 글자와 겹치지 않는다 -->
     <svg class="tl-lines" viewBox="0 0 1664 560" preserveAspectRatio="none" aria-hidden="true">
-      <path class="main draw" pathLength="1" style="--d:.55s" d="M183 150 C 500 80, 1160 80, 1481 150"/>
-      <path class="dash draw" pathLength="1" style="--d:2.45s" d="M832 440 L832 250"/>
-      <path class="dash draw" pathLength="1" style="--d:2.6s" d="M770 462 C 470 440, 260 330, 195 240"/>
-      <path class="dash draw" pathLength="1" style="--d:2.75s" d="M894 462 C 1194 440, 1404 330, 1469 240"/>
+      <!-- 미세한 2px 아치: 완전 수평선은 objectBoundingBox 그라데이션이 퇴화(높이 0)해 투명해진다 -->
+      <path class="main draw" pathLength="1" style="--d:.55s" d="M183 115 C 500 113, 1164 113, 1481 115"/>
+      <path class="dash draw" pathLength="1" style="--d:2.45s" d="M832 435 L832 345"/>
+      <path class="dash draw" pathLength="1" style="--d:2.6s" d="M662 468 C 480 460, 260 420, 183 345"/>
+      <path class="dash draw" pathLength="1" style="--d:2.75s" d="M1002 468 C 1184 460, 1404 420, 1481 345"/>
     </svg>
     <div class="tl-node n1 rv" style="--d:.85s">
       <div class="disc"><img src="assets/logo/joongheon_archive.svg" alt="중헌아카이브">
@@ -1178,9 +1187,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
     <span class="blk b1"></span><span class="blk b2"></span><span class="blk b4"></span>
   </div>
-  <img class="plogo rv" style="--d:.1s" src="assets/logo/proact0.svg" alt="Proact0">
+  <!-- D4: 떠 있던 코너 로고를 킥커 행 안으로 — 한 덩어리의 센터 그룹으로 응집 -->
   <div class="center">
-    <div class="kicker rv" style="--d:.05s">개인 → 조직 단위 AX로</div>
+    <div class="kicker rv" style="--d:.05s"><img class="plogo-inline" src="assets/logo/proact0.svg" alt="Proact0">개인 → 조직 단위 AX로</div>
     <h2 class="headline rv" style="--d:.18s">이번엔, 조직을 <em>설계</em>로 운영했다</h2>
     <p class="sub rv" style="--d:.4s">사람과 AI 에이전트가 함께 일하는 <b>CoAX</b> —<br>Notion·Discord·GitHub 위에서 굴러가는 오픈소스 허브</p>
   </div>
