@@ -51,11 +51,46 @@
   /* height auto-sized by JS; translateY applied by panning controller */
   will-change:transform;transition:transform 0s linear}
 #s2c .pan-inner img{width:100%;height:auto;display:block}
-/* reduced-motion: show whole SVG statically via object-fit:contain */
+/* ── Callout chips — positioned in FRAME space (inside .pan-wrap, relative to wrap) ── */
+/* Left-stack: stacked column from top-left at 24px inset */
+/* Right-stack: stacked column from top-right at 24px inset */
+/* (주의: .pan-wrap은 position:absolute — 이미 칩의 포지셔닝 컨텍스트다. relative로 덮으면 높이가 붕괴한다) */
+.s2c-chip{
+  position:absolute;
+  max-width:480px;
+  background:rgba(255,255,255,.97);
+  border:1.5px solid #F0C45A;
+  border-radius:12px;
+  padding:12px 20px;
+  font-size:22px;
+  font-weight:600;
+  color:#1D2026;
+  line-height:1.35;
+  box-shadow:0 4px 20px rgba(0,0,0,.18),0 1px 4px rgba(0,0,0,.10);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+  z-index:20;
+  white-space:normal;
+}
+.s2c-chip.chip-shown{
+  opacity:1;
+  transform:translateY(0);
+}
+/* 정거장당 한 묶음만 표시 — 프레임 좌/우 상단 코너 고정 앵커 (줌 상태와 무관하게 클립 없음) */
+.s2c-chip--left{top:24px;left:24px;right:auto}
+.s2c-chip--right{top:24px;right:24px;left:auto}
+/* S6: 우측 칩 2개는 인접 형제 — 둘째를 아래로 스택 */
+[data-stop="5"].s2c-chip--right + [data-stop="5"].s2c-chip--right{top:88px}
+
+/* reduced-motion: 전체 자산을 다크 프레임 위에 contain으로 정적 표시 —
+   베이크된 노란 주석이 그대로 읽히므로 DOM 칩은 중복이라 숨긴다 */
 @media (prefers-reduced-motion:reduce){
-  #s2c .pan-wrap{overflow:visible}
-  #s2c .pan-inner{position:static;transform:none !important}
+  #s2c .pan-wrap{background:#1D2026}
+  #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
   #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
+  .s2c-chip{display:none !important}
 }
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
@@ -69,7 +104,10 @@
 #s2d .flow-card{position:absolute;left:96px;right:96px;top:268px;
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);
   padding:40px 48px 36px;overflow:visible}
-#s2d .flow-card img{width:100%;height:auto;display:block;border-radius:8px}
+/* D3: 자산의 노란 주석은 다크 배경 기준으로 제작됨 — Blue Black 패널 위에 올려 가독성 확보,
+   두 다이어그램 그룹을 하나의 구성으로 묶는다 (QA 오픈 아이템 해소) */
+#s2d .flow-card img{width:100%;height:auto;display:block;border-radius:14px;
+  background:#1D2026;padding:34px 40px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
 /* Stage label chips — auto-play overlay on top of the flow image */
 #s2d .flow-stage-chips{display:flex;justify-content:space-around;margin-top:30px}
 #s2d .flow-stage-chips .stage-chip{display:flex;align-items:center;gap:10px;

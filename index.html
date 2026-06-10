@@ -486,11 +486,46 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   /* height auto-sized by JS; translateY applied by panning controller */
   will-change:transform;transition:transform 0s linear}
 #s2c .pan-inner img{width:100%;height:auto;display:block}
-/* reduced-motion: show whole SVG statically via object-fit:contain */
+/* ── Callout chips — positioned in FRAME space (inside .pan-wrap, relative to wrap) ── */
+/* Left-stack: stacked column from top-left at 24px inset */
+/* Right-stack: stacked column from top-right at 24px inset */
+/* (주의: .pan-wrap은 position:absolute — 이미 칩의 포지셔닝 컨텍스트다. relative로 덮으면 높이가 붕괴한다) */
+.s2c-chip{
+  position:absolute;
+  max-width:480px;
+  background:rgba(255,255,255,.97);
+  border:1.5px solid #F0C45A;
+  border-radius:12px;
+  padding:12px 20px;
+  font-size:22px;
+  font-weight:600;
+  color:#1D2026;
+  line-height:1.35;
+  box-shadow:0 4px 20px rgba(0,0,0,.18),0 1px 4px rgba(0,0,0,.10);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+  z-index:20;
+  white-space:normal;
+}
+.s2c-chip.chip-shown{
+  opacity:1;
+  transform:translateY(0);
+}
+/* 정거장당 한 묶음만 표시 — 프레임 좌/우 상단 코너 고정 앵커 (줌 상태와 무관하게 클립 없음) */
+.s2c-chip--left{top:24px;left:24px;right:auto}
+.s2c-chip--right{top:24px;right:24px;left:auto}
+/* S6: 우측 칩 2개는 인접 형제 — 둘째를 아래로 스택 */
+[data-stop="5"].s2c-chip--right + [data-stop="5"].s2c-chip--right{top:88px}
+
+/* reduced-motion: 전체 자산을 다크 프레임 위에 contain으로 정적 표시 —
+   베이크된 노란 주석이 그대로 읽히므로 DOM 칩은 중복이라 숨긴다 */
 @media (prefers-reduced-motion:reduce){
-  #s2c .pan-wrap{overflow:visible}
-  #s2c .pan-inner{position:static;transform:none !important}
+  #s2c .pan-wrap{background:#1D2026}
+  #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
   #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
+  .s2c-chip{display:none !important}
 }
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
@@ -504,7 +539,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2d .flow-card{position:absolute;left:96px;right:96px;top:268px;
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);
   padding:40px 48px 36px;overflow:visible}
-#s2d .flow-card img{width:100%;height:auto;display:block;border-radius:8px}
+/* D3: 자산의 노란 주석은 다크 배경 기준으로 제작됨 — Blue Black 패널 위에 올려 가독성 확보,
+   두 다이어그램 그룹을 하나의 구성으로 묶는다 (QA 오픈 아이템 해소) */
+#s2d .flow-card img{width:100%;height:auto;display:block;border-radius:14px;
+  background:#1D2026;padding:34px 40px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
 /* Stage label chips — auto-play overlay on top of the flow image */
 #s2d .flow-stage-chips{display:flex;justify-content:space-around;margin-top:30px}
 #s2d .flow-stage-chips .stage-chip{display:flex;align-items:center;gap:10px;
@@ -1071,8 +1109,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
-     S2c · 중헌아카이브 — 구조 해부 느린 자동 패닝 (WP4)
-     homepage_with_yellow_annotation.svg (1474×1218) top→bottom
+     S2c · 중헌아카이브 — 구조 해부 카메라 크롭줌 (WP-B D2)
+     homepage_with_yellow_annotation.svg (1474×1218)
+     Chips authored in DOM inside .pan-wrap (clip boundary).
+     JS assigns chip-shown per stop; reduced-motion shows all statically.
      ════════════════════════════════════════════════════════════ -->
 <section class="slide" id="s2c" data-section="2">
   <div class="bg">
@@ -1091,6 +1131,23 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <img src="assets/resources/joongheon_archive/homepage_with_yellow_annotation.svg"
            alt="중헌아카이브 홈페이지 구조 — 노란 어노테이션 포함" id="s2c-pan-img">
     </div>
+    <!-- ── Callout chips (all 10 present in DOM; JS adds chip-shown per stop) ── -->
+    <!-- S1 — stop 0, chip 0 -->
+    <div class="s2c-chip s2c-chip--left" data-stop="0">노션 기반의 개성 있는 UI</div>
+    <!-- S2 — stop 1, chips 1-2 -->
+    <div class="s2c-chip s2c-chip--left" data-stop="1">차별화된 자기 PR 요소</div>
+    <div class="s2c-chip s2c-chip--right" data-stop="1">카테고리 유형 요약 시각화</div>
+    <!-- S3 — stop 2, chip 3 -->
+    <div class="s2c-chip s2c-chip--left" data-stop="2">실시간으로 연동되어 있는 노션 Database</div>
+    <!-- S4 — stop 3, chips 4-5 -->
+    <div class="s2c-chip s2c-chip--left" data-stop="3">AI Agent를 이용한 자동 Public/Private 일정 연동 관리</div>
+    <div class="s2c-chip s2c-chip--right" data-stop="3">AI Agent를 이용한 자동 카테고리 그룹핑</div>
+    <!-- S5 — stop 4, chip 6 -->
+    <div class="s2c-chip s2c-chip--left" data-stop="4">노션 Database 특성에 맞춘 데이터 정규화</div>
+    <!-- S6 — stop 5, chips 7-9 -->
+    <div class="s2c-chip s2c-chip--left" data-stop="5">중요도가 가장 높은 포트폴리오 연결용 CTA(Call To Action) 버튼</div>
+    <div class="s2c-chip s2c-chip--right" data-stop="5">사용자 경험을 위한 상단 이동 버튼</div>
+    <div class="s2c-chip s2c-chip--right" data-stop="5">카카오톡 채널 연동</div>
   </div>
   <!-- Mon decorations -->
   <svg class="mon-deco a m-research float rv-pop" style="--d:.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
@@ -2188,79 +2245,132 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   window.deck={ pan:{}, iframe:{} };
 
   /* ================================================================
-     WP4 — PANNING CONTROLLER
-     Drives s2c top→bottom auto-pan of homepage_with_yellow_annotation.svg
-     Source SVG: 1474×1218 px. Rendered inside #s2c .pan-wrap at ~1728px wide.
-     Rendered img height ≈ 1728 * (1218/1474) ≈ 1428px.
-     pan-wrap visible height: slide 1080 - 164 (top offset) - 76 (bottom) = ~840px
-     So total scrollable px ≈ 1428 - 840 = ~588px of translateY range.
-
-     Annotation y-zones (source px, 1474×1218): [146, 381, 547, 762, 1002, 1184]
-     Scale factor (rendered/source): 1728/1474 ≈ 1.172
-     Scaled y-centers: [171, 447, 641, 893, 1175, 1388]
-     translateY = -(scaledY - wrapHeight/2) clamped to [-scrollRange, 0]
+     WP-B D2 — S2c CAMERA CROP-ZOOM CONTROLLER  (v3 rewrite)
+     Per-zone crop-zoom + DOM callout chip sequencer.
+     Asset: homepage_with_yellow_annotation.svg, 1474×1218 source px.
+     Rendered inside #s2c .pan-wrap (overflow:hidden clip boundary).
+     .pan-inner transform: translate(tx,ty) scale(s) — origin 0 0.
+     Frame coords: wrap rect (left=0, top=0).
+     For a zone anchored at source (sx, sy):
+       scaledX = sx * renderScale
+       scaledY = sy * renderScale
+       tx = -(scaledX - frameW/2)   [x: keep content centre x≈737 for centred zones]
+       ty = -(scaledY - frameH/2)
+     Chips live INSIDE .pan-wrap (frame space) — crisp + unclipped at zoom.
      ================================================================ */
   (function initPanController(){
-    if(reduced){ /* reduced-motion: no auto-pan; static top view */
+    if(reduced){ /* reduced-motion: no animation; chips shown statically via CSS */
       deck.pan.toggle=function(){};
       return;
     }
 
-    const WAYPOINTS_SRC=[146,381,547,762,1002,1184]; /* source px y-centers */
+    /* ── DATA ─────────────────────────────────────────────────────── */
     const SRC_W=1474, SRC_H=1218;
-    const HOLD_MS=1400;     /* hold time at each waypoint (ms) */
-    const ZOOM_AT_HOLD=1.04; /* subtle scale zoom at hold points */
-    const PAN_SPEED=0.8;    /* px per ms for ease between waypoints */
+    const SRC_CONTENT_CX=737; /* logical centre-x of the content area in source px */
 
+    /* 6 zoom stops — all have chips (verified chip map, authoritative) */
+    const STOPS=[
+      { srcY:146,  srcX:SRC_CONTENT_CX, chips:[0] },          /* S1 */
+      { srcY:381,  srcX:SRC_CONTENT_CX, chips:[1,2] },         /* S2 */
+      { srcY:547,  srcX:SRC_CONTENT_CX, chips:[3] },           /* S3 */
+      { srcY:790,  srcX:SRC_CONTENT_CX, chips:[4,5] },         /* S4 */
+      { srcY:1002, srcX:SRC_CONTENT_CX, chips:[6] },           /* S5 */
+      { srcY:1178, srcX:SRC_CONTENT_CX, chips:[7,8,9] },       /* S6 */
+    ];
+
+    /* 2.0: 가시 소스 폭 = 1474/2.0 = 737px < 콘텐츠 폭(~810px)
+       → 좌우 여백의 베이크된 노란 라벨이 항상 프레임 밖으로 크롭된다 */
+    const ZOOM_AT_HOLD=2.0;
+    const HOLD_MS=1800;       /* hold time at each stop */
+    const CHIP_FADE_MS=350;   /* chip fade-in/out transition */
+    const PAN_SPEED=1.0;      /* px/ms for travel between stops */
+
+    /* ── STATE ────────────────────────────────────────────────────── */
     let panRunning=false;
     let panPaused=false;
-    let panRaf=null;
-    let panAbort=null; /* AbortController for current pan sequence */
+    let panAbort=null;
 
+    /* ── ELEMENTS ─────────────────────────────────────────────────── */
     function getPanEls(){
-      const wrap=document.getElementById('s2c-pan-inner');
+      const wrap=document.querySelector('#s2c .pan-wrap');
+      const inner=document.getElementById('s2c-pan-inner');
       const img=document.getElementById('s2c-pan-img');
-      return {wrap,img};
+      return {wrap,inner,img};
     }
 
-    /* Compute rendered scale and clamp translateY */
+    function getChips(){
+      return document.querySelectorAll('#s2c .s2c-chip');
+    }
+
+    /* ── GEOMETRY ─────────────────────────────────────────────────── */
     function computeGeometry(){
-      const {wrap,img}=getPanEls();
-      if(!wrap||!img) return null;
-      const wrapRect=wrap.parentElement.getBoundingClientRect();
-      const wrapH=wrapRect.height||840;
-      const renderW=wrapRect.width||1728;
-      const scale=renderW/SRC_W;
-      const renderH=SRC_H*scale;
-      const scrollRange=Math.max(0,renderH-wrapH);
-      return {scale,renderH,wrapH,scrollRange};
+      const {wrap,inner,img}=getPanEls();
+      if(!wrap||!inner||!img) return null;
+      const wrapRect=wrap.getBoundingClientRect();
+      const frameW=wrapRect.width||1728;
+      const frameH=wrapRect.height||840;
+      const renderScale=frameW/SRC_W;
+      const renderH=SRC_H*renderScale;
+      return {renderScale,renderH,frameW,frameH};
     }
 
-    /* Convert source-px y-center to translateY offset */
-    function srcYToTranslate(srcY,geo){
-      const scaledY=srcY*geo.scale;
-      const raw=-(scaledY-geo.wrapH/2);
-      return Math.max(-geo.scrollRange,Math.min(0,raw));
+    /* Compute transform for a given stop at a given zoom scale.
+       Uses transform-origin:0 0, so we manually translate to centre the zone. */
+    function stopTransform(stop,scale,geo){
+      const scaledX=stop.srcX*geo.renderScale;
+      const scaledY=stop.srcY*geo.renderScale;
+      /* centre the zone in the frame */
+      let tx=geo.frameW/2-scaledX*scale;
+      let ty=geo.frameH/2-scaledY*scale;
+      /* clamp so we don't show area outside the image */
+      const maxTx=0;
+      const minTx=geo.frameW-geo.renderScale*SRC_W*scale;
+      const maxTy=0;
+      const minTy=geo.frameH-geo.renderScale*SRC_H*scale;
+      tx=Math.max(minTx,Math.min(maxTx,tx));
+      ty=Math.max(minTy,Math.min(maxTy,ty));
+      return {tx,ty};
     }
 
-    function applyTransform(wrap,ty,sc){
-      wrap.style.transition='transform 0s linear';
-      wrap.style.transform='translateY('+ty.toFixed(2)+'px) scale('+(sc||1)+')';
+    /* Transform for the full-fit overview (scale so whole image fits with contain-like letterbox) */
+    function overviewTransform(geo){
+      const scaleX=geo.frameW/(geo.renderScale*SRC_W);
+      const scaleY=geo.frameH/(geo.renderScale*SRC_H);
+      const s=Math.min(scaleX,scaleY,1); /* never upscale beyond 1 (image already fills width) */
+      const renderW=geo.renderScale*SRC_W*s;
+      const renderH2=geo.renderScale*SRC_H*s;
+      const tx=(geo.frameW-renderW)/2;
+      const ty=(geo.frameH-renderH2)/2;
+      return {tx,ty,s};
     }
 
-    /* Animate from currentY to targetY over duration ms — returns Promise */
-    function animatePan(wrap,fromY,toY,duration,abortSignal){
+    /* ── TRANSFORM APPLICATION ────────────────────────────────────── */
+    function applyTransformInstant(inner,tx,ty,s){
+      inner.style.transition='none';
+      inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
+    }
+
+    function applyTransformEased(inner,tx,ty,s,durationMs){
+      inner.style.transition='transform '+durationMs+'ms cubic-bezier(.4,0,.2,1)';
+      inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
+    }
+
+    /* ── ANIMATION HELPERS ────────────────────────────────────────── */
+    /* Animate from current transform to target via rAF */
+    function animateToStop(inner,fromTx,fromTy,fromS,toTx,toTy,toS,durationMs,abortSignal){
       return new Promise(resolve=>{
         if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
         const t0=performance.now();
         function frame(now){
           if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
-          const p=Math.min((now-t0)/duration,1);
+          const p=Math.min((now-t0)/durationMs,1);
           /* ease-in-out cubic */
           const e=p<0.5?4*p*p*p:(1-Math.pow(-2*p+2,3)/2);
-          const ty=fromY+(toY-fromY)*e;
-          wrap.style.transition='none';
-          wrap.style.transform='translateY('+ty.toFixed(2)+'px)';
+          const tx=fromTx+(toTx-fromTx)*e;
+          const ty=fromTy+(toTy-fromTy)*e;
+          const s=fromS+(toS-fromS)*e;
+          inner.style.transition='none';
+          inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
           if(p<1) requestAnimationFrame(frame);
           else resolve('done');
         }
@@ -2276,65 +2386,107 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       });
     }
 
+    async function waitUnpaused(abortSignal){
+      while(panPaused){
+        const r=await delay(120,abortSignal);
+        if(r==='aborted') return false;
+      }
+      return true;
+    }
+
+    /* ── CHIP MANAGEMENT ─────────────────────────────────────────── */
+    function showChips(indices){
+      const chips=getChips();
+      chips.forEach((c,i)=>{
+        if(indices.includes(i)) c.classList.add('chip-shown');
+        else c.classList.remove('chip-shown');
+      });
+    }
+
+    function hideAllChips(){
+      getChips().forEach(c=>c.classList.remove('chip-shown'));
+    }
+
+    /* ── MAIN SEQUENCE ────────────────────────────────────────────── */
     async function runPanSequence(){
-      const {wrap,img}=getPanEls();
-      if(!wrap||!img) return;
+      const {wrap,inner,img}=getPanEls();
+      if(!wrap||!inner||!img) return;
+
+      /* Wait for image load */
+      if(!img.complete){
+        await new Promise(r=>img.addEventListener('load',r,{once:true}));
+      }
+
       const geo=computeGeometry();
       if(!geo) return;
-
-      /* Wait for image to load if not already */
-      if(!img.complete){
-        await new Promise(r=>{img.addEventListener('load',r,{once:true});});
-        /* recompute after load */
-      }
 
       const abortCtrl=new AbortController();
       panAbort=abortCtrl;
       const sig=abortCtrl.signal;
 
-      /* Start at top (translateY=0) with hold */
-      applyTransform(wrap,0,1);
-      let r=await delay(HOLD_MS*1.2/(!panPaused?1:1e9),sig);
+      /* Set transform-origin once */
+      inner.style.transformOrigin='0 0';
+
+      /* Start: show top of image fully (scale=1, no translate) */
+      applyTransformInstant(inner,0,0,1);
+      hideAllChips();
+
+      const r=await delay(HOLD_MS*0.7,sig);
       if(r==='aborted') return;
 
-      /* Loop: while paused, spin-wait in small increments */
-      async function waitUnpaused(){
-        while(panPaused){
-          const r2=await delay(120,sig);
-          if(r2==='aborted') return false;
-        }
-        return true;
-      }
+      /* Current transform state for interpolation */
+      let curTx=0, curTy=0, curS=1;
 
-      let currentY=0;
-      const allStops=[0,...WAYPOINTS_SRC.map(y=>srcYToTranslate(y,geo)),-geo.scrollRange];
-      /* Deduplicate and sort DESCENDING (0 → most negative): top → bottom travel.
-         (was ascending — pan jumped deep then crawled back UP, ending at the top) */
-      const stops=[...new Set(allStops.map(v=>Math.round(v)))].sort((a,b)=>b-a);
+      /* Visit each stop */
+      for(let i=0;i<STOPS.length;i++){
+        const stop=STOPS[i];
 
-      for(let i=1;i<stops.length;i++){
-        const targetY=stops[i];
-        const dist=Math.abs(targetY-currentY);
-        const dur=Math.max(600,dist/PAN_SPEED);
-
-        if(!await waitUnpaused()) return;
+        if(!await waitUnpaused(sig)) return;
         if(sig.aborted) return;
 
-        const res=await animatePan(wrap,currentY,targetY,dur,sig);
-        if(res==='aborted') return;
-        currentY=targetY;
+        const {tx:toTx,ty:toTy}=stopTransform(stop,ZOOM_AT_HOLD,geo);
+        const toS=ZOOM_AT_HOLD;
 
-        /* zoom-hold at each stop */
-        wrap.style.transform='translateY('+currentY.toFixed(2)+'px) scale('+ZOOM_AT_HOLD+')';
-        wrap.style.transition='transform 0.35s var(--ease-out,cubic-bezier(.22,1,.36,1))';
+        /* Travel distance in screen pixels (approximate) */
+        const dist=Math.sqrt(Math.pow(toTx-curTx,2)+Math.pow(toTy-curTy,2));
+        const dur=Math.max(700,dist/PAN_SPEED);
+
+        /* Animate to this stop */
+        const res=await animateToStop(inner,curTx,curTy,curS,toTx,toTy,toS,dur,sig);
+        if(res==='aborted') return;
+        curTx=toTx; curTy=toTy; curS=toS;
+
+        if(!await waitUnpaused(sig)) return;
+        if(sig.aborted) return;
+
+        /* Show chips for this stop */
+        showChips(stop.chips);
+
+        /* Hold */
         const hr=await delay(HOLD_MS,sig);
-        if(hr==='aborted') return;
-        wrap.style.transform='translateY('+currentY.toFixed(2)+'px) scale(1)';
+        if(hr==='aborted'){ hideAllChips(); return; }
+
+        /* Hide chips */
+        hideAllChips();
+        /* brief pause after chips out */
+        const gr=await delay(CHIP_FADE_MS+80,sig);
+        if(gr==='aborted') return;
       }
-      /* Rest at end — no auto-restart; P key restarts */
+
+      /* After last stop: ease back to full-fit overview */
+      if(!await waitUnpaused(sig)) return;
+      if(sig.aborted) return;
+
+      const ov=overviewTransform(geo);
+      const overviewDur=1000;
+      const res2=await animateToStop(inner,curTx,curTy,curS,ov.tx,ov.ty,ov.s,overviewDur,sig);
+      if(res2==='aborted') return;
+
+      /* Rest — P restarts */
       panRunning=false;
     }
 
+    /* ── START / STOP ─────────────────────────────────────────────── */
     function startPan(){
       if(panAbort) panAbort.abort();
       panRunning=true;
@@ -2347,28 +2499,30 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       if(panAbort){ panAbort.abort(); panAbort=null; }
     }
 
-    /* Register into deck.pan so P key works */
+    /* ── deck.pan.toggle — MUST keep this registration shape
+       (pan-s3b.js captures origPanToggle = deck.pan.toggle and calls it for non-s3b slides) */
     deck.pan.toggle=function(){
       if(!panRunning){
-        /* Not running → start/restart from top */
         startPan();
       } else if(panPaused){
-        panPaused=false; /* resume */
+        panPaused=false;
       } else {
-        panPaused=true;  /* pause */
+        panPaused=true;
       }
     };
 
-    /* Hook into slide lifecycle: start on enter s2c, stop on leave */
+    /* ── Lifecycle hooks ──────────────────────────────────────────── */
     registerHook('s2c',{
       onEnter(){ startPan(); },
       onLeave(){
         stopPan();
-        const {wrap}=getPanEls();
-        if(wrap){ wrap.style.transform=''; wrap.style.transition=''; }
+        hideAllChips();
+        const {inner}=getPanEls();
+        if(inner){ inner.style.transform=''; inner.style.transition=''; inner.style.transformOrigin=''; }
       }
     });
   })();
+
 
   /* ================================================================
      WP4/WP5 — IFRAME MANAGER FACTORY (SD2-A)
