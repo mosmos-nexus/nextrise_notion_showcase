@@ -17,3 +17,8 @@ Verification after each polish edit: targeted screenshot + the affected slide's 
 - #1 chrome scale: DONE (v2 media query). #2 s2e QR/takeaway: DONE (right:332px). #3 s2d whitespace: DONE (D3 redesign). #4 s3a: DONE (D4). #6 s6b: DONE (D7). #7 takeaway tracking: FIXED (.14em→.08em).
 - #5 s3c pill arc-fan: DEFERRED — current straight column is readable and the slide passed review twice; re-layout risk > cosmetic gain 7 days before the event.
 - #8 s5b idle pulse: DROPPED — spec mandates a calm hold screen; any pulse risks reading as "frozen app vs animation" confusion on stage.
+
+## v3 changelog notes (post-architect-gate)
+- CL-1: s5a bubble copy changed to "그럼, 실제 워크스페이스에서 보여드릴게요 — Mon들이 먼저 준비하고 있어요" (presenter-requested demo-transition phrasing; overrides spec example line).
+- CL-6: s2c reduced-motion shows the full asset on a dark frame (baked annotations legible); DOM chips hidden to avoid double-rendering the same text. Architect-accepted deviation from the literal "chips visible statically" wording.
+- Post-event follow-ups: mask baked s2c side-labels at crop edge (cosmetic fragment); s3c pill arc-fan.

@@ -59,11 +59,6 @@
 #s3b .mon-deco.a{right:118px;top:86px;width:52px;height:52px}
 #s3b .mon-deco.b{left:96px;bottom:88px;width:48px;height:48px}
 #s3b .mon-deco.c{right:160px;bottom:86px;width:44px;height:44px}
-/* reduced-motion: show capture image static (no pan) */
-@media (prefers-reduced-motion:reduce){
-  #s3b .capture-pan-inner{position:static;transform:none !important}
-  #s3b .capture-pan-inner img{width:100%;height:100%;object-fit:contain}
-}
 
 /* s3c — MCP 연결도 DEDICATED FULL SCREEN (WP5: enlarged hub, no metrics) */
 #s3c{--bloom:.65}

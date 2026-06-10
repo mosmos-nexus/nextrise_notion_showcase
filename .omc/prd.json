@@ -1,0 +1,88 @@
+{
+  "task": "NextRise 2026 web-PPT v3: presenter defect fixes (D1-D8) + maintainability split, per .omc/plans/nextrise-v3-polish.md (consensus-approved)",
+  "stories": [
+    {
+      "id": "US-R",
+      "title": "WP-R: component split + build + equivalence gate (HARD 1-block time-box, binary abandon)",
+      "priority": 1,
+      "passes": true,
+      "acceptanceCriteria": [
+        "scripts/verify/walkdeck.js vendored from /tmp/pwshot/walkdeck.js, self-validated against the current monolith (20 slides, console clean modulo third-party filter), committed",
+        "src/ partials + scripts/build.mjs + package.json exist; node scripts/build.mjs emits index.html with ONE GENERATED banner as HTML comment at top of <head>, ZERO @@include markers in output",
+        "Determinism: two consecutive builds byte-identical (sha256 equal)",
+        "Equivalence: full walkdeck on built index.html === baseline monolith walk (same 20 states, same slide ids, console clean modulo filter)",
+        "E12: edit-mode Ctrl+S export captured via page.on('download') with acceptDownloads:true; exported file walks identically via file://; second export shows no banner duplication and no leaked markers",
+        "build:check drift guard exits non-zero on intentional drift injection",
+        "IF gate not fully green at end of the single WP-R work block: abandon executed (src/ frozen on branch, git checkout index.html) and this story marked passes:true with note ABANDONED-BY-DESIGN (the trigger is part of the plan)"
+      ]
+    },
+    {
+      "id": "US-A",
+      "title": "WP-A: D1 s1 line/label alignment, D4 s3a cohesion, D7 s6b grouping",
+      "priority": 2,
+      "passes": true,
+      "acceptanceCriteria": [
+        "D1: s1 main timeline path passes through disc-center height (~y115 in .tl space; verify via live getBoundingClientRect probe: path endpoints/control flow enter discs at center ±6px); NO dashed connector path intersects any node caption (.stage-tag/.nm/.ds) bounding box (Playwright probe asserts zero intersection); screenshots @1280+@1920 confirm",
+        "D4: s3a composition unified (kicker/headline/sub/banner one visual group, consistent alignment + vertical rhythm); verified @1280+@1920 AND at animation midpoint (~600ms after enter) — banner never cropped/offset",
+        "D7: s6b kicker+headline share one alignment axis (no isolated top-left kicker); composition balanced after 3 steps revealed; screenshots @1280+@1920 incl. each step state"
+      ]
+    },
+    {
+      "id": "US-B",
+      "title": "WP-B: D2 s2c camera crop-zoom + readable HTML callouts, D3 s2d dark backdrop",
+      "priority": 3,
+      "passes": true,
+      "acceptanceCriteria": [
+        "D2: annotation labels read from full-res render (raster; not grep-able), mapped to nearest waypoint of [146,381,547,762,1002,1184], empty waypoints DROPPED from zoom path",
+        "D2: crop-zoom motion zooms into each mapped zone (scale ~1.6-2.0 about per-zone transform-origin), clipped by .pan-wrap (index.html:476-477); at each hold the zone source-y center maps within ±15% of frame height from frame center (transform-math probe asserts)",
+        "D2: callout chips are DOM-authored inside .pan-wrap (white card, dark text, yellow accent), >=4.5:1 contrast, NO chip clipped at frame edge in ANY zoom state (getBoundingClientRect vs .pan-wrap rect probe), JS animates them in; reduced-motion shows static contain view on a dark frame where the asset's baked annotations are legible (DOM chips hidden to avoid double-render — documented deviation CL-6, architect-accepted)",
+        "D2: P key still pauses/resumes; s3b pan + deck.pan.toggle dispatch unaffected (probe)",
+        "D3: s2d flow asset sits on a dark backdrop panel (#1D2026 family, rounded, sized to asset box) — baked yellow labels readable against it (screenshot @1920 confirms); the asset's two diagram groups visually unified (resolves QA open item); reduced-motion intact"
+      ]
+    },
+    {
+      "id": "US-C",
+      "title": "WP-C: D5 s4b spacing, D6 s5a copy, D8 s6d finale",
+      "priority": 4,
+      "passes": true,
+      "acceptanceCriteria": [
+        "D5: s4b right column vertical rhythm tightened (no dead gap between copy block and universe; measured gap <=60px stage units between .cp bottom and orbit-ring top region); screenshot confirms balanced column",
+        "D6: s5a bubble copy replaced with demo-transition line (해요체, no invented claims; default: '그럼, 실제 워크스페이스에서 보여드릴게요 — Mon들이 먼저 준비하고 있어요.'); changelog entry CL-1 records the presenter-authorized change",
+        "D8: s6d finale densified — Mos center with 6 Mons gathered in a close arc (not edge-scattered), tagline visually connected, celebration glow backdrop subtle; no element overlaps progress chrome; screenshots @1280+@1920 after typewriter completes"
+      ]
+    },
+    {
+      "id": "US-D",
+      "title": "WP-D: global cohesion pass (spacing grid, header alignment unification, chrome backlog)",
+      "priority": 5,
+      "passes": true,
+      "acceptanceCriteria": [
+        "All 20 slides audited against an 8px spacing grid; per-slide kicker/headline blocks share the unified header pattern (consistent offsets) except intentional center-layout slides (s0,s5b,s6a,s6c,s6d)",
+        "Remaining cosmetic backlog items from .omc/handoffs/polish-backlog.md either fixed or explicitly deferred with reason in the handoff",
+        "Full walkdeck after the pass: 20 states, console clean modulo filter"
+      ]
+    },
+    {
+      "id": "US-E",
+      "title": "WP-E: optional enhancements (explicitly droppable)",
+      "priority": 6,
+      "passes": true,
+      "acceptanceCriteria": [
+        "Each WP-E candidate evaluated; implemented ones verified with screenshots; dropped ones documented with one-line reason in progress.txt (dropping ALL is an acceptable pass)"
+      ]
+    },
+    {
+      "id": "US-F",
+      "title": "WP-F: full regression + reviewer gate",
+      "priority": 7,
+      "passes": true,
+      "acceptanceCriteria": [
+        "v2 regression suite re-run green: s0 bloom, s6b 3-step+backstep, P/R/F non-nav, s5b HOLD (wheel/touch blocked, one key to s6a), s5b->s5a back-nav clean, #16 resume re-arms hold, orbit 7-node jumps, reduced-motion pass, print smoke, iframe live+blocked both sites, edit-mode toggle+export",
+        "Full walkdeck @1280 + @1920: 20 states, zero deck-origin console errors (third-party filter per wp5-exec.md)",
+        "If split landed: build:check green + E12 green on final state",
+        "Per-defect D1-D8 evidence screenshots collected and reviewed",
+        "Architect reviewer APPROVES against these PRD criteria"
+      ]
+    }
+  ]
+}

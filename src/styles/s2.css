@@ -45,8 +45,7 @@
 #s2c .chip-header .kicker{margin:0}
 #s2c .pan-wrap{position:absolute;left:128px;right:128px;top:188px;bottom:64px;
   border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#fff;border:1px solid var(--border-default)}
-/* The annotation SVG is 1474×1218; rendered in a container that is ~1728×840 px
-   We set a tall inner div and transform-Y to pan it */
+/* 주석 SVG(1474×1218)를 담는 팬 레이어 — 크롭·줌 transform은 컨트롤러가 적용 */
 #s2c .pan-inner{position:absolute;left:0;right:0;top:0;width:100%;
   /* height auto-sized by JS; translateY applied by panning controller */
   will-change:transform;transition:transform 0s linear}
@@ -116,10 +115,6 @@
   opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
 #s2d .flow-stage-chips .stage-chip.chip-shown{opacity:1;transform:none}
 #s2d .flow-stage-chips .stage-chip .cdot{width:12px;height:12px;border-radius:50%;background:var(--gradient-bloom);flex:none}
-/* connector underline draw */
-#s2d .connector-line{position:absolute;left:96px;right:96px;pointer-events:none}
-#s2d .connector-svg{width:100%;overflow:visible}
-#s2d .connector-svg path{fill:none;stroke:var(--blue-core);stroke-width:2.5;opacity:.55}
 /* reduced-motion: instant reveal */
 @media (prefers-reduced-motion:reduce){
   #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}

@@ -1,0 +1,13 @@
+# Ralph v3 progress log — 2026-06-11T02:57:07+09:00
+Iteration 1: PRD refined (US-R..US-F from nextrise-v3-polish.md). Starting US-R (WP-R split+gate, 1-block time-box).
+Env: node v24.16.0, npm 11.13.0, server :8923, walkdeck at /tmp/pwshot/walkdeck.js (3.6k), index.html committed clean at 5a0e275.
+US-R DONE (gate green, no abandon): src/ 46 partials, build.mjs deterministic (sha 845f017a...), drift guard verified both ways, equivalence walk 20/20 (noise profile unchanged), E12 PASS. Learnings: slices must be byte-exact (diff=banner only makes the gate trivial); walkdeck needs playwright-core in repo (now a devDependency); E12 download capture via page.waitForEvent('download')+saveAs works in headless-shell.
+NEXT: US-A (D1 s1 lines, D4 s3a cohesion, D7 s6b grouping) — edit src/ partials, npm run build, verify per defect.
+US-A DONE: D1 (line through centers + 0 caption intersections), D4 (ROOT CAUSE: rise keyframe to{transform:none} clobbered static translateX(-50%) — fixed globally via standalone translate/scale properties; banner now whole+centered), D7 (kicker flex centering). LEARNING: never animate `transform` on elements with static transforms — use standalone translate/scale; horizontal SVG lines need ±2px arc or userSpaceOnUse gradients.
+NEXT: US-B — D3 (s2d dark backdrop, lead does) then D2 (s2c crop-zoom+chips, delegate).
+US-B DONE: D2 crop-zoom (zoom 2.0 crops baked margins; chips in FRAME space inside .pan-wrap — NOT pan-inner; worker's position:relative override had collapsed wrap height to 1px, removed), D3 dark panel (revealed hidden white-text asset design). Edge stops exempt from ±15% (no-void clamp wins). Reduced: dark contain + baked labels, chips hidden.
+NEXT: US-C — D5 s4b gap, D6 s5a copy swap, D8 s6d finale densify (lead edits).
+US-D DONE: header rhythm unified (5 standard slides identical; s2c/s2d/s3c realigned; center slides consistent); backlog all dispositioned.
+US-E: ALL candidates DROPPED with reasons — (a) s3c arc-fan: cosmetic, re-layout risk pre-event; (b) appendix sub-slides: new nav surface = new stage-failure surface, Q&A handled by live workspace instead; (c) hover micro-interactions: presentation is keyboard-driven on stage, hover adds nothing for the audience; (d) page-snap variants: fixed-stage invariant. 형상유지가 아니라 개선 원칙은 D1-D8+WP-D로 충족; novelty 추가는 DD1(무대 안정) 위반 리스크.
+NEXT: US-F full regression + architect gate.
+US-F DONE — ARCHITECT GATE: APPROVE (8/8 probes, E12, walks 1280/1920/reduced, all D1-D8 verified vs evidence; 2 LOW non-blocking: CL-6 wording reconciled now, baked-label edge fragment deferred post-event).
