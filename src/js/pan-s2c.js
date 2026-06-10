@@ -71,15 +71,19 @@
 
     /* Compute transform for a given stop at a given zoom scale.
        Uses transform-origin:0 0, so we manually translate to centre the zone. */
+    /* E5: 줌 홀드 중 가로 클램프를 '콘텐츠 밴드'(사이트 영역 330..1140px)로 좁혀
+       좌우 여백의 베이크된 라벨 파편이 프레임에 절대 들어오지 않게 한다.
+       (가시 밴드 737px < 콘텐츠 810px 이므로 항상 만족 가능) */
+    const CONTENT_X0=330, CONTENT_X1=1140;
     function stopTransform(stop,scale,geo){
       const scaledX=stop.srcX*geo.renderScale;
       const scaledY=stop.srcY*geo.renderScale;
       /* centre the zone in the frame */
       let tx=geo.frameW/2-scaledX*scale;
       let ty=geo.frameH/2-scaledY*scale;
-      /* clamp so we don't show area outside the image */
-      const maxTx=0;
-      const minTx=geo.frameW-geo.renderScale*SRC_W*scale;
+      /* horizontal clamp: keep the visible band inside the content area */
+      const maxTx=-CONTENT_X0*geo.renderScale*scale;
+      const minTx=geo.frameW-CONTENT_X1*geo.renderScale*scale;
       const maxTy=0;
       const minTy=geo.frameH-geo.renderScale*SRC_H*scale;
       tx=Math.max(minTx,Math.min(maxTx,tx));

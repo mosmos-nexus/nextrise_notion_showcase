@@ -479,7 +479,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2c .chip-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
 #s2c .chip-header .kicker{margin:0}
 #s2c .pan-wrap{position:absolute;left:128px;right:128px;top:188px;bottom:64px;
-  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#fff;border:1px solid var(--border-default)}
+  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#1D2026;border:1px solid var(--border-default)} /* E5: 다크 프레임 — 오버뷰 휴지 상태에서도 베이크 라벨 가독 */
 /* 주석 SVG(1474×1218)를 담는 팬 레이어 — 크롭·줌 transform은 컨트롤러가 적용 */
 #s2c .pan-inner{position:absolute;left:0;right:0;top:0;width:100%;
   /* height auto-sized by JS; translateY applied by panning controller */
@@ -2314,15 +2314,19 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
     /* Compute transform for a given stop at a given zoom scale.
        Uses transform-origin:0 0, so we manually translate to centre the zone. */
+    /* E5: 줌 홀드 중 가로 클램프를 '콘텐츠 밴드'(사이트 영역 330..1140px)로 좁혀
+       좌우 여백의 베이크된 라벨 파편이 프레임에 절대 들어오지 않게 한다.
+       (가시 밴드 737px < 콘텐츠 810px 이므로 항상 만족 가능) */
+    const CONTENT_X0=330, CONTENT_X1=1140;
     function stopTransform(stop,scale,geo){
       const scaledX=stop.srcX*geo.renderScale;
       const scaledY=stop.srcY*geo.renderScale;
       /* centre the zone in the frame */
       let tx=geo.frameW/2-scaledX*scale;
       let ty=geo.frameH/2-scaledY*scale;
-      /* clamp so we don't show area outside the image */
-      const maxTx=0;
-      const minTx=geo.frameW-geo.renderScale*SRC_W*scale;
+      /* horizontal clamp: keep the visible band inside the content area */
+      const maxTx=-CONTENT_X0*geo.renderScale*scale;
+      const minTx=geo.frameW-CONTENT_X1*geo.renderScale*scale;
       const maxTy=0;
       const minTy=geo.frameH-geo.renderScale*SRC_H*scale;
       tx=Math.max(minTx,Math.min(maxTx,tx));

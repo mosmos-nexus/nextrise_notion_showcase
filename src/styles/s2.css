@@ -44,7 +44,7 @@
 #s2c .chip-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
 #s2c .chip-header .kicker{margin:0}
 #s2c .pan-wrap{position:absolute;left:128px;right:128px;top:188px;bottom:64px;
-  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#fff;border:1px solid var(--border-default)}
+  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#1D2026;border:1px solid var(--border-default)} /* E5: 다크 프레임 — 오버뷰 휴지 상태에서도 베이크 라벨 가독 */
 /* 주석 SVG(1474×1218)를 담는 팬 레이어 — 크롭·줌 transform은 컨트롤러가 적용 */
 #s2c .pan-inner{position:absolute;left:0;right:0;top:0;width:100%;
   /* height auto-sized by JS; translateY applied by panning controller */
