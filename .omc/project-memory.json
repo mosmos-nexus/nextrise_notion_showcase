@@ -45,8 +45,14 @@
   "hotPaths": [
     {
       "path": "index.html",
-      "accessCount": 23,
-      "lastAccessed": 1781098864787,
+      "accessCount": 166,
+      "lastAccessed": 1781109858384,
+      "type": "file"
+    },
+    {
+      "path": "QA_REPORT.md",
+      "accessCount": 2,
+      "lastAccessed": 1781110035478,
       "type": "file"
     },
     {
@@ -95,6 +101,18 @@
       "path": "assets/resources/proact0/homepage.png",
       "accessCount": 1,
       "lastAccessed": 1781096988549,
+      "type": "file"
+    },
+    {
+      "path": "deck-assets/capture-joongheon-top.png",
+      "accessCount": 1,
+      "lastAccessed": 1781105127447,
+      "type": "file"
+    },
+    {
+      "path": "deck-assets/capture-proact0-top.png",
+      "accessCount": 1,
+      "lastAccessed": 1781105127873,
       "type": "file"
     }
   ],

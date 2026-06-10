@@ -1,0 +1,7 @@
+{
+  "key": "worker-assets-status",
+  "value": "{\"worker\":\"worker-assets\",\"agent_id\":\"afcd7a09c4516b0f1\",\"tasks\":{\"1\":{\"status\":\"completed\",\"name\":\"Mos PNG downscale\",\"output\":\"deck-assets/mos-*.png (6 files, ~4MB total, longest_edge=1000, alpha verified)\",\"originals_unchanged\":true},\"2\":{\"status\":\"completed\",\"name\":\"iframe framability probes\",\"hon2yt2ch\":\"FRAMABLE (no XFO/CSP, load-fired, real content visible)\",\"proact0\":\"FRAMABLE (no XFO/CSP, load-fired, real content visible)\",\"handoff\":\"/.omc/handoffs/wp0-assets.md\"}},\"completedAt\":\"2026-06-11T00:25:00Z\"}",
+  "namespace": "nextrise-v2",
+  "createdAt": "2026-06-10T15:23:37.184Z",
+  "updatedAt": "2026-06-10T15:23:37.184Z"
+}
