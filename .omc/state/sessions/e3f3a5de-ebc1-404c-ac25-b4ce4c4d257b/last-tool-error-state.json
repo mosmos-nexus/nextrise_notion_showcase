@@ -1,7 +1,7 @@
 {
-  "tool_name": "mcp__plugin_oh-my-claudecode_t__lsp_diagnostics",
-  "tool_input_preview": "{\"file\":\"/home/honeybee/workspace/mosmos/nextrise_notion_showcase/index.html\",\"severity\":\"error\"}",
-  "error": "Language server 'vscode-html-language-server' not found.\nInstall with: npm install -g vscode-langservers-extracted",
-  "timestamp": "2026-06-10T16:48:31.067Z",
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"git add -A src/ index.html && git commit --quiet -m \\\"E1: live-explore sub-page mode on iframe slides\\n\\nArrowDown on s2b/s3b expands the browser frame to full stage (live site\\ndeep-dive ...",
+  "error": "Exit code 1\n{\n \"s0bloom\": true,\n \"s6bSteps\": true,\n \"s5bHold\": true,\n \"prfNonNav\": true,\n \"lsResume\": true,\n \"orbit\": true,\n \"offlineFallback\": true,\n \"printSmoke\": true\n}\n \"slides\": 20,\n \"distinctStates\": 20,\n \"errorCount\": 17,",
+  "timestamp": "2026-06-10T19:01:45.956Z",
   "retry_count": 1
 }
