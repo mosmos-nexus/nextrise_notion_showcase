@@ -63,14 +63,19 @@
 #s6d.active .mon-finale{
   animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 6.2s ease-in-out infinite;
   animation-delay:var(--d,0s), calc(var(--d,0s) + .9s)}
-#s6d .mon-finale.mf1{width:68px;height:68px;left:180px;top:160px}
-#s6d .mon-finale.mf2{width:52px;height:52px;left:420px;top:80px}
-#s6d .mon-finale.mf3{width:60px;height:60px;left:680px;top:130px}
-#s6d .mon-finale.mf4{width:56px;height:56px;right:640px;top:100px}
-#s6d .mon-finale.mf5{width:64px;height:64px;right:380px;top:170px}
-#s6d .mon-finale.mf6{width:46px;height:46px;right:160px;top:90px}
+/* D8: 가장자리 산개 → Mos(중앙 하단) 주위로 모여드는 아치 — 피날레 밀도 */
+#s6d .mon-finale.mf1{width:64px;height:64px;left:566px;top:648px}
+#s6d .mon-finale.mf2{width:54px;height:54px;left:692px;top:512px}
+#s6d .mon-finale.mf3{width:60px;height:60px;left:846px;top:442px}
+#s6d .mon-finale.mf4{width:58px;height:58px;right:842px;top:452px}
+#s6d .mon-finale.mf5{width:64px;height:64px;right:678px;top:528px}
+#s6d .mon-finale.mf6{width:50px;height:50px;right:556px;top:660px}
 #s6d .vlogo{position:absolute;left:50%;top:128px;transform:translateX(-50%);height:160px;width:auto}
-#s6d .tagline{position:absolute;left:0;right:0;bottom:88px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
+/* D8: 축하 글로우 — Mos 뒤 은은한 파스텔 광원 */
+#s6d .finale-glow{position:absolute;left:50%;bottom:40px;width:1240px;height:720px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(155,110,239,.17),rgba(15,111,218,.10) 45%,transparent 75%);
+  filter:blur(42px);pointer-events:none;z-index:1}
+#s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
 #s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
 @media (prefers-reduced-motion:reduce){
   #s6d .mon-finale,#s6d.active .mon-finale{animation:none;opacity:1}

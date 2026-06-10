@@ -732,9 +732,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4b .shot-cap img{width:26px;height:26px}
 #s4b .right{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
 #s4b .right .hlogo{height:74px;width:auto}
-#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:30px}
-#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:14px;max-width:560px}
-#s4b .universe{position:relative;width:560px;height:430px;margin-top:8px}
+/* D5: 카피 블록과 궤도 우주 사이 수직 리듬 타이트하게 */
+#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:22px}
+#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px}
+#s4b .universe{position:relative;width:560px;height:404px;margin-top:-18px}
 #s4b .universe .mos{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:280px}
 #s4b .orbit-ring{position:absolute;left:50%;top:54%;width:480px;height:480px;margin:-240px 0 0 -240px;
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
@@ -878,14 +879,19 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6d.active .mon-finale{
   animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 6.2s ease-in-out infinite;
   animation-delay:var(--d,0s), calc(var(--d,0s) + .9s)}
-#s6d .mon-finale.mf1{width:68px;height:68px;left:180px;top:160px}
-#s6d .mon-finale.mf2{width:52px;height:52px;left:420px;top:80px}
-#s6d .mon-finale.mf3{width:60px;height:60px;left:680px;top:130px}
-#s6d .mon-finale.mf4{width:56px;height:56px;right:640px;top:100px}
-#s6d .mon-finale.mf5{width:64px;height:64px;right:380px;top:170px}
-#s6d .mon-finale.mf6{width:46px;height:46px;right:160px;top:90px}
+/* D8: 가장자리 산개 → Mos(중앙 하단) 주위로 모여드는 아치 — 피날레 밀도 */
+#s6d .mon-finale.mf1{width:64px;height:64px;left:566px;top:648px}
+#s6d .mon-finale.mf2{width:54px;height:54px;left:692px;top:512px}
+#s6d .mon-finale.mf3{width:60px;height:60px;left:846px;top:442px}
+#s6d .mon-finale.mf4{width:58px;height:58px;right:842px;top:452px}
+#s6d .mon-finale.mf5{width:64px;height:64px;right:678px;top:528px}
+#s6d .mon-finale.mf6{width:50px;height:50px;right:556px;top:660px}
 #s6d .vlogo{position:absolute;left:50%;top:128px;transform:translateX(-50%);height:160px;width:auto}
-#s6d .tagline{position:absolute;left:0;right:0;bottom:88px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
+/* D8: 축하 글로우 — Mos 뒤 은은한 파스텔 광원 */
+#s6d .finale-glow{position:absolute;left:50%;bottom:40px;width:1240px;height:720px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(155,110,239,.17),rgba(15,111,218,.10) 45%,transparent 75%);
+  filter:blur(42px);pointer-events:none;z-index:1}
+#s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
 #s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
 @media (prefers-reduced-motion:reduce){
   #s6d .mon-finale,#s6d.active .mon-finale{animation:none;opacity:1}
@@ -1577,7 +1583,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <div class="shotcard c2 rv" style="--d:1s"><img src="assets/resources/mosmos/notion_agent2.svg" alt="Mosmos 워크스페이스 — Notion 에이전트 화면 2"></div>
     </div>
     <img class="mos float" src="deck-assets/mos-working.png" alt="Mos가 데모를 준비하는 모습">
-    <div class="bubble rv" style="--d:1.3s">제 친구들이 먼저 들어가 있을게요</div>
+    <!-- D6: 시연 전환 멘트 (발표자 승인 카피 교체, CL-1) -->
+    <div class="bubble rv" style="--d:1.3s">그럼, 실제 워크스페이스에서 보여드릴게요 — Mon들이 먼저 준비하고 있어요</div>
     <!-- Mon 선진입 — 화면 곳곳에서 중앙 워크스페이스로 빨려 들어감 -->
     <svg class="flymon mon m-research" style="--sx:420px;--sy:330px;--tx:480px;--ty:430px;--d:1.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
     <svg class="flymon mon m-analysis" style="--sx:1500px;--sy:300px;--tx:-560px;--ty:460px;--d:1.95s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
@@ -1687,6 +1694,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <span class="blk b1"></span><span class="blk b2"></span><span class="blk b3"></span><span class="blk b4"></span><span class="blk b5"></span>
   </div>
   <img class="vlogo rv" style="--d:.1s" src="design-system/assets/logos/mosmos-vertical-color.svg" alt="mosmos">
+  <div class="finale-glow" aria-hidden="true"></div>
   <!-- All 6 Mon variants gathered — gentle float, varied sizes -->
   <svg class="mon-finale mf1 m-execute rv-pop" style="--d:.3s"><use href="#mon-body"/><use href="#p-execute"/></svg>
   <svg class="mon-finale mf2 m-research rv-pop" style="--d:.5s"><use href="#mon-body"/><use href="#p-research"/></svg>

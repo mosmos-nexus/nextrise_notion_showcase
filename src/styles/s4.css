@@ -31,9 +31,10 @@
 #s4b .shot-cap img{width:26px;height:26px}
 #s4b .right{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
 #s4b .right .hlogo{height:74px;width:auto}
-#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:30px}
-#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:14px;max-width:560px}
-#s4b .universe{position:relative;width:560px;height:430px;margin-top:8px}
+/* D5: 카피 블록과 궤도 우주 사이 수직 리듬 타이트하게 */
+#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:22px}
+#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px}
+#s4b .universe{position:relative;width:560px;height:404px;margin-top:-18px}
 #s4b .universe .mos{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:280px}
 #s4b .orbit-ring{position:absolute;left:50%;top:54%;width:480px;height:480px;margin:-240px 0 0 -240px;
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
