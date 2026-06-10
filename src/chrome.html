@@ -1,0 +1,22 @@
+<!-- ============================================================
+     덱 크롬 — Mon 궤도 인디케이터(상단 progress · 어젠다 겸용)
+     DEVIATION: data-sec holds the section number; JS resolves the FIRST slide of each
+     section at runtime — eliminates renumber fragility for the upcoming slide insertions.
+     ============================================================ -->
+<nav class="orbit-progress" aria-label="발표 진행">
+  <button class="pnode" data-sec="0"><svg class="mon m-execute"><use href="#mon-body"/></svg><span class="plabel">커버</span></button><i class="pline"></i>
+  <button class="pnode" data-sec="1"><svg class="mon m-research"><use href="#mon-body"/></svg><span class="plabel">여정</span></button><i class="pline"></i>
+  <button class="pnode" data-sec="2"><svg class="mon m-organize"><use href="#mon-body"/></svg><span class="plabel">중헌아카이브</span></button><i class="pline"></i>
+  <button class="pnode" data-sec="3"><svg class="mon m-analysis"><use href="#mon-body"/></svg><span class="plabel">Proact0</span></button><i class="pline"></i>
+  <button class="pnode" data-sec="4"><svg class="mon m-create"><use href="#mon-body"/></svg><span class="plabel">mosmos</span></button><i class="pline"></i>
+  <button class="pnode" data-sec="5"><svg class="mon m-comm"><use href="#mon-body"/></svg><span class="plabel">라이브 데모</span></button><i class="pline"></i>
+  <button class="pnode" data-sec="6"><svg class="mon m-execute"><use href="#mon-body"/></svg><span class="plabel">함께</span></button>
+</nav>
+<div class="pager" id="pager">01 / 13</div>
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle" title="편집 모드 (E) · Ctrl+S 저장">✎</button>
+
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+<!-- WP2: shared starfield canvas — ONE midground layer behind all slides -->
+<canvas id="starfield" aria-hidden="true"></canvas>
