@@ -108,3 +108,10 @@
 #s3d .mon{position:absolute;z-index:3}
 #s3d .mon.a{right:118px;top:292px;width:58px;height:58px}
 #s3d .mon.b{left:104px;top:796px;width:54px;height:54px}
+
+/* E1: s3b 탐색 모드 — 그리드가 단일 컬럼 풀스테이지로 */
+#s3b .cols{transition:left .55s var(--ease-out),right .55s var(--ease-out),top .55s var(--ease-out),bottom .55s var(--ease-out)}
+#s3b.explore .cols{left:48px;right:48px;top:44px;bottom:44px;grid-template-columns:1fr;grid-template-rows:1fr;z-index:60}
+#s3b.explore .right{display:none} /* 빈 행이 프레임 높이를 무너뜨리지 않게 */
+#s3b .right,#s3b .slide-inner,#s3b .mon-deco{transition:opacity .4s}
+#s3b.explore .right,#s3b.explore .slide-inner,#s3b.explore .mon-deco{opacity:0;pointer-events:none}

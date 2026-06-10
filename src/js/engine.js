@@ -198,6 +198,7 @@
         holdActive=false;
       }
       if(prev.id==='s6d'){ const t=prev.querySelector('.type2'); if(t)t.textContent=''; }
+      prev.classList.remove('explore'); /* E1: 탐색 모드는 슬라이드 이탈 시 해제 */
       prev.querySelectorAll('.count').forEach(el=>el.textContent='0');
       /* clear step state for departing slide */
       stepMap.delete(slides.indexOf(prev));
@@ -308,6 +309,15 @@
         e.preventDefault();
         if(deck.iframe&&deck.iframe.forceCapture) deck.iframe.forceCapture();
         return;
+      /* E1: 라이브 탐색 서브페이지 — data-explore 슬라이드에서 ↓ 확장, ↑ 복귀 (비내비) */
+      case 'ArrowDown':{
+        const sl=slides[cur];
+        if(sl&&sl.dataset.explore!==undefined){ e.preventDefault(); sl.classList.add('explore'); }
+        return;}
+      case 'ArrowUp':{
+        const sl=slides[cur];
+        if(sl&&sl.classList.contains('explore')){ e.preventDefault(); sl.classList.remove('explore'); }
+        return;}
     }
 
     /* Nav keys */

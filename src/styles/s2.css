@@ -142,3 +142,9 @@
 .qr-badge img{width:100px;height:100px;display:block}
 .qr-badge .qr-label{font-size:17px;font-weight:700;color:var(--text-strong);text-align:center;line-height:1.3}
 @media print{.qr-badge{position:static;display:inline-flex}}
+
+/* E1: s2b 탐색 모드 — 브라우저 프레임이 무대 가득 확장 */
+#s2b .browser-wrap{transition:left .55s var(--ease-out),right .55s var(--ease-out),top .55s var(--ease-out),bottom .55s var(--ease-out)}
+#s2b.explore .browser-wrap{left:48px;right:48px;top:44px;bottom:44px;z-index:60}
+#s2b .slide-inner,#s2b .mon-deco{transition:opacity .4s}
+#s2b.explore .slide-inner,#s2b.explore .mon-deco{opacity:.1}
