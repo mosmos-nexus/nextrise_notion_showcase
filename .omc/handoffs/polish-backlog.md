@@ -22,3 +22,12 @@ Verification after each polish edit: targeted screenshot + the affected slide's 
 - CL-1: s5a bubble copy changed to "그럼, 실제 워크스페이스에서 보여드릴게요 — Mon들이 먼저 준비하고 있어요" (presenter-requested demo-transition phrasing; overrides spec example line).
 - CL-6: s2c reduced-motion shows the full asset on a dark frame (baked annotations legible); DOM chips hidden to avoid double-rendering the same text. Architect-accepted deviation from the literal "chips visible statically" wording.
 - Post-event follow-ups: mask baked s2c side-labels at crop edge (cosmetic fragment); s3c pill arc-fan.
+
+## v3.1 experiments (2026-06-11, presenter-directed "untried attempts")
+- E5 KEEP: s2c content-band clamp + dark pan frame (no baked-label fragments; overview = annotated blueprint).
+- E4 KEEP: s3c curved fan (arc bulge pill offsets + matched ray lengths).
+- E3 KEEP: s5b LIVE indicator dot, 3.2s calm breathe (reduced-motion: static).
+- E2 KEEP: s4b CSS-only simulation loop — goal card flies to Mos, absorbed, done badge rises (12s, icon-only, no invented copy; reduced-motion: hidden).
+- E1 KEEP: live-explore sub-page (↓ expands s2b/s3b live iframe to full stage, ↑ returns; non-nav; auto-reset on leave) — non-linear flow for Q&A deep-dives.
+- Page-snap: NOT attempted — fixed-stage deck already snaps per slide; scroll-snap conflicts with the skill invariant.
+- No rollbacks needed; every experiment passed screenshot review on first or second iteration.
