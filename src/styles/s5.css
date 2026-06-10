@@ -42,7 +42,15 @@
 #s5b .hold-center{position:absolute;left:0;right:0;top:0;bottom:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;z-index:5}
 #s5b .hold-label{font-family:var(--font-display);font-size:88px;font-weight:800;
-  letter-spacing:-.02em;color:var(--text-strong);margin-top:28px}
+  letter-spacing:-.02em;color:var(--text-strong);margin-top:28px;
+  display:flex;align-items:center;gap:26px}
+/* E3: LIVE 인디케이터 — 3.2초 차분한 호흡 (대기 화면이 '멈춘 앱'으로 보이지 않게) */
+#s5b .live-dot{width:26px;height:26px;border-radius:50%;background:var(--blue-core);
+  box-shadow:0 0 0 0 rgba(15,111,218,.35);animation:livebreathe 3.2s ease-in-out infinite}
+@keyframes livebreathe{
+  0%,100%{box-shadow:0 0 0 0 rgba(15,111,218,.35);opacity:1}
+  50%{box-shadow:0 0 0 18px rgba(15,111,218,0);opacity:.75}}
+@media (prefers-reduced-motion:reduce){#s5b .live-dot{animation:none}}
 #s5b .hold-sub{font-size:28px;font-weight:600;color:var(--bgray-dark);margin-top:18px}
 #s5b .hold-hint{position:absolute;left:0;right:0;bottom:52px;text-align:center;
   font-size:16px;color:var(--bgray-med);font-weight:500;opacity:.65}
