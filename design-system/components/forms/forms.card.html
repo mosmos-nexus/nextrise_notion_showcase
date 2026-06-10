@@ -1,0 +1,65 @@
+<!-- @dsCard group="Components" viewport="700x430" name="Buttons, Inputs & Switch" subtitle="Forms — actions, fields, toggles" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-page); padding: var(--space-xl); }
+  .group { margin-bottom: var(--space-xl); }
+  .glabel { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 560px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Button, Input, Switch } = window.MosmosDesignSystem_53320b;
+    function Demo() {
+      return (
+        <div>
+          <div className="group">
+            <div className="glabel">Variants</div>
+            <div className="row">
+              <Button variant="primary">사전신청하기</Button>
+              <Button variant="secondary">Mos 만나기</Button>
+              <Button variant="outline">더 알아보기</Button>
+              <Button variant="ghost">건너뛰기</Button>
+              <Button variant="primary" disabled>비활성</Button>
+            </div>
+          </div>
+          <div className="group">
+            <div className="glabel">Sizes &amp; pill</div>
+            <div className="row">
+              <Button size="sm">Small</Button>
+              <Button size="md">Medium</Button>
+              <Button size="lg">Large</Button>
+              <Button size="lg" pill variant="secondary">Pill CTA</Button>
+            </div>
+          </div>
+          <div className="group">
+            <div className="glabel">Inputs</div>
+            <div className="fields">
+              <Input label="이메일" type="email" placeholder="you@example.com" helper="베타 소식을 가장 먼저 보내드릴게요." />
+              <Input label="이름" defaultValue="민지" status="success" helper="좋아요!" />
+            </div>
+          </div>
+          <div className="group">
+            <div className="glabel">Switch</div>
+            <div className="row">
+              <Switch label="다크 모드" defaultChecked />
+              <Switch label="알림 받기" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

@@ -42,6 +42,61 @@
       "keyFiles": []
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "index.html",
+      "accessCount": 23,
+      "lastAccessed": 1781098864787,
+      "type": "file"
+    },
+    {
+      "path": "design-system/readme.md",
+      "accessCount": 1,
+      "lastAccessed": 1781096910192,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mos-greeting.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096972183,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mos-happy.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096973433,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mos-working.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096974528,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mos-curious.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096974887,
+      "type": "file"
+    },
+    {
+      "path": "assets/resources/mosmos/world_notion.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096988158,
+      "type": "file"
+    },
+    {
+      "path": "assets/resources/mosmos/notion_ai.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096988493,
+      "type": "file"
+    },
+    {
+      "path": "assets/resources/proact0/homepage.png",
+      "accessCount": 1,
+      "lastAccessed": 1781096988549,
+      "type": "file"
+    }
+  ],
   "userDirectives": []
 }

@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"find /home/honeybee/.claude/plugins/cache/playwright -maxdepth 3 -name \\\"*.json\\\" -o -maxdepth 3 -name \\\"*.mcpb\\\" 2>/dev/null | head; cat /home/honeybee/.claude/plugins/cache/playwright/*/...",
+  "error": "Exit code 2\n(eval):1: no matches found: /home/honeybee/.claude/plugins/cache/playwright/*/*/.mcp.json\n(eval):1: no matches found: /home/honeybee/.claude/plugins/cache/playwright/*/*/plugin.json",
+  "timestamp": "2026-06-10T13:27:19.838Z",
+  "retry_count": 1
+}

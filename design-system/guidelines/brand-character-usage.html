@@ -1,0 +1,39 @@
+<!-- @dsCard group="Brand" viewport="700x300" name="Mos Character · Usage" subtitle="How to place Mos — scale, surfaces, and what to avoid" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-page); padding: var(--space-lg); }
+  .row { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-base); }
+  .demo { border-radius: var(--radius-xl); background: linear-gradient(180deg, #EAF2FC 0%, #F7F8F9 100%); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; gap: var(--space-base); padding: var(--space-lg); }
+  .demo img { width: 110px; height: 110px; object-fit: contain; }
+  .demo .copy { display: flex; flex-direction: column; gap: 4px; }
+  .demo .h { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--text-strong); }
+  .demo .s { font-size: 12px; color: var(--text-body); }
+  .rules { display: flex; flex-direction: column; gap: 8px; }
+  .rule { display: flex; gap: 8px; align-items: baseline; font-size: 12px; line-height: 1.5; color: var(--text-body); }
+  .rule .mark { font-weight: 700; flex: none; width: 14px; }
+  .do .mark { color: var(--status-success); }
+  .dont .mark { color: var(--status-error); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="demo">
+      <img src="../assets/character/mos-greeting.png" alt="Mos on sky gradient">
+      <div class="copy">
+        <span class="h">안녕하세요, Mos예요</span>
+        <span class="s">Sky 그라디언트 · 밝은 표면 위에 사용</span>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule do"><span class="mark">✓</span><span>밝은 표면(Clear White · Sky gradient) 위에 원본 비율로 사용해요.</span></div>
+      <div class="rule do"><span class="mark">✓</span><span>최소 48px, 히어로에서는 160–280px — 여백을 넉넉하게 둬요.</span></div>
+      <div class="rule do"><span class="mark">✓</span><span>상황에 맞는 표정 하나만 — 한 화면에 Mos는 한 번이면 충분해요.</span></div>
+      <div class="rule dont"><span class="mark">✕</span><span>재채색·회전·반전·외곽선 추가, 어두운 배경 위 사용은 피해요.</span></div>
+    </div>
+  </div>
+</body>
+</html>

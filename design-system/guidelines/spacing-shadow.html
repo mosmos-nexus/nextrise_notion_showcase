@@ -1,0 +1,23 @@
+<!-- @dsCard group="Spacing" viewport="700x200" name="Elevation" subtitle="Soft, low-contrast shadows — e1 / e2 / e3" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-subtle); padding: var(--space-2xl) var(--space-xl); }
+  .row { display:flex; gap: var(--space-2xl); justify-content:center; }
+  .item { text-align:center; }
+  .box { width: 120px; height: 80px; background: var(--surface-card); border-radius: var(--radius-lg); }
+  .lbl { margin-top: 16px; font-size: 12px; color: var(--text-muted); }
+  .lbl b { display:block; color: var(--text-strong); font-size:13px; margin-bottom:2px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-e1)"></div><div class="lbl"><b>e1</b>card</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-e2)"></div><div class="lbl"><b>e2</b>raised</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-e3)"></div><div class="lbl"><b>e3</b>modal</div></div>
+  </div>
+</body>
+</html>

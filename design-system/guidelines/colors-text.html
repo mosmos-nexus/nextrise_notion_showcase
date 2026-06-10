@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Text Ramp" subtitle="Blue-gray ink ramp, strong → faint" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-page); padding: var(--space-lg); }
+  .stack { display: flex; flex-direction: column; gap: var(--space-md); }
+  .line { display: flex; align-items: center; gap: var(--space-base); }
+  .dot { width: 28px; height: 28px; border-radius: var(--radius-pill); flex: none; border: 1px solid var(--border-subtle); }
+  .lbl { font-size: 15px; font-weight: 600; }
+  .hex { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="line"><span class="dot" style="background:var(--blue-black)"></span><span class="lbl" style="color:var(--blue-black)">Blue Black — body & headings</span><span class="hex">#1D2026</span></div>
+    <div class="line"><span class="dot" style="background:var(--blue-gray-dark)"></span><span class="lbl" style="color:var(--blue-gray-dark)">Dark Blue Gray</span><span class="hex">#4F555F</span></div>
+    <div class="line"><span class="dot" style="background:var(--blue-gray-medium)"></span><span class="lbl" style="color:var(--blue-gray-medium)">Medium Blue Gray — caption</span><span class="hex">#666E7A</span></div>
+    <div class="line"><span class="dot" style="background:var(--blue-gray-light)"></span><span class="lbl" style="color:var(--blue-gray-light)">Light Blue Gray — faint</span><span class="hex">#AAB4C2</span></div>
+  </div>
+</body>
+</html>

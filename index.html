@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>혼자 쓰던 워크스페이스가, 회사가 되기까지 — mosmos · Notion Startup Showcase @ NextRise 2026</title>
+
+<!-- ============================================================
+     FONTS — Mosmos design system (zip tokens/fonts.css 기준)
+     Display/Headings = NanumSquare · Body/UI = Pretendard Variable
+     ============================================================ -->
+<style>
+@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations')}
+@font-face{font-family:'NanumSquare';font-weight:400;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareR.woff2') format('woff2')}
+@font-face{font-family:'NanumSquare';font-weight:700;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareB.woff2') format('woff2')}
+@font-face{font-family:'NanumSquare';font-weight:800;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareEB.woff2') format('woff2')}
+</style>
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS — mosmos-design-system.zip 단일 기준
+   ============================================================ */
+:root{
+  /* Brand blues */
+  --blue-core:#0F6FDA; --blue-classic:#568BD8; --blue-light:#9CBDE9;
+  /* Secondary & accent */
+  --purple-pop:#9B6EEF; --cyan-bright:#00A0A3;
+  /* Neutrals */
+  --clear-white:#F7F8F9; --blue-black:#1D2026; --pure-white:#FFFFFF;
+  --bgray-dark:#4F555F; --bgray-med:#666E7A; --bgray-light:#AAB4C2;
+  --border-subtle:#E8EDF2; --border-default:#D9DFE7; --border-strong:#C2CBD7;
+  --text-strong:#1D2026; --text-body:#2A2F38; --text-muted:#666E7A; --text-faint:#AAB4C2;
+  --gradient-brand:linear-gradient(135deg,#0F6FDA 0%,#9CBDE9 100%);
+  --gradient-bloom:linear-gradient(135deg,#0F6FDA 0%,#9B6EEF 100%);
+  --gradient-sky:linear-gradient(180deg,#EAF2FC 0%,#F7F8F9 100%);
+  /* Mon 파스텔 — zip 토큰 파스텔·세컨더리 계열에서 도출 (조사·분석·정리·창작·실행·소통) */
+  --mon-research:#F0C45A; --mon-analysis:#B79CF1; --mon-organize:#8FCB7F;
+  --mon-create:#F5A8C5;  --mon-execute:#7FA9EC;  --mon-comm:#62C6C8;
+  /* Radius / shadow / motion (zip spacing tokens) */
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:24px; --r-pill:999px;
+  --e1:0 1px 2px rgba(29,32,38,.06),0 1px 3px rgba(29,32,38,.08);
+  --e2:0 4px 12px rgba(29,32,38,.08);
+  --e3:0 12px 32px rgba(29,32,38,.12);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --font-display:'NanumSquare','Pretendard Variable',sans-serif;
+  --font-body:'Pretendard Variable',-apple-system,'Segoe UI',sans-serif;
+  /* Deck chrome */
+  --stage-bg:#0E1117; --slide-bg:#FFFFFF;
+}
+
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   (viewport-base.css 전문 포함 — 수정 금지)
+   =========================================== */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+    .deck-controls {
+        display: none !important;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+/* ============================================================
+   2. GLOBAL BASE — slide typography & transitions
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--text-body);-webkit-font-smoothing:antialiased}
+button{font-family:inherit} /* 버튼은 폰트를 상속하지 않으므로 명시 — 한글 라벨 깨짐 방지 */
+
+/* 슬라이드 전환 — 다이나믹 크로스페이드 + 미세 스케일 */
+.slide{
+  transition:opacity .55s var(--ease-out), transform .55s var(--ease-out), visibility 0s linear .55s;
+  transform:scale(.985);
+}
+.slide.active{transform:scale(1);transition-delay:0s,0s,0s}
+
+/* ============================================================
+   3. MONO → COSMOS 배경 시스템
+   각 슬라이드의 --bloom(0~1)에 따라 블록 그리드가 채도를 얻는다
+   ============================================================ */
+.bg{position:absolute;inset:0;pointer-events:none}
+.bg .grid-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(29,32,38,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(29,32,38,.045) 1px,transparent 1px);
+  background-size:96px 96px;
+  -webkit-mask-image:radial-gradient(ellipse 130% 120% at 50% 45%,#000 30%,transparent 78%);
+          mask-image:radial-gradient(ellipse 130% 120% at 50% 45%,#000 30%,transparent 78%);
+  transition:opacity .8s;
+}
+.bg .glow{position:absolute;border-radius:50%;filter:blur(70px);transition:opacity .9s}
+.bg .glow.g1{width:880px;height:880px;left:-260px;top:-300px;
+  background:radial-gradient(closest-side,rgba(15,111,218,.30),transparent 70%);
+  opacity:calc(var(--bloom)*.85)}
+.bg .glow.g2{width:980px;height:980px;right:-320px;bottom:-380px;
+  background:radial-gradient(closest-side,rgba(155,110,239,.26),transparent 70%);
+  opacity:calc(var(--bloom)*.8)}
+.bg .glow.g3{width:640px;height:640px;right:14%;top:-260px;
+  background:radial-gradient(closest-side,rgba(0,160,163,.18),transparent 70%);
+  opacity:calc(var(--bloom)*.65)}
+/* 떠 있는 노션풍 블록 조각들 — bloom에 따라 흑백→컬러 */
+.bg .blk{position:absolute;border-radius:14px;
+  background:var(--bg,var(--gradient-brand));
+  opacity:calc(.10 + var(--bloom)*.30);
+  filter:grayscale(calc((1 - var(--bloom))*100%));
+  transition:opacity .9s,filter .9s}
+.bg .blk.b1{width:120px;height:120px;left:78px;top:170px;--bg:linear-gradient(135deg,#0F6FDA,#9CBDE9)}
+.bg .blk.b2{width:72px;height:72px;left:236px;top:330px;--bg:linear-gradient(135deg,#9B6EEF,#F5A8C5)}
+.bg .blk.b3{width:54px;height:54px;right:200px;top:150px;--bg:linear-gradient(135deg,#00A0A3,#9CBDE9)}
+.bg .blk.b4{width:96px;height:96px;right:96px;bottom:200px;--bg:linear-gradient(135deg,#568BD8,#9B6EEF)}
+.bg .blk.b5{width:44px;height:44px;left:140px;bottom:140px;--bg:linear-gradient(135deg,#F0C45A,#F5A8C5)}
+
+/* ============================================================
+   4. 공통 슬라이드 레이아웃 & 타이포 (1920×1080 고정 좌표계)
+   ============================================================ */
+.slide{padding:112px 128px 96px}
+.kicker{display:flex;align-items:center;gap:18px;font-family:var(--font-body);
+  font-size:24px;font-weight:700;letter-spacing:.1em;color:var(--blue-core)}
+.kicker::before{content:'';width:34px;height:4px;border-radius:4px;background:var(--gradient-bloom)}
+.headline{font-family:var(--font-display);font-weight:800;font-size:78px;line-height:1.18;
+  letter-spacing:-.02em;color:var(--text-strong);margin-top:26px;text-wrap:balance}
+.headline em{font-style:normal;background:var(--gradient-bloom);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:30px;line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
+.sub b{color:var(--text-strong);font-weight:700}
+
+/* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정) */
+.rv{opacity:0}
+.slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+.slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
+.rv-pop{opacity:0}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@media print{.rv,.rv-pop{opacity:1 !important}}
+
+/* SVG path draw — pathLength="1" 기반 */
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+.slide.active .draw{animation:drawPath 1.2s ease forwards;animation-delay:var(--d,0s)}
+@keyframes drawPath{to{stroke-dashoffset:0}}
+
+/* 부유 모션 */
+.float{animation:float 5.2s ease-in-out infinite}
+.float.f2{animation-duration:6.4s;animation-delay:-2s}
+.float.f3{animation-duration:7.2s;animation-delay:-3.4s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* 카드 공통 */
+.card{background:var(--pure-white);border:1px solid var(--border-subtle);
+  border-radius:var(--r-lg);box-shadow:var(--e2)}
+
+/* 브라우저 프레임 카드 — Oopy 실사이트/워크스페이스 캡처용 */
+.browser{background:#fff;border:1px solid var(--border-default);border-radius:var(--r-lg);
+  box-shadow:var(--e3);overflow:hidden;display:flex;flex-direction:column}
+.browser .bar{display:flex;align-items:center;gap:8px;padding:14px 18px;
+  background:var(--clear-white);border-bottom:1px solid var(--border-subtle);flex:none}
+.browser .bar i{width:12px;height:12px;border-radius:50%;background:var(--border-strong)}
+.browser .bar i:nth-child(1){background:#F0A8A8}.browser .bar i:nth-child(2){background:#F0D49B}.browser .bar i:nth-child(3){background:#A8D8AC}
+.browser .bar .url{margin-left:10px;font-size:17px;color:var(--text-muted);
+  background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-pill);padding:4px 18px}
+.browser .shot{flex:1;min-height:0;overflow:hidden;position:relative}
+.browser .shot img{width:100%;height:100%;object-fit:cover;object-position:top center}
+
+/* Takeaway 밴드 — S2·S3·S4 마무리 한 줄 */
+.takeaway{position:absolute;left:128px;right:128px;bottom:84px;display:flex;align-items:center;gap:28px;
+  background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;
+  padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
+.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.14em;color:#fff;
+  background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
+.takeaway p{font-size:27px;line-height:1.45;font-weight:600;color:var(--text-body)}
+.takeaway p b{color:var(--blue-core)}
+
+/* 지표 카드 + count-up */
+.metric{display:flex;flex-direction:column;gap:14px;padding:40px 44px;border-radius:var(--r-xl);
+  background:#fff;border:1px solid var(--border-subtle);box-shadow:var(--e2);position:relative;overflow:hidden}
+.metric::before{content:'';position:absolute;left:0;top:0;right:0;height:6px;background:var(--gradient-brand);opacity:.85}
+.metric .mi{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(15,111,218,.12),rgba(155,110,239,.12));color:var(--blue-core)}
+.metric .mi svg{width:30px;height:30px}
+.metric .num{font-family:var(--font-display);font-weight:800;font-size:84px;line-height:1;
+  letter-spacing:-.02em;color:var(--text-strong);font-variant-numeric:tabular-nums}
+.metric .lbl{font-size:25px;font-weight:700;color:var(--bgray-dark)}
+
+/* ============================================================
+   5. Mon — 인라인 SVG 위성 캐릭터 (블롭 + 컬 + 점눈·미소·볼터치)
+   variant는 --mc(바디)·소품으로 구분: 조사·분석·정리·창작·실행·소통
+   ============================================================ */
+/* max-width:100% 글로벌 규칙이 0폭 부모(궤도 래퍼) 안에서 svg를 붕괴시키므로 해제 */
+.mon{width:48px;height:48px;max-width:none;max-height:none;overflow:visible;filter:drop-shadow(0 8px 14px rgba(29,32,38,.16))}
+.m-research{--mc:var(--mon-research)} .m-analysis{--mc:var(--mon-analysis)}
+.m-organize{--mc:var(--mon-organize)} .m-create{--mc:var(--mon-create)}
+.m-execute{--mc:var(--mon-execute)}  .m-comm{--mc:var(--mon-comm)}
+
+/* Mos 캐릭터 — 라이트 표면 전용 · 원본 그대로 · 부유 모션 */
+.mos{filter:drop-shadow(0 22px 36px rgba(15,111,218,.2))}
+
+/* ============================================================
+   6. 덱 크롬 — Mon 궤도 인디케이터(어젠다 겸용) · 페이지 번호
+   ============================================================ */
+.orbit-progress{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:900;
+  display:flex;align-items:center;gap:6px;padding:10px 22px;border-radius:var(--r-pill);
+  background:rgba(255,255,255,.78);border:1px solid rgba(29,32,38,.08);
+  box-shadow:var(--e1);backdrop-filter:blur(10px)}
+.pnode{display:flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;
+  padding:4px 6px;border-radius:var(--r-pill)}
+.pnode .mon{width:22px;height:22px;filter:grayscale(1) opacity(.38);transition:filter .5s,transform .4s var(--ease-out)}
+.pnode.done .mon{filter:none}
+.pnode.cur .mon{filter:none;transform:scale(1.28)}
+.pnode .plabel{display:none;font-size:14.5px;font-weight:700;color:var(--text-body);letter-spacing:.02em}
+.pnode.cur .plabel{display:block}
+.pline{width:16px;height:2px;border-radius:2px;background:var(--border-default);flex:none}
+.pager{position:fixed;right:26px;bottom:20px;z-index:900;font-size:13.5px;font-weight:700;
+  letter-spacing:.12em;color:#5C6573;font-variant-numeric:tabular-nums;
+  background:rgba(255,255,255,.72);border:1px solid rgba(29,32,38,.08);
+  border-radius:var(--r-pill);padding:6px 14px;backdrop-filter:blur(8px)}
+
+/* 인라인 편집 크롬 */
+.edit-hotzone{position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;cursor:pointer}
+.edit-toggle{position:fixed;top:18px;left:18px;z-index:10001;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--border-default);background:rgba(255,255,255,.92);box-shadow:var(--e2);
+  font-size:20px;color:var(--bgray-dark);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
+.edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto}
+.edit-toggle.active{background:var(--blue-core);color:#fff}
+body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset:-3px}
+
+/* ============================================================
+   S0 · COVER — 흑백 정지 → 첫 입력에 bloom + 타이프
+   ============================================================ */
+#s0{--bloom:0}
+#s0.played{--bloom:.4}
+#s0 .bg .grid-lines{opacity:1}
+#s0 .s0-top{position:absolute;top:118px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:14px;
+  font-size:21px;font-weight:600;letter-spacing:.06em;color:var(--bgray-med)}
+#s0 .s0-top img{width:30px;height:30px}
+#s0 .s0-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:40px}
+/* 중앙 블록 — Core Blue → Pop Purple bloom */
+#s0 .s0-block{position:relative;width:184px;height:184px;border-radius:44px;display:flex;align-items:center;justify-content:center;
+  background:#fff;border:1.5px solid var(--border-default);box-shadow:var(--e2);
+  transition:background 1.1s var(--ease-out),border-color 1.1s,box-shadow 1.1s,transform 1.1s var(--ease-out)}
+#s0 .s0-block img{position:absolute;width:108px;height:108px;object-fit:contain;transition:opacity 1s}
+#s0 .s0-block .sym-grad{opacity:0}
+#s0.played .s0-block{background:linear-gradient(135deg,rgba(15,111,218,.14),rgba(155,110,239,.18));
+  border-color:rgba(155,110,239,.45);transform:scale(1.06);
+  box-shadow:0 24px 64px rgba(15,111,218,.28)}
+#s0.played .s0-block .sym-mono{opacity:0}
+#s0.played .s0-block .sym-grad{opacity:1}
+#s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:96px;line-height:1.22;
+  letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:240px}
+#s0 .s0-title .caret{display:inline-block;width:6px;height:.92em;margin-left:8px;vertical-align:-.12em;
+  border-radius:3px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
+@keyframes caret{50%{opacity:0}}
+/* bloom 이후 페이드 요소들 */
+#s0 .late{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+#s0.played .late{opacity:1;transform:none}
+#s0 .s0-sub{font-size:34px;font-weight:600;color:var(--bgray-dark);margin-top:34px;transition-delay:2.2s}
+#s0 .s0-sub .en{color:var(--text-faint);font-weight:500;font-size:28px}
+#s0 .s0-foot{position:absolute;bottom:70px;left:0;right:0;text-align:center;font-size:22px;
+  color:var(--bgray-med);font-weight:600;letter-spacing:.04em;transition-delay:2.6s}
+#s0 .s0-foot b{color:var(--text-strong)}
+#s0 .s0-mos{position:absolute;right:150px;bottom:120px;width:300px;transition-delay:1.9s}
+#s0 .s0-mon{position:absolute;right:118px;bottom:400px;transition-delay:2.4s}
+
+/* ============================================================
+   S1 · 여정 한눈에 — 타임라인 3노드 + 중심의 Notion
+   ============================================================ */
+#s1{--bloom:.2}
+#s1 .tl{position:absolute;left:128px;right:128px;top:360px;height:560px}
+#s1 .tl svg.tl-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#s1 .tl-lines path{fill:none;stroke-width:3.5}
+#s1 .tl-lines .main{stroke:url(#lg-line)}
+#s1 .tl-lines .dash{stroke:var(--border-strong);stroke-dasharray:1;stroke-width:2.5}
+#s1 .tl-node{position:absolute;top:36px;width:300px;margin-left:-150px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+#s1 .tl-node .disc{width:158px;height:158px;border-radius:50%;background:#fff;border:1.5px solid var(--border-default);
+  box-shadow:var(--e2);display:flex;align-items:center;justify-content:center;position:relative}
+#s1 .tl-node .disc img{width:84px;height:84px;object-fit:contain}
+#s1 .tl-node .stage-tag{font-size:19px;font-weight:700;letter-spacing:.1em;color:var(--bgray-med)}
+#s1 .tl-node .nm{font-family:var(--font-display);font-weight:800;font-size:33px;color:var(--text-strong)}
+#s1 .tl-node .ds{font-size:21px;color:var(--text-muted);font-weight:500}
+#s1 .tl-node .mon{position:absolute;right:-12px;top:-12px}
+/* 노드별 흑백 → 컬러 점등 */
+#s1 .tl-node .disc img{filter:grayscale(1)}
+#s1.active .tl-node .disc img{animation:colorize 1.1s ease both;animation-delay:var(--cd,0s)}
+#s1 .n1 .disc img{--cd:1.05s;--g:.5}
+#s1 .n2 .disc img{--cd:1.55s;--g:.18}
+#s1 .n3 .disc img{--cd:2.05s;--g:0}
+@keyframes colorize{from{filter:grayscale(1)}to{filter:grayscale(var(--g,0))}}
+#s1 .n1{left:11%}#s1 .n2{left:50%}#s1 .n3{left:89%}
+#s1 .tl-notion{position:absolute;left:50%;top:430px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border-default);
+  border-radius:var(--r-pill);padding:16px 34px;box-shadow:var(--e2)}
+#s1 .tl-notion img{width:42px;height:42px}
+#s1 .tl-notion span{font-size:25px;font-weight:700;color:var(--text-strong)}
+#s1 .s1-sub{position:absolute;left:0;right:0;bottom:74px;text-align:center;font-size:28px;color:var(--bgray-dark);font-weight:500}
+#s1 .s1-sub b{color:var(--text-strong)}
+
+/* ============================================================
+   S2 · 중헌아카이브 (3화면)
+   ============================================================ */
+#s2a{--bloom:.3}
+#s2a .cols{position:absolute;left:128px;right:128px;top:300px;bottom:96px;display:grid;grid-template-columns:1fr 620px;gap:90px;align-items:center}
+#s2a .visual{position:relative;height:600px}
+#s2a .visual .logo-card{position:absolute;left:40px;top:30px;width:430px;height:430px;border-radius:56px;
+  background:#fff;border:1.5px solid var(--border-default);box-shadow:var(--e3);
+  display:flex;align-items:center;justify-content:center}
+#s2a .visual .logo-card img{width:300px;height:300px;border-radius:40px}
+#s2a .visual .mos{position:absolute;right:0;bottom:0;width:330px}
+#s2a .visual .mon{position:absolute;left:-6px;top:-10px;width:56px;height:56px}
+#s2a .sub{max-width:880px}
+
+#s2b{--bloom:.35;padding:0}
+#s2b .hero{position:absolute;inset:0}
+#s2b .hero img{width:100%;height:100%;object-fit:cover;object-position:50% 26%;animation:kenburns 26s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.05)}}
+#s2b .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,248,249,.18) 0%,rgba(247,248,249,0) 26%,rgba(247,248,249,.93) 62%,#F7F8F9 84%)}
+#s2b .head-chip{position:absolute;top:104px;left:64px;display:flex;align-items:center;gap:16px;
+  background:rgba(255,255,255,.95);border:1px solid var(--border-subtle);border-radius:var(--r-pill);
+  padding:14px 30px 14px 18px;box-shadow:var(--e2)}
+#s2b .head-chip img.lg{width:44px;height:44px;border-radius:12px}
+#s2b .head-chip .t1{font-size:23px;font-weight:800;color:var(--text-strong)}
+#s2b .head-chip .t2{display:flex;align-items:center;gap:8px;font-size:18px;color:var(--text-muted);font-weight:600}
+#s2b .head-chip .t2 img{height:20px;width:auto;border-radius:4px}
+#s2b .qr-chip{position:absolute;top:104px;right:64px;display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,.95);border:1px solid var(--border-subtle);border-radius:18px;padding:12px 18px;box-shadow:var(--e2)}
+#s2b .qr-chip img{width:84px;height:84px}
+#s2b .qr-chip span{font-size:18px;font-weight:700;color:var(--bgray-dark);line-height:1.4}
+#s2b .flow-band{position:absolute;left:96px;right:96px;bottom:56px;background:#fff;
+  border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);padding:30px 44px 26px}
+#s2b .flow-band .cap{display:flex;align-items:center;gap:14px;font-size:24px;font-weight:700;color:var(--text-strong);margin-bottom:18px}
+#s2b .flow-band .cap .dot{width:10px;height:10px;border-radius:50%;background:var(--gradient-bloom)}
+#s2b .flow-band .cap small{font-size:19px;color:var(--text-muted);font-weight:500;margin-left:6px}
+#s2b .flow-band img{width:100%;height:330px;object-fit:contain}
+
+#s2c{--bloom:.4}
+#s2c .grid4{position:absolute;left:128px;right:128px;top:388px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+#s2c .grid4 .metric{padding:50px 36px;gap:18px}
+#s2c .grid4 .num{font-size:70px}
+#s2c .mon{position:absolute;z-index:3}
+#s2c .mon.a{right:118px;top:316px;width:58px;height:58px}
+#s2c .mon.b{left:104px;top:806px;width:54px;height:54px}
+
+/* ============================================================
+   S3 · Proact0 / act-operator (3화면)
+   ============================================================ */
+#s3a{--bloom:.5}
+#s3a .center{position:absolute;left:0;right:0;top:150px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#s3a .center .kicker{justify-content:center}
+#s3a .banner{position:absolute;left:50%;transform:translateX(-50%);bottom:104px;width:1660px;
+  background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);padding:44px 56px}
+#s3a .banner img{width:100%;object-fit:contain}
+#s3a .plogo{position:absolute;right:140px;top:128px;width:96px;opacity:.92}
+
+#s3b{--bloom:.55}
+#s3b .cols{position:absolute;left:128px;right:128px;top:296px;bottom:90px;display:grid;grid-template-columns:880px 1fr;gap:70px}
+#s3b .browser{height:100%}
+#s3b .right{display:flex;flex-direction:column;gap:24px}
+#s3b .chip{display:flex;gap:22px;align-items:flex-start;background:#fff;border:1px solid var(--border-subtle);
+  border-radius:20px;padding:26px 30px;box-shadow:var(--e1)}
+#s3b .chip .ci{flex:none;width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(15,111,218,.1),rgba(155,110,239,.12));color:var(--blue-core)}
+#s3b .chip .ci svg{width:32px;height:32px}
+#s3b .chip h4{font-size:26px;font-weight:800;color:var(--text-strong);font-family:var(--font-display)}
+#s3b .chip p{font-size:21px;color:var(--text-muted);margin-top:6px;line-height:1.45}
+#s3b .qrrow{margin-top:auto;display:flex;align-items:center;gap:20px;background:var(--clear-white);
+  border:1px dashed var(--border-strong);border-radius:20px;padding:18px 26px}
+#s3b .qrrow img.qr{width:104px;height:104px}
+#s3b .qrrow span{font-size:21px;font-weight:600;color:var(--bgray-dark);line-height:1.5}
+
+#s3c{--bloom:.65}
+#s3c .wrap{position:absolute;left:128px;right:128px;top:282px;bottom:212px;display:grid;grid-template-columns:1fr 520px;gap:60px}
+#s3c .hubmap{position:relative}
+#s3c .hubmap svg.rays{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#s3c .rays path{fill:none;stroke:url(#lg-line);stroke-width:2.5;opacity:.85}
+#s3c .hub{position:absolute;left:30px;top:50%;transform:translateY(-50%);width:230px;display:flex;flex-direction:column;align-items:center;gap:16px}
+#s3c .hub .disc{width:170px;height:170px;border-radius:50%;background:#fff;border:2px solid var(--border-default);
+  box-shadow:var(--e3);display:flex;align-items:center;justify-content:center}
+#s3c .hub .disc img{width:88px;height:88px}
+#s3c .hub .hlbl{font-size:22px;font-weight:800;color:var(--text-strong);text-align:center;line-height:1.35}
+#s3c .hub .hlbl small{display:block;font-size:17px;font-weight:600;color:var(--text-muted)}
+#s3c .pill{position:absolute;display:flex;align-items:center;gap:14px;background:#fff;
+  border:1px solid var(--border-subtle);border-radius:var(--r-pill);padding:12px 26px 12px 14px;box-shadow:var(--e2)}
+#s3c .pill img{width:38px;height:38px;object-fit:contain}
+#s3c .pill span{font-size:21px;font-weight:700;color:var(--text-body);white-space:nowrap}
+#s3c .ghead{position:absolute;font-size:17px;font-weight:800;letter-spacing:.1em;color:var(--bgray-med)}
+#s3c .ghead img{width:22px;height:22px;vertical-align:-4px;margin-right:8px}
+#s3c .stats{display:flex;flex-direction:column;gap:22px}
+#s3c .stats .metric{padding:28px 36px}
+#s3c .stats .num{font-size:62px}
+#s3c .stats .lbl{font-size:21.5px}
+#s3c .mos{position:absolute;right:54px;bottom:196px;width:215px;z-index:4}
+
+/* ============================================================
+   S4 · Mosmos = Notion-native Startup (3화면)
+   ============================================================ */
+#s4a{--bloom:.8}
+#s4a .center{position:absolute;left:0;right:0;top:172px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#s4a .center .kicker{justify-content:center}
+#s4a .pillars{position:absolute;left:128px;right:128px;bottom:128px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+#s4a .pillar{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
+  padding:54px 46px;box-shadow:var(--e2);text-align:left;position:relative;overflow:hidden}
+#s4a .pillar::after{content:'';position:absolute;right:-46px;top:-46px;width:150px;height:150px;border-radius:50%;
+  background:var(--pg,var(--gradient-brand));opacity:.12}
+#s4a .pillar .pi{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+  background:var(--pg,var(--gradient-brand));color:#fff;box-shadow:var(--e2)}
+#s4a .pillar .pi svg{width:38px;height:38px}
+#s4a .pillar h3{font-family:var(--font-display);font-size:31px;font-weight:800;color:var(--text-strong);margin-top:26px}
+#s4a .pillar p{font-size:23px;line-height:1.5;color:var(--bgray-dark);margin-top:12px}
+#s4a .pillar p b{color:var(--text-strong)}
+#s4a .p1{--pg:linear-gradient(135deg,#0F6FDA,#9CBDE9)}
+#s4a .p2{--pg:linear-gradient(135deg,#9B6EEF,#F5A8C5)}
+#s4a .p3{--pg:linear-gradient(135deg,#00A0A3,#8FCB7F)}
+#s4a .hlogo{position:absolute;top:54px;right:128px;height:54px;width:auto}
+
+#s4b{--bloom:1}
+#s4b .cols{position:absolute;left:118px;right:118px;top:120px;bottom:100px;display:grid;grid-template-columns:980px 1fr;gap:64px;align-items:center}
+#s4b .browser{height:680px}
+#s4b .shot-cap{margin-top:18px;display:flex;align-items:center;gap:12px;font-size:21px;font-weight:600;color:var(--text-muted)}
+#s4b .shot-cap img{width:26px;height:26px}
+#s4b .right{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+#s4b .right .hlogo{height:74px;width:auto}
+#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:30px}
+#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:14px;max-width:560px}
+#s4b .universe{position:relative;width:560px;height:430px;margin-top:8px}
+#s4b .universe .mos{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:280px}
+#s4b .orbit-ring{position:absolute;left:50%;top:54%;width:480px;height:480px;margin:-240px 0 0 -240px;
+  border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
+#s4b .orbiter{position:absolute;left:50%;top:54%;width:0;height:0;
+  animation:orbit 22s linear infinite;animation-delay:calc(var(--i)*-3.6666s)}
+#s4b .orbiter .mon{position:absolute;left:-24px;top:-24px;width:48px;height:48px}
+@keyframes orbit{from{transform:rotate(0deg) translateX(240px) rotate(0deg)}
+                 to{transform:rotate(360deg) translateX(240px) rotate(-360deg)}}
+
+#s4c{--bloom:.9}
+#s4c .cols{position:absolute;left:128px;right:128px;top:300px;bottom:226px;display:grid;grid-template-columns:1fr 640px;gap:70px}
+#s4c .demos{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+#s4c .demo{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:30px 32px;box-shadow:var(--e1);display:flex;flex-direction:column;justify-content:center;gap:14px}
+#s4c .demo .di{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(15,111,218,.12),rgba(0,160,163,.12));color:var(--blue-core)}
+#s4c .demo .di svg,#s4c .demo .di img{width:30px;height:30px}
+#s4c .demo h4{font-family:var(--font-display);font-size:25.5px;font-weight:800;color:var(--text-strong)}
+#s4c .demo p{font-size:19.5px;color:var(--text-muted);line-height:1.45}
+#s4c .preview{display:flex;flex-direction:column;gap:16px}
+#s4c .preview .card{padding:18px;display:flex;flex-direction:column;gap:0;overflow:hidden}
+#s4c .preview .card img{width:100%;border-radius:12px}
+#s4c .preview .pcap{font-size:19px;color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
+
+/* ============================================================
+   S5 · 전환 다리 → 라이브 데모 (zoom-in 핸드오프)
+   ============================================================ */
+#s5{--bloom:1}
+#s5 .s5-inner{position:absolute;inset:0;padding:96px 128px}
+#s5 .center{position:absolute;left:0;right:0;top:128px;display:flex;flex-direction:column;align-items:center;text-align:center;z-index:5}
+#s5 .center h2{font-family:var(--font-display);font-size:92px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
+#s5 .chips{display:flex;gap:18px;margin-top:44px}
+#s5 .chips .kw{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--border-default);
+  border-radius:var(--r-pill);padding:16px 32px;font-size:25px;font-weight:700;color:var(--text-body);box-shadow:var(--e2)}
+#s5 .chips .kw .cdot{width:12px;height:12px;border-radius:50%}
+#s5 .chips .kw img{width:28px;height:28px}
+#s5 .stage-shots{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);width:1560px;height:480px;z-index:2}
+#s5 .shotcard{position:absolute;background:#fff;border:1px solid var(--border-subtle);border-radius:18px;
+  box-shadow:var(--e3);padding:14px;width:640px}
+#s5 .shotcard img{width:100%;border-radius:10px}
+#s5 .shotcard.c1{left:30px;bottom:30px;transform:rotate(-4deg)}
+#s5 .shotcard.c2{left:50%;margin-left:-320px;bottom:62px;z-index:3}
+#s5 .shotcard.c3{right:30px;bottom:24px;transform:rotate(4deg)}
+#s5 .mos{position:absolute;left:128px;top:560px;width:235px;z-index:6}
+#s5 .bubble{position:absolute;left:330px;top:545px;z-index:6;background:#fff;border:1.5px solid var(--border-default);
+  border-radius:22px;padding:18px 28px;font-size:23px;font-weight:600;color:var(--text-body);box-shadow:var(--e2)}
+#s5 .bubble::after{content:'';position:absolute;left:-12px;top:38px;width:22px;height:22px;background:#fff;
+  border-left:1.5px solid var(--border-default);border-bottom:1.5px solid var(--border-default);
+  transform:rotate(45deg);border-bottom-left-radius:6px}
+/* Mon 선진입 — 워크스페이스 카드 속으로 빨려 들어간다 */
+#s5 .flymon{position:absolute;z-index:7;width:52px;height:52px;left:var(--sx);top:var(--sy);opacity:0}
+.slide.active#s5 .flymon{animation:flyin 1.7s ease-in both;animation-delay:var(--d)}
+@keyframes flyin{
+  0%{opacity:0;transform:translate(0,0) scale(1)}
+  18%{opacity:1}
+  78%{opacity:.95}
+  100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.22)}
+}
+/* zoom-in(scale+blur) 핸드오프 → 라이브 데모 */
+#s5.zooming .s5-inner{animation:zoomout 1s cubic-bezier(.55,0,.85,.4) forwards}
+@keyframes zoomout{to{transform:scale(2.35);filter:blur(18px);opacity:0}}
+
+/* ============================================================
+   S6 · 클로징 — 함께 자랄 사람
+   ============================================================ */
+#s6{--bloom:1}
+#s6 .top{position:absolute;left:0;right:0;top:88px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#s6 .top .vlogo{height:170px;width:auto}
+#s6 .top h2{font-family:var(--font-display);font-size:76px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong);margin-top:30px}
+#s6 .top p{font-size:29px;color:var(--bgray-dark);font-weight:500;margin-top:16px}
+#s6 .axes{position:absolute;left:170px;right:170px;top:520px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+#s6 .axis{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
+  padding:48px 36px 34px;box-shadow:var(--e2);text-align:center}
+#s6 .axis .mon{position:absolute;left:50%;top:-30px;margin-left:-26px;width:52px;height:52px}
+.slide.active#s6 .axis .mon{animation:land 1s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d)}
+@keyframes land{from{opacity:0;transform:translateY(-150px)}to{opacity:1;transform:none}}
+#s6 .axis .ai{width:62px;height:62px;margin:0 auto;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(15,111,218,.1),rgba(155,110,239,.14));color:var(--blue-core)}
+#s6 .axis .ai svg{width:32px;height:32px}
+#s6 .axis h4{font-family:var(--font-display);font-size:27px;font-weight:800;color:var(--text-strong);margin-top:18px}
+#s6 .axis p{font-size:20.5px;color:var(--text-muted);line-height:1.5;margin-top:10px}
+#s6 .cta{position:absolute;left:0;right:0;bottom:150px;display:flex;align-items:center;justify-content:center;gap:30px}
+#s6 .cta .url{display:flex;align-items:center;gap:14px;background:var(--gradient-bloom);color:#fff;
+  border-radius:var(--r-pill);padding:20px 44px;font-size:30px;font-weight:800;font-family:var(--font-display);
+  box-shadow:0 14px 38px rgba(15,111,218,.32);text-decoration:none}
+#s6 .cta .qr{background:#fff;border:1px solid var(--border-subtle);border-radius:16px;padding:10px;box-shadow:var(--e2)}
+#s6 .cta .qr img{width:104px;height:104px}
+#s6 .cta .net{max-width:430px;font-size:20px;line-height:1.5;color:var(--bgray-dark);font-weight:500;text-align:left}
+#s6 .cta .net b{color:var(--text-strong)}
+#s6 .tagline{position:absolute;left:0;right:0;bottom:56px;text-align:center;font-size:24px;font-weight:600;color:var(--bgray-med);min-height:36px}
+#s6 .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
+#s6 .mos{position:absolute;right:46px;bottom:116px;width:196px;z-index:5}
+#s6 .hlogo-foot{position:absolute;left:64px;bottom:48px;height:40px;width:auto;opacity:.8}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG DEFS — Mon 위성 캐릭터 심볼 (블롭 바디 + 컬 + 점눈·미소·볼터치)
+     소품: 조사(돋보기)·분석(차트)·정리(체크)·창작(연필)·실행(번개)·소통(말풍선)
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="lg-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0F6FDA"/><stop offset="1" stop-color="#9B6EEF"/>
+    </linearGradient>
+    <!-- Mon 바디 — 파스텔 블롭 + 머리 위 한 가닥 컬 -->
+    <symbol id="mon-body" viewBox="0 0 48 48" overflow="visible">
+      <path d="M24 9.5 C30.5 9.5 37 13.5 38.4 20.5 C39.8 27.5 36.5 38.5 24 38.5 C11.5 38.5 8.2 27.5 9.6 20.5 C11 13.5 17.5 9.5 24 9.5 Z"
+            fill="var(--mc,#9CBDE9)"/>
+      <path d="M24 9.2 C23.6 5.6 26.4 3.8 28.2 5.4" fill="none" stroke="var(--mc,#9CBDE9)"
+            stroke-width="2.6" stroke-linecap="round" style="filter:brightness(.82)"/>
+      <ellipse cx="17.5" cy="16.5" rx="5" ry="3.2" fill="#fff" opacity=".4" transform="rotate(-18 17.5 16.5)"/>
+      <circle cx="19" cy="23.5" r="1.9" fill="#2A2F38"/>
+      <circle cx="29" cy="23.5" r="1.9" fill="#2A2F38"/>
+      <path d="M21.6 27.4 Q24 29.8 26.4 27.4" fill="none" stroke="#2A2F38" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="14.6" cy="26.8" r="2.5" fill="#F8A8C0" opacity=".55"/>
+      <circle cx="33.4" cy="26.8" r="2.5" fill="#F8A8C0" opacity=".55"/>
+    </symbol>
+    <!-- 역할 소품 — 단순 스트로크 -->
+    <symbol id="p-research" viewBox="0 0 48 48" overflow="visible">
+      <circle cx="39" cy="11" r="5" fill="none" stroke="#4F555F" stroke-width="2.2"/>
+      <path d="M42.6 14.6 L46 18" stroke="#4F555F" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="p-analysis" viewBox="0 0 48 48" overflow="visible">
+      <path d="M33 16 L37.5 10.5 L41 13.5 L46 6.5" fill="none" stroke="#4F555F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="p-organize" viewBox="0 0 48 48" overflow="visible">
+      <path d="M34 8 L36.4 10.4 L41.5 5.5" fill="none" stroke="#4F555F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M34 16 L44 16" stroke="#4F555F" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="p-create" viewBox="0 0 48 48" overflow="visible">
+      <path d="M36 14 L44 6 M44 6 L46 8 L38 16 L35.4 16.6 Z" fill="none" stroke="#4F555F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="p-execute" viewBox="0 0 48 48" overflow="visible">
+      <path d="M41 4 L35 13 L40 13 L36 21" fill="none" stroke="#4F555F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="p-comm" viewBox="0 0 48 48" overflow="visible">
+      <path d="M34 7 H45 V14 H40 L37 17 V14 H34 Z" fill="none" stroke="#4F555F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============================================================
+     덱 크롬 — Mon 궤도 인디케이터(상단 progress · 어젠다 겸용)
+     ============================================================ -->
+<nav class="orbit-progress" aria-label="발표 진행">
+  <button class="pnode" data-go="0"><svg class="mon m-execute"><use href="#mon-body"/></svg><span class="plabel">커버</span></button><i class="pline"></i>
+  <button class="pnode" data-go="1"><svg class="mon m-research"><use href="#mon-body"/></svg><span class="plabel">여정</span></button><i class="pline"></i>
+  <button class="pnode" data-go="2"><svg class="mon m-organize"><use href="#mon-body"/></svg><span class="plabel">중헌아카이브</span></button><i class="pline"></i>
+  <button class="pnode" data-go="5"><svg class="mon m-analysis"><use href="#mon-body"/></svg><span class="plabel">Proact0</span></button><i class="pline"></i>
+  <button class="pnode" data-go="8"><svg class="mon m-create"><use href="#mon-body"/></svg><span class="plabel">mosmos</span></button><i class="pline"></i>
+  <button class="pnode" data-go="11"><svg class="mon m-comm"><use href="#mon-body"/></svg><span class="plabel">라이브 데모</span></button><i class="pline"></i>
+  <button class="pnode" data-go="12"><svg class="mon m-execute"><use href="#mon-body"/></svg><span class="plabel">함께</span></button>
+</nav>
+<div class="pager" id="pager">01 / 13</div>
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle" title="편집 모드 (E) · Ctrl+S 저장">✎</button>
+
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<!-- ════════════════════════════════════════════════════════════
+     S0 · COVER — "혼자 쓰던 워크스페이스가, 회사가 되기까지"
+     흑백 블록 그리드 정지 → 첫 입력에 중앙 블록 bloom + 타이프
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide active" id="s0" data-section="0" data-steps="1">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b1"></span><span class="blk b2"></span><span class="blk b3"></span>
+    <span class="blk b4"></span><span class="blk b5"></span>
+  </div>
+  <div class="s0-top">
+    <img src="assets/logo/notion.svg" alt="Notion">
+    <span>Notion Startup Showcase @ NextRise 2026 · SESSION 03</span>
+  </div>
+  <div class="s0-center">
+    <div class="s0-block">
+      <img class="sym-mono" src="design-system/assets/logos/mosmos-symbol-black.svg" alt="">
+      <img class="sym-grad" src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos symbol">
+    </div>
+    <h1 class="s0-title type" data-text="혼자 쓰던 워크스페이스가,\n회사가 되기까지"><span class="caret"></span></h1>
+    <p class="s0-sub late">내 AI가 자라는 세계, Mosmos<span class="en"> — A world where my AI grows up.</span></p>
+  </div>
+  <img class="s0-mos mos float late" src="design-system/assets/character/mos-greeting.png" alt="Mos가 인사하는 모습">
+  <svg class="mon m-research s0-mon float f2 late" width="56" height="56"><use href="#mon-body"/><use href="#p-research"/></svg>
+  <footer class="s0-foot late"><b>박중헌</b> · Founder, Mosmos · Notion Startup Showcase @ NextRise 2026 · SESSION 03</footer>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S1 · 여정 한눈에 — 개인 → 오픈소스 → 비즈니스, 중심엔 Notion
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s1" data-section="1">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b1"></span><span class="blk b3"></span><span class="blk b4"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">한 사람에서 시작된 이야기</div>
+    <h2 class="headline rv" style="--d:.18s">개인에서 시작해, <em>비즈니스</em>가 되다</h2>
+  </header>
+  <div class="tl">
+    <svg class="tl-lines" viewBox="0 0 1664 560" preserveAspectRatio="none" aria-hidden="true">
+      <path class="main draw" pathLength="1" style="--d:.55s" d="M183 150 C 500 80, 1160 80, 1481 150"/>
+      <path class="dash draw" pathLength="1" style="--d:2.45s" d="M832 440 L832 250"/>
+      <path class="dash draw" pathLength="1" style="--d:2.6s" d="M770 462 C 470 440, 260 330, 195 240"/>
+      <path class="dash draw" pathLength="1" style="--d:2.75s" d="M894 462 C 1194 440, 1404 330, 1469 240"/>
+    </svg>
+    <div class="tl-node n1 rv" style="--d:.85s">
+      <div class="disc"><img src="assets/logo/joongheon_archive.svg" alt="중헌아카이브">
+        <svg class="mon m-research rv-pop" style="--d:1.35s"><use href="#mon-body"/><use href="#p-research"/></svg></div>
+      <span class="stage-tag">개인 · 블로그</span>
+      <span class="nm">중헌아카이브</span>
+      <span class="ds">Notion으로 지은 제2의 뇌</span>
+    </div>
+    <div class="tl-node n2 rv" style="--d:1.35s">
+      <div class="disc"><img src="assets/logo/proact0.svg" alt="Proact0">
+        <svg class="mon m-analysis rv-pop" style="--d:1.85s"><use href="#mon-body"/><use href="#p-analysis"/></svg></div>
+      <span class="stage-tag">오픈소스 · 커뮤니티</span>
+      <span class="nm">Proact0</span>
+      <span class="ds">사람과 에이전트의 CoAX 허브</span>
+    </div>
+    <div class="tl-node n3 rv" style="--d:1.85s">
+      <div class="disc"><img src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos">
+        <svg class="mon m-organize rv-pop" style="--d:2.35s"><use href="#mon-body"/><use href="#p-organize"/></svg></div>
+      <span class="stage-tag">비즈니스 · 스타트업</span>
+      <span class="nm">mosmos</span>
+      <span class="ds">Notion-native 운영 OS</span>
+    </div>
+    <div class="tl-notion rv" style="--d:2.9s">
+      <img src="assets/logo/notion.svg" alt="Notion">
+      <span>변하지 않은 중심, Notion</span>
+    </div>
+  </div>
+  <p class="s1-sub rv" style="--d:3.2s">개인(블로그) → 오픈소스(Proact0) → 비즈니스(Mosmos) — 변하지 않은 건, 늘 그 중심에 <b>Notion</b>이 있었다는 것</p>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S2a · 중헌아카이브 — "블로그가 아니라, 제2의 뇌"
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2a" data-section="2">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g3"></div>
+    <span class="blk b1"></span><span class="blk b4"></span><span class="blk b5"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">개인 단위 AX의 출발점</div>
+    <h2 class="headline rv" style="--d:.18s">블로그가 아니라, <em>제2의 뇌</em></h2>
+  </header>
+  <div class="cols">
+    <p class="sub rv" style="--d:.45s">Notion 위에 AI·자동화를 얹자,<br>지식이 <b>스스로 분류·연결되며</b> 자라기 시작했어요.<br><br>
+      글을 쌓아두는 곳이 아니라, 글이 서로를 찾아가는 곳 —<br>개인 워크스페이스가 처음으로 <b>시스템</b>이 된 순간입니다.</p>
+    <div class="visual rv" style="--d:.6s">
+      <div class="logo-card"><img src="assets/logo/joongheon_archive.svg" alt="중헌아카이브 로고"></div>
+      <svg class="mon m-research float f2 rv-pop" style="--d:1.2s"><use href="#mon-body"/><use href="#p-research"/></svg>
+      <img class="mos float" src="design-system/assets/character/mos-curious.png" alt="Mos가 궁금해하는 모습">
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S2b · 중헌아카이브 — Oopy 실사이트 풀블리드 + n8n→Notion 자동화
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2b" data-section="2">
+  <div class="hero"><img src="assets/resources/joongheon_archive/homepage_with_yellow_annotation.svg" alt="중헌아카이브 실제 홈페이지 — Notion 기반, Oopy 호스팅"></div>
+  <div class="scrim"></div>
+  <div class="head-chip rv" style="--d:.2s">
+    <img class="lg" src="assets/logo/joongheon_archive.svg" alt="">
+    <div>
+      <div class="t1">중헌아카이브 — 실제로 돌아가는 모습</div>
+      <div class="t2">Notion으로 짓고 <img src="assets/logo/oopy.webp" alt="Oopy"> Oopy로 호스팅하는 라이브 사이트</div>
+    </div>
+  </div>
+  <div class="qr-chip rv" style="--d:.4s">
+    <img src="assets/resources/joongheon_archive/qr_code.svg" alt="중헌아카이브 방문 QR">
+    <span>지금 바로<br>둘러보실 수 있어요</span>
+  </div>
+  <div class="flow-band rv" style="--d:.7s">
+    <div class="cap"><span class="dot"></span>글 한 편이 들어오면 — n8n이 분류·연결해 Notion DB로 흘려보냅니다<small>수집 → AI 분류 → Notion DB 적재 자동화 플로우</small></div>
+    <img src="assets/resources/joongheon_archive/n8n_flow.svg" alt="n8n에서 Notion DB로 이어지는 자동화 플로우">
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S2c · 중헌아카이브 — 지표 count-up + Takeaway
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2c" data-section="2">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b2"></span><span class="blk b3"></span><span class="blk b5"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">Notion 위에 구조를 갖춘 뒤의 변화</div>
+    <h2 class="headline rv" style="--d:.18s">숫자가 말해주는 <em>자라는 워크스페이스</em></h2>
+  </header>
+  <div class="grid4">
+    <div class="metric rv" style="--d:.4s">
+      <div class="mi"><svg data-lucide="users"></svg></div>
+      <div class="num"><span class="count" data-to="1400" data-suffix="+">0</span></div>
+      <div class="lbl">팔로워</div>
+    </div>
+    <div class="metric rv" style="--d:.55s">
+      <div class="mi"><svg data-lucide="archive"></svg></div>
+      <div class="num"><span class="count" data-to="700" data-suffix="+">0</span></div>
+      <div class="lbl">아카이빙</div>
+    </div>
+    <div class="metric rv" style="--d:.7s">
+      <div class="mi"><svg data-lucide="eye"></svg></div>
+      <div class="num"><span class="count" data-to="11000" data-suffix="+">0</span></div>
+      <div class="lbl">최고 조회</div>
+    </div>
+    <div class="metric rv" style="--d:.85s">
+      <div class="mi"><svg data-lucide="repeat"></svg></div>
+      <div class="num">15~<span class="count" data-to="20" data-suffix="%">0</span></div>
+      <div class="lbl">재방문율</div>
+    </div>
+  </div>
+  <svg class="mon m-research mon a float rv-pop" style="--d:1.15s"><use href="#mon-body"/><use href="#p-research"/></svg>
+  <svg class="mon m-organize mon b float f3 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+  <div class="takeaway rv" style="--d:1.05s">
+    <span class="tag">TAKEAWAY</span>
+    <p>개인 워크스페이스도 구조를 갖추면 자랍니다 — <b>DB 설계 + AI 분류 + 자동화 연동</b> 패턴은 오늘 바로 가져가실 수 있어요.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S3a · Proact0 — "이번엔, 조직을 설계로 운영했다"
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3a" data-section="3">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+    <span class="blk b1"></span><span class="blk b2"></span><span class="blk b4"></span>
+  </div>
+  <img class="plogo rv" style="--d:.1s" src="assets/logo/proact0.svg" alt="Proact0">
+  <div class="center">
+    <div class="kicker rv" style="--d:.05s">개인 → 조직 단위 AX로</div>
+    <h2 class="headline rv" style="--d:.18s">이번엔, 조직을 <em>설계</em>로 운영했다</h2>
+    <p class="sub rv" style="--d:.4s">사람과 AI 에이전트가 함께 일하는 <b>CoAX</b> —<br>Notion·Discord·GitHub 위에서 굴러가는 오픈소스 허브</p>
+  </div>
+  <div class="banner rv" style="--d:.7s">
+    <img src="assets/resources/proact0/lead_by_design.svg" alt="Lead by Design — Proact0 조직 설계 원칙">
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S3b · Proact0 — 실사이트 + 포인트 칩 3
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3b" data-section="3">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b3"></span><span class="blk b5"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">proact0 — 오픈소스 CoAX 허브</div>
+    <h2 class="headline rv" style="--d:.18s;font-size:64px">조직 운영도, <em>Notion 하나로</em></h2>
+  </header>
+  <div class="cols">
+    <div class="browser rv" style="--d:.45s">
+      <div class="bar"><i></i><i></i><i></i><span class="url">proact0 — Notion으로 운영하고 Oopy로 공개한 조직 홈</span></div>
+      <div class="shot"><img src="assets/resources/proact0/homepage.png" alt="Proact0 실제 홈페이지"></div>
+    </div>
+    <div class="right">
+      <div class="chip rv" style="--d:.6s">
+        <div class="ci"><svg data-lucide="boxes"></svg></div>
+        <div><h4>고응집 · 저결합 조직 설계</h4><p>역할은 또렷하게, 의존은 느슨하게 — 사람과 에이전트가 섞여도 흔들리지 않는 구조</p></div>
+      </div>
+      <div class="chip rv" style="--d:.75s">
+        <div class="ci"><svg data-lucide="list-checks"></svg></div>
+        <div><h4>Notion 스프린트 보드로 Agile 운영</h4><p>계획·실행·회고가 한 보드에서 — 회의록이 아니라 보드가 조직을 움직여요</p></div>
+      </div>
+      <div class="chip rv" style="--d:.9s">
+        <div class="ci"><svg data-lucide="git-branch"></svg></div>
+        <div><h4>오픈소스 act-operator</h4><p>기획·R&amp;D 관리를 Notion 하나로 — 누구나 가져다 쓸 수 있게 공개했어요</p></div>
+      </div>
+      <div class="qrrow rv" style="--d:1.05s">
+        <img class="qr" src="assets/resources/proact0/qr_code.svg" alt="Proact0 방문 QR">
+        <span><b>현장에서 바로 방문해 보세요</b><br>조직 구조와 보드가 모두 공개돼 있어요.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S3c · Proact0 — Notion 허브에서 MCP 연결선이 도구로 + 지표
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3c" data-section="3">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b1"></span><span class="blk b4"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">Notion을 SSOT로 — 도구는 Notion으로 모인다</div>
+    <h2 class="headline rv" style="--d:.18s;font-size:64px">하나의 허브, <em>여섯 갈래의 연결</em></h2>
+  </header>
+  <div class="wrap">
+    <div class="hubmap rv" style="--d:.4s">
+      <svg class="rays" viewBox="0 0 1080 600" preserveAspectRatio="none" aria-hidden="true">
+        <path class="draw" pathLength="1" style="--d:.8s"  d="M260 300 C 470 290, 540 60, 700 48"/>
+        <path class="draw" pathLength="1" style="--d:.95s" d="M260 300 C 470 295, 540 150, 700 138"/>
+        <path class="draw" pathLength="1" style="--d:1.1s" d="M260 300 C 470 300, 540 240, 700 228"/>
+        <path class="draw" pathLength="1" style="--d:1.25s" d="M260 300 C 470 305, 540 330, 700 318"/>
+        <path class="draw" pathLength="1" style="--d:1.4s" d="M260 300 C 460 320, 540 444, 700 432"/>
+        <path class="draw" pathLength="1" style="--d:1.55s" d="M260 300 C 460 330, 540 534, 700 522"/>
+      </svg>
+      <div class="hub rv-pop" style="--d:.55s">
+        <div class="disc"><img src="assets/logo/notion.svg" alt="Notion"></div>
+        <div class="hlbl">Notion 허브<small>스프린트 보드 · SSOT 문서</small></div>
+      </div>
+      <div class="ghead rv" style="--d:1s; left:700px; top:0">
+        <img src="assets/logo/mcp.svg" alt="MCP">NOTION MCP로 연결
+      </div>
+      <div class="pill rv" style="--d:1s;   left:700px;top:26px"><img src="assets/logo/claude.svg" alt=""><span>Claude</span></div>
+      <div class="pill rv" style="--d:1.15s;left:700px;top:116px"><img src="assets/logo/claudecode.svg" alt=""><span>Claude Code</span></div>
+      <div class="pill rv" style="--d:1.3s; left:700px;top:206px"><img src="assets/logo/openai.svg" alt=""><span>OpenAI</span></div>
+      <div class="pill rv" style="--d:1.45s;left:700px;top:296px"><img src="assets/logo/perplexity.svg" alt=""><span>Perplexity</span></div>
+      <div class="ghead rv" style="--d:1.6s; left:700px; top:382px">함께 쓰는 협업 스택</div>
+      <div class="pill rv" style="--d:1.6s; left:700px;top:410px"><img src="assets/logo/github.svg" alt=""><span>GitHub</span></div>
+      <div class="pill rv" style="--d:1.75s;left:700px;top:500px"><img src="assets/logo/discord.svg" alt=""><span>Discord</span></div>
+      <svg class="mon m-analysis float rv-pop" style="--d:1.9s;position:absolute;left:420px;top:120px;width:54px;height:54px"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+      <svg class="mon m-execute float f2 rv-pop" style="--d:2.05s;position:absolute;left:430px;top:430px;width:54px;height:54px"><use href="#mon-body"/><use href="#p-execute"/></svg>
+    </div>
+    <div class="stats">
+      <div class="metric rv" style="--d:.6s">
+        <div class="num">+<span class="count" data-to="30" data-suffix="%">0</span></div>
+        <div class="lbl">Notion 스프린트 운영으로 Sprint 효율</div>
+      </div>
+      <div class="metric rv" style="--d:.78s">
+        <div class="num"><span class="count" data-to="40" data-suffix="+">0</span></div>
+        <div class="lbl">Actor R&amp;D — Notion DB로 통합 관리</div>
+      </div>
+      <div class="metric rv" style="--d:.96s">
+        <div class="num" style="font-size:46px;line-height:1.2">act-operator<br>오픈소스 공개</div>
+        <div class="lbl">기획·R&amp;D 관리를 Notion 하나로</div>
+      </div>
+    </div>
+  </div>
+  <img class="mos float" src="design-system/assets/character/mos-working.png" alt="Mos가 일하는 모습">
+  <div class="takeaway rv" style="--d:1.3s">
+    <span class="tag">TAKEAWAY</span>
+    <p>사람과 에이전트가 같은 보드에서 일하려면 조직을 먼저 설계하세요 — <b>Notion을 SSOT로 두는 CoAX 운영 패턴</b>이에요.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S4a · mosmos — "제품보다 먼저 만든 건, 운영 체계였다" + 3 Pillars
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4a" data-section="4">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+    <span class="blk b1"></span><span class="blk b2"></span><span class="blk b3"></span><span class="blk b4"></span>
+  </div>
+  <img class="hlogo rv" style="--d:.1s" src="design-system/assets/logos/mosmos-horizontal-color.svg" alt="mosmos">
+  <div class="center">
+    <div class="kicker rv" style="--d:.05s">개인의 습관이, 회사의 시스템으로</div>
+    <h2 class="headline rv" style="--d:.18s">제품보다 먼저 만든 건, <em>운영 체계</em>였다</h2>
+    <p class="sub rv" style="--d:.4s">Mosmos는 런칭 전부터 Notion을 <b>운영 OS</b>로 세운 Notion-native 스타트업이에요.</p>
+  </div>
+  <div class="pillars">
+    <div class="pillar p1 rv" style="--d:.6s">
+      <div class="pi"><svg data-lucide="sprout"></svg></div>
+      <h3>생명력 있는 Mos</h3>
+      <p><b>내 기억이 성품이 된다</b> — 쓸수록 나를 닮아가는 개인 AI 화신</p>
+    </div>
+    <div class="pillar p2 rv" style="--d:.78s">
+      <div class="pi"><svg data-lucide="compass"></svg></div>
+      <h3>결정 피로 없는 실행</h3>
+      <p><b>말만 하면 된다</b> — Mos가 필요한 Mon을 골라 결과까지</p>
+    </div>
+    <div class="pillar p3 rv" style="--d:.96s">
+      <div class="pi"><svg data-lucide="refresh-ccw"></svg></div>
+      <h3>성장 루프 (Prosumer)</h3>
+      <p><b>노하우가 자산이 된다</b> — 좋은 방식이 Skill·Mon이 되어 쌓여요</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S4b · mosmos — 회사 소개 한 장 + bloom 절정 (Mon 6종 전원 궤도)
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4b" data-section="4">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+    <span class="blk b1"></span><span class="blk b2"></span><span class="blk b3"></span><span class="blk b4"></span><span class="blk b5"></span>
+  </div>
+  <div class="cols">
+    <div class="rv" style="--d:.3s">
+      <div class="browser">
+        <div class="bar"><i></i><i></i><i></i><span class="url">Mosmos World — 회사 운영의 모든 것이 모이는 Notion 허브</span></div>
+        <div class="shot"><img src="assets/resources/mosmos/world_notion.png" alt="Mosmos World Notion 워크스페이스 허브"></div>
+      </div>
+      <div class="shot-cap"><img src="assets/logo/notion.svg" alt="Notion">조직 온보딩 · 회의록 · 브랜드 · R&amp;D — 전부 이 안에서 돌아가요</div>
+    </div>
+    <div class="right">
+      <img class="hlogo rv" style="--d:.45s" src="design-system/assets/logos/mosmos-horizontal-color.svg" alt="mosmos">
+      <h3 class="rv" style="--d:.6s">개인 AI 실행 플랫폼</h3>
+      <p class="cp rv" style="--d:.75s">목표만 말하면, <b>Mos가 Mon을 조율해 끝냅니다.</b><br>쓰던 노하우는 Skill이 되어 다시 내 자산이 돼요.</p>
+      <div class="universe rv" style="--d:.9s">
+        <div class="orbit-ring"></div>
+        <img class="mos" src="design-system/assets/character/mos-happy.png" alt="Mos가 기뻐하는 모습">
+        <div class="orbiter" style="--i:0"><svg class="mon m-research"><use href="#mon-body"/><use href="#p-research"/></svg></div>
+        <div class="orbiter" style="--i:1"><svg class="mon m-analysis"><use href="#mon-body"/><use href="#p-analysis"/></svg></div>
+        <div class="orbiter" style="--i:2"><svg class="mon m-organize"><use href="#mon-body"/><use href="#p-organize"/></svg></div>
+        <div class="orbiter" style="--i:3"><svg class="mon m-create"><use href="#mon-body"/><use href="#p-create"/></svg></div>
+        <div class="orbiter" style="--i:4"><svg class="mon m-execute"><use href="#mon-body"/><use href="#p-execute"/></svg></div>
+        <div class="orbiter" style="--i:5"><svg class="mon m-comm"><use href="#mon-body"/><use href="#p-comm"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S4c · mosmos — 데모 티저 (시연 4가지) + Takeaway
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4c" data-section="4">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b2"></span><span class="blk b3"></span><span class="blk b5"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">잠시 후, 라이브 데모에서</div>
+    <h2 class="headline rv" style="--d:.18s">전부 <em>실제 워크스페이스</em>에서 보여드릴 거예요</h2>
+  </header>
+  <div class="cols">
+    <div class="demos">
+      <div class="demo rv" style="--d:.4s">
+        <div class="di"><svg data-lucide="bot"></svg></div>
+        <h4>커스텀 에이전트</h4><p>우리 회사 맥락을 아는 Notion AI 에이전트</p>
+      </div>
+      <div class="demo rv" style="--d:.55s">
+        <div class="di"><svg data-lucide="sparkles"></svg></div>
+        <h4>AI Skills</h4><p>반복 업무를 절차로 저장해 다시 쓰기</p>
+      </div>
+      <div class="demo rv" style="--d:.7s">
+        <div class="di"><img src="assets/logo/slack.svg" alt="Slack"></div>
+        <h4>Slack 연동</h4><p>대화가 곧바로 Notion 업무로 이어지는 흐름</p>
+      </div>
+      <div class="demo rv" style="--d:.85s">
+        <div class="di"><svg data-lucide="database"></svg></div>
+        <h4>DB 자동화</h4><p>입력 한 번이면 DB가 알아서 굴러가요</p>
+      </div>
+    </div>
+    <div class="preview rv" style="--d:.7s">
+      <div class="card">
+        <img src="assets/resources/mosmos/notion_ai.png" alt="Notion AI 커스텀 에이전트 — Mosmos C Level Agent">
+        <div class="pcap">Notion AI 개인화 — Mosmos C-Level Agent</div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway rv" style="--d:1.1s">
+    <span class="tag">TAKEAWAY</span>
+    <p>제품보다 운영 체계를 먼저 세우세요 — <b>신생 팀이라면 Notion 하나로 충분히 시작</b>할 수 있어요.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S5 · 전환 다리 — "이제, 직접 보여드릴게요" → zoom-in 핸드오프
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s5" data-section="5" data-steps="1">
+  <div class="s5-inner">
+    <div class="bg">
+      <div class="grid-lines"></div>
+      <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+      <span class="blk b1"></span><span class="blk b2"></span><span class="blk b4"></span>
+    </div>
+    <div class="center">
+      <h2 class="rv" style="--d:.1s">이제, 직접 보여드릴게요</h2>
+      <div class="chips">
+        <span class="kw rv" style="--d:.5s"><i class="cdot" style="background:var(--mon-execute)"></i>커스텀 에이전트</span>
+        <span class="kw rv" style="--d:.65s"><i class="cdot" style="background:var(--mon-create)"></i>AI Skills</span>
+        <span class="kw rv" style="--d:.8s"><img src="assets/logo/slack.svg" alt="">Slack 연동</span>
+        <span class="kw rv" style="--d:.95s"><i class="cdot" style="background:var(--mon-organize)"></i>데이터베이스 자동화</span>
+      </div>
+    </div>
+    <div class="stage-shots">
+      <div class="shotcard c1 rv" style="--d:.7s"><img src="assets/resources/mosmos/notion_agent1.svg" alt="Mosmos 워크스페이스 — Notion 에이전트 화면 1"></div>
+      <div class="shotcard c3 rv" style="--d:.85s"><img src="assets/resources/mosmos/notion_agent3.svg" alt="Mosmos 워크스페이스 — Notion 에이전트 화면 3"></div>
+      <div class="shotcard c2 rv" style="--d:1s"><img src="assets/resources/mosmos/notion_agent2.svg" alt="Mosmos 워크스페이스 — Notion 에이전트 화면 2"></div>
+    </div>
+    <img class="mos float" src="design-system/assets/character/mos-working.png" alt="Mos가 데모를 준비하는 모습">
+    <div class="bubble rv" style="--d:1.3s">제 친구들이 먼저 들어가 있을게요</div>
+    <!-- Mon 선진입 — 화면 곳곳에서 중앙 워크스페이스로 빨려 들어감 -->
+    <svg class="flymon mon m-research" style="--sx:420px;--sy:330px;--tx:480px;--ty:430px;--d:1.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
+    <svg class="flymon mon m-analysis" style="--sx:1500px;--sy:300px;--tx:-560px;--ty:460px;--d:1.95s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+    <svg class="flymon mon m-organize" style="--sx:260px;--sy:760px;--tx:660px;--ty:60px;--d:2.2s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+    <svg class="flymon mon m-create" style="--sx:1660px;--sy:700px;--tx:-700px;--ty:110px;--d:2.45s"><use href="#mon-body"/><use href="#p-create"/></svg>
+    <svg class="flymon mon m-execute" style="--sx:760px;--sy:240px;--tx:180px;--ty:540px;--d:2.7s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+    <svg class="flymon mon m-comm" style="--sx:1180px;--sy:250px;--tx:-220px;--ty:520px;--d:2.95s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S6 · 클로징 — "함께 성장할 사람을 찾습니다" (데모 복귀 후)
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s6" data-section="6">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+    <span class="blk b1"></span><span class="blk b2"></span><span class="blk b3"></span><span class="blk b4"></span><span class="blk b5"></span>
+  </div>
+  <div class="top">
+    <img class="vlogo rv" style="--d:.1s" src="design-system/assets/logos/mosmos-vertical-color.svg" alt="mosmos">
+    <h2 class="rv" style="--d:.3s">함께 성장할 사람을 찾습니다</h2>
+    <p class="rv" style="--d:.45s">내 AI가 자라는 세계, 같이 만들 사람</p>
+  </div>
+  <div class="axes">
+    <div class="axis rv" style="--d:.6s">
+      <svg class="mon m-execute" style="--d:1.2s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+      <div class="ai"><svg data-lucide="users"></svg></div>
+      <h4>팀원</h4>
+      <p>AI Native 마케터 · 디자이너 · 엔지니어</p>
+    </div>
+    <div class="axis rv" style="--d:.75s">
+      <svg class="mon m-create" style="--d:1.4s"><use href="#mon-body"/><use href="#p-create"/></svg>
+      <div class="ai"><svg data-lucide="puzzle"></svg></div>
+      <h4>생태계 참여자</h4>
+      <p>AI Agent·Tool을 만드는 Author — 개인·기업 무관</p>
+    </div>
+    <div class="axis rv" style="--d:.9s">
+      <svg class="mon m-comm" style="--d:1.6s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+      <div class="ai"><svg data-lucide="rocket"></svg></div>
+      <h4>엑셀러레이터 · 투자자</h4>
+      <p>운영으로 증명하는 Notion-native 팀과 함께</p>
+    </div>
+  </div>
+  <div class="cta rv" style="--d:1.1s">
+    <a class="url" href="https://mosmos.world" target="_blank" rel="noopener">mosmos.world</a>
+    <span class="qr"><img src="assets/resources/mosmos/qr_code.svg" alt="mosmos.world QR"></span>
+    <span class="net">적용 방법이 궁금하시면 <b>자유 네트워킹(16:30)</b>에서<br>워크스페이스를 직접 열어 보여드릴게요.</span>
+  </div>
+  <img class="mos float rv" style="--d:1s" src="design-system/assets/character/mos-happy.png" alt="Mos가 함께하자고 기뻐하는 모습">
+  <p class="tagline"><span class="type2" data-text="내 AI가 자라는 세계 — A world where my AI grows up."></span></p>
+  <img class="hlogo-foot" src="design-system/assets/logos/mosmos-horizontal-color.svg" alt="mosmos">
+</section>
+
+</main>
+</div>
+
+<!-- Lucide 아이콘 — 디자인 시스템 지정 CDN -->
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+<script>
+/* ============================================================
+   SLIDE PRESENTATION CONTROLLER
+   - 고정 1920×1080 스테이지 균일 스케일 (레터박스)
+   - 키보드(←/→/Space/PgUp/PgDn/Home/End) · 휠 · 터치 스와이프
+   - 섹션 진행 = Mon 궤도 인디케이터 점등
+   - S0: 첫 입력에 bloom + 타이프 / S5: zoom-in 핸드오프
+   - count-up · 타이프라이터 · prefers-reduced-motion 대응
+   ============================================================ */
+(function(){
+  'use strict';
+  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const slides=$$('.slide'), stage=$('#deckStage'), pager=$('#pager');
+  const pnodes=$$('.pnode');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur=0, busy=false;
+  const timers=new Set();
+  const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);fn()},ms);timers.add(t);return t};
+  const clearTimers=()=>{timers.forEach(clearTimeout);timers.clear()};
+
+  /* —— 스테이지 균일 스케일 —— */
+  function fit(){
+    const f=Math.min(innerWidth/1920,innerHeight/1080);
+    const x=(innerWidth-1920*f)/2, y=(innerHeight-1080*f)/2;
+    stage.style.transform=`translate(${x}px,${y}px) scale(${f})`;
+  }
+  fit(); addEventListener('resize',fit);
+
+  /* —— 타이프라이터 —— */
+  function typeInto(el,done){
+    const txt=(el.dataset.text||'').replace(/\\n/g,'\n');
+    el.textContent='';
+    const caret=document.createElement('span'); caret.className='caret'; el.appendChild(caret);
+    if(reduced){ caret.remove(); el.innerHTML=txt.replace(/\n/g,'<br>'); done&&done(); return; }
+    let i=0;
+    (function step(){
+      if(i>=txt.length){ later(()=>caret.remove(),1200); done&&done(); return; }
+      const ch=txt[i++];
+      caret.before(ch==='\n'?document.createElement('br'):document.createTextNode(ch));
+      later(step, ch==='\n'?260:62);
+    })();
+  }
+
+  /* —— count-up —— */
+  function runCounters(slide){
+    slide.querySelectorAll('.count').forEach(el=>{
+      const to=+el.dataset.to, sfx=el.dataset.suffix||'';
+      if(reduced){ el.textContent=to.toLocaleString()+sfx; return; }
+      later(()=>{
+        const t0=performance.now(), dur=1500;
+        (function tick(){
+          if(!slide.classList.contains('active'))return; /* 슬라이드 이탈 시 중단 */
+          const p=Math.min((performance.now()-t0)/dur,1);
+          const e=1-Math.pow(1-p,3);
+          el.textContent=Math.round(to*e).toLocaleString()+sfx;
+          if(p<1) requestAnimationFrame(tick);
+        })();
+      },600);
+    });
+  }
+
+  /* —— S0 bloom 시퀀스 (첫 입력에 발화) —— */
+  function playCover(){
+    const s0=$('#s0'); if(s0.classList.contains('played'))return;
+    s0.classList.add('played');
+    later(()=>typeInto(s0.querySelector('.s0-title')), 420);
+  }
+  function resetCover(){
+    const s0=$('#s0'); s0.classList.remove('played');
+    const t=s0.querySelector('.s0-title'); t.innerHTML='<span class="caret"></span>';
+  }
+
+  /* —— S6 태그라인 타이프 —— */
+  function playClosing(){
+    const el=$('#s6 .type2');
+    later(()=>{ typeInto(el); }, reduced?0:2100);
+  }
+
+  /* —— 슬라이드 전환 —— */
+  function show(n,instant){
+    n=Math.max(0,Math.min(n,slides.length-1));
+    clearTimers();
+    const prev=slides[cur];
+    cur=n;
+    slides.forEach((s,i)=>{ s.classList.toggle('active',i===n); s.classList.toggle('visible',i===n); });
+    const sl=slides[n];
+    /* 떠난 슬라이드 상태 리셋 */
+    if(prev&&prev!==sl){
+      if(prev.id==='s0') resetCover();
+      if(prev.id==='s5') prev.classList.remove('zooming');
+      if(prev.id==='s6'){ const t=prev.querySelector('.type2'); t.textContent=''; }
+      prev.querySelectorAll('.count').forEach(el=>el.textContent='0');
+    }
+    /* 진입 훅 */
+    if(sl.id==='s0' && !instant){ /* 커버는 입력 대기 (정지 상태) */ }
+    if(sl.querySelector('.count')) runCounters(sl);
+    if(sl.id==='s6') playClosing();
+    /* 크롬 갱신 */
+    pager.textContent=String(n+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    const sec=+sl.dataset.section;
+    pnodes.forEach(p=>{
+      const target=+p.dataset.go;
+      const psec=+slides[target].dataset.section;
+      p.classList.toggle('done',psec<=sec);
+      p.classList.toggle('cur',psec===sec);
+    });
+    if(history.replaceState) history.replaceState(null,'','#'+(n+1));
+  }
+
+  /* —— 진행(스텝 포함) —— */
+  function next(){
+    if(busy)return;
+    const sl=slides[cur];
+    /* S0: 첫 입력 → bloom */
+    if(sl.id==='s0' && !sl.classList.contains('played')){ playCover(); return; }
+    /* S5: 진행 → zoom-in 핸드오프 후 클로징으로 */
+    if(sl.id==='s5' && !sl.classList.contains('zooming') && !reduced){
+      sl.classList.add('zooming'); busy=true;
+      setTimeout(()=>{ busy=false; show(cur+1); },980);
+      return;
+    }
+    show(cur+1);
+  }
+  function prevSlide(){ if(!busy) show(cur-1); }
+
+  /* —— 입력 바인딩 —— */
+  addEventListener('keydown',e=>{
+    if(document.body.classList.contains('editing')){
+      if(e.key==='Escape') toggleEdit(false);
+      if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); saveFile(); }
+      return;
+    }
+    if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); saveFile(); return; }
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); prevSlide(); break;
+      case 'Home': e.preventDefault(); show(0); break;
+      case 'End': e.preventDefault(); show(slides.length-1); break;
+      case 'e': case 'E': if(!e.target.isContentEditable) toggleEdit(); break;
+    }
+  });
+  let wheelLock=0;
+  addEventListener('wheel',e=>{
+    if(document.body.classList.contains('editing'))return;
+    const now=Date.now();
+    if(now-wheelLock<900||Math.abs(e.deltaY)<28)return;
+    wheelLock=now; e.deltaY>0?next():prevSlide();
+  },{passive:true});
+  let tx=null;
+  addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  addEventListener('touchend',e=>{
+    if(tx===null)return;
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>56) dx<0?next():prevSlide();
+    tx=null;
+  },{passive:true});
+  pnodes.forEach(p=>p.addEventListener('click',()=>show(+p.dataset.go)));
+  addEventListener('hashchange',()=>{ const h=parseInt(location.hash.slice(1),10);
+    if(!isNaN(h)&&h-1!==cur) show(h-1); });
+
+  /* ============================================================
+     인라인 편집 — 좌상단 핫존 hover 또는 E 키 → 클릭해서 수정
+     Ctrl+S = HTML 파일로 저장 · 변경분은 localStorage 자동 보존
+     ============================================================ */
+  const LS='nextrise2026-deck-edits';
+  const toggleBtn=$('#editToggle'), hotzone=$('#editHotzone');
+  let hideT=null;
+  function toggleEdit(force){
+    const on=force!==undefined?force:!document.body.classList.contains('editing');
+    document.body.classList.toggle('editing',on);
+    toggleBtn.classList.toggle('active',on);
+    slides.forEach(s=>s.contentEditable=on?'true':'false');
+    if(!on){ persist(); toggleBtn.classList.remove('show'); }
+  }
+  function persist(){
+    try{
+      const data={};
+      slides.forEach(s=>data[s.id]=s.innerHTML);
+      localStorage.setItem(LS,JSON.stringify(data));
+    }catch(e){}
+  }
+  function restore(){
+    try{
+      const d=JSON.parse(localStorage.getItem(LS)||'null'); if(!d)return;
+      slides.forEach(s=>{ if(d[s.id]) s.innerHTML=d[s.id]; });
+    }catch(e){}
+  }
+  function saveFile(){
+    persist();
+    const blob=new Blob(['<!DOCTYPE html>\n'+document.documentElement.outerHTML],{type:'text/html'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='nextrise2026-mosmos-deck.html'; a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  toggleBtn.addEventListener('click',()=>toggleEdit());
+  hotzone.addEventListener('mouseenter',()=>{clearTimeout(hideT);toggleBtn.classList.add('show')});
+  hotzone.addEventListener('mouseleave',()=>{hideT=setTimeout(()=>{if(!document.body.classList.contains('editing'))toggleBtn.classList.remove('show')},400)});
+  toggleBtn.addEventListener('mouseenter',()=>clearTimeout(hideT));
+  toggleBtn.addEventListener('mouseleave',()=>{hideT=setTimeout(()=>{if(!document.body.classList.contains('editing'))toggleBtn.classList.remove('show')},400)});
+
+  /* —— 부트 —— */
+  try{ if(window.lucide) lucide.createIcons(); }catch(e){}
+  restore();
+  const h=parseInt((location.hash||'').replace('#',''),10);
+  show(isNaN(h)?0:h-1,true);
+  /* 커버에 도착해 있고 reduced-motion이면 즉시 bloom */
+  if(reduced&&cur===0) playCover();
+})();
+</script>
+</body>
+</html>

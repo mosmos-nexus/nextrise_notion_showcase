@@ -1,0 +1,25 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Radius" subtitle="Cozy, generous rounding — sm → pill" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-page); padding: var(--space-xl); }
+  .row { display:flex; gap: var(--space-lg); align-items:flex-end; }
+  .item { text-align:center; }
+  .box { width: 84px; height: 64px; background: var(--surface-subtle); border: 2px solid var(--blue-core); }
+  .lbl { margin-top: 10px; font-size: 12px; color: var(--text-muted); }
+  .lbl b { display:block; color: var(--text-strong); font-size:13px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box" style="border-radius:var(--radius-sm)"></div><div class="lbl"><b>sm</b>8 · inputs</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-md)"></div><div class="lbl"><b>md</b>12 · buttons</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-lg)"></div><div class="lbl"><b>lg</b>16 · cards</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-xl)"></div><div class="lbl"><b>xl</b>24 · hero</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-pill)"></div><div class="lbl"><b>pill</b>999 · badges</div></div>
+  </div>
+</body>
+</html>

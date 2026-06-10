@@ -1,0 +1,30 @@
+<!-- @dsCard group="Colors" viewport="700x210" name="Borders" subtitle="Subtle · Default · Strong, on light and dark" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-page); padding: var(--space-lg); display:flex; flex-direction:column; gap: var(--space-md); }
+  .band { border-radius: var(--radius-lg); padding: var(--space-base); display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-md); }
+  .light { background: var(--clear-white); }
+  .dark { background: var(--blue-black); }
+  .cell { height: 46px; border-radius: var(--radius-md); display:flex; align-items:flex-end; padding: 8px 10px; font-size: 11px; }
+  .light .cell { background: #fff; }
+  .dark .cell { background: #242832; color: var(--blue-gray-light); }
+  .light .cell { color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="band light">
+    <div class="cell" style="border:2px solid var(--border-light-subtle)">Subtle · E8EDF2</div>
+    <div class="cell" style="border:2px solid var(--border-light-default)">Default · D9DFE7</div>
+    <div class="cell" style="border:2px solid var(--border-light-strong)">Strong · C2CBD7</div>
+  </div>
+  <div class="band dark">
+    <div class="cell" style="border:2px solid var(--border-dark-subtle)">Subtle · 2A313D</div>
+    <div class="cell" style="border:2px solid var(--border-dark-default)">Default · 313846</div>
+    <div class="cell" style="border:2px solid var(--border-dark-strong)">Strong · 46505D</div>
+  </div>
+</body>
+</html>

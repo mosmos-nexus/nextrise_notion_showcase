@@ -1,0 +1,105 @@
+/* ============================================================
+   Mosmos · Color tokens
+   "내 AI가 자라는 세계" — calm, cozy, pastel blue worldview.
+   Base palette → semantic aliases → light/dark themes.
+   ============================================================ */
+
+:root {
+  /* —— Brand blues (the living "world" gradient) —— */
+  --blue-core:    #0F6FDA;   /* Core Blue · primary action */
+  --blue-classic: #568BD8;   /* Classic Blue · logo wordmark */
+  --blue-light:   #9CBDE9;   /* Light Blue · gradient tail, tints */
+
+  /* —— Secondary & accent —— */
+  --purple-pop:   #9B6EEF;   /* Pop Purple · secondary */
+  --cyan-bright:  #00A0A3;   /* Bright Cyan · accent */
+
+  /* —— Neutrals —— */
+  --clear-white:  #F7F8F9;   /* Clear White · light surface / on-dark text */
+  --blue-black:   #1D2026;   /* Blue Black · dark surface / on-light text */
+  --pure-white:   #FFFFFF;
+
+  /* —— Blue-gray text ramp —— */
+  --blue-gray-dark:   #4F555F;  /* Dark Blue Gray */
+  --blue-gray-medium: #666E7A;  /* Medium Blue Gray · caption (light) */
+  --blue-gray-light:  #AAB4C2;  /* Light Blue Gray · caption (dark) */
+  --blue-gray-white:  #C8D0DA;  /* White Blue Gray · muted on dark */
+
+  /* —— Borders, light —— */
+  --border-light-subtle:  #E8EDF2;
+  --border-light-default: #D9DFE7;
+  --border-light-strong:  #C2CBD7;
+  /* —— Borders, dark —— */
+  --border-dark-subtle:   #2A313D;
+  --border-dark-default:  #313846;
+  --border-dark-strong:   #46505D;
+
+  /* —— Status —— */
+  --status-success: #4FA136;  /* Clean Green */
+  --status-error:   #E95353;  /* Coral Red */
+  --status-warning: #C77E00;  /* Dark Orange */
+  --status-info:    #4689E9;  /* Pure Blue */
+
+  /* —— Brand gradient (hero / symbol) —— */
+  --gradient-brand: linear-gradient(135deg, var(--blue-core) 0%, var(--blue-light) 100%);
+  --gradient-sky:   linear-gradient(180deg, #EAF2FC 0%, #F7F8F9 100%); /* @kind color */
+
+  /* ==========================================================
+     SEMANTIC ALIASES — default (light theme)
+     ========================================================== */
+  --color-primary:        var(--blue-core);
+  --color-primary-hover:  #0C5EBB;   /* Core Blue darkened ~8% */
+  --color-primary-active: #0A4F9E;
+  --color-secondary:      var(--purple-pop);
+  --color-secondary-hover:#8855E6;
+  --color-accent:         var(--cyan-bright);
+  --color-on-primary:     var(--clear-white);
+
+  --surface-page:    var(--pure-white);
+  --surface-card:    var(--pure-white);
+  --surface-subtle:  var(--clear-white);
+  --surface-sunken:  #EEF2F7;
+  --surface-inverse: var(--blue-black);
+
+  --text-strong:  var(--blue-black);
+  --text-body:    #2A2F38;
+  --text-muted:   var(--blue-gray-medium);
+  --text-faint:   var(--blue-gray-light);
+  --text-on-dark: var(--clear-white);
+  --text-link:    var(--blue-core);
+
+  --border-subtle:  var(--border-light-subtle);
+  --border-default: var(--border-light-default);
+  --border-strong:  var(--border-light-strong);
+
+  --focus-ring: var(--blue-core);
+
+  color-scheme: light;
+}
+
+/* ==========================================================
+   DARK THEME — lean on borders over heavy shadow
+   ========================================================== */
+[data-theme="dark"] {
+  --color-primary-hover:  #2E83E4;
+  --color-primary-active: #57A0EF;
+
+  --surface-page:    var(--blue-black);
+  --surface-card:    #242832;
+  --surface-subtle:  #20242C;
+  --surface-sunken:  #181B21;
+  --surface-inverse: var(--clear-white);
+
+  --text-strong:  var(--clear-white);
+  --text-body:    #E6EAF0;
+  --text-muted:   var(--blue-gray-light);
+  --text-faint:   var(--blue-gray-medium);
+  --text-on-dark: var(--clear-white);
+  --text-link:    #5EA2F0;
+
+  --border-subtle:  var(--border-dark-subtle);
+  --border-default: var(--border-dark-default);
+  --border-strong:  var(--border-dark-strong);
+
+  color-scheme: dark;
+}

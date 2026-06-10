@@ -1,0 +1,44 @@
+/* ============================================================
+   Mosmos · Webfonts
+   Display / Headings → NanumSquare Bold
+   Body / UI          → Pretendard Variable
+   ------------------------------------------------------------
+   NOTE: served from CDN. The uploaded font CSS referenced local
+   binaries that were not included. Replace these src URLs with
+   self-hosted woff2 files for production. (Flagged to user.)
+   ============================================================ */
+
+/* —— Pretendard Variable (45–920 weight axis) —— */
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');
+}
+
+/* —— NanumSquare —— */
+@font-face {
+  font-family: 'NanumSquare';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareR.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareR.woff') format('woff');
+}
+@font-face {
+  font-family: 'NanumSquare';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareB.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareB.woff') format('woff');
+}
+@font-face {
+  font-family: 'NanumSquare';
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareEB.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareEB.woff') format('woff');
+}
