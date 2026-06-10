@@ -12,3 +12,8 @@ Consolidated cosmetic/minor items from wave handoffs — none block acceptance; 
 8. (idea, optional) s5b hold screen: add tiny clock or progress-dot pulse so an 8-min hold doesn't look frozen to the audience (spec says calm — keep subtle if added).
 
 Verification after each polish edit: targeted screenshot + the affected slide's probes; full walkdeck before architect sign-off.
+
+## v3 WP-D disposition (2026-06-11)
+- #1 chrome scale: DONE (v2 media query). #2 s2e QR/takeaway: DONE (right:332px). #3 s2d whitespace: DONE (D3 redesign). #4 s3a: DONE (D4). #6 s6b: DONE (D7). #7 takeaway tracking: FIXED (.14em→.08em).
+- #5 s3c pill arc-fan: DEFERRED — current straight column is readable and the slide passed review twice; re-layout risk > cosmetic gain 7 days before the event.
+- #8 s5b idle pulse: DROPPED — spec mandates a calm hold screen; any pulse risks reading as "frozen app vs animation" confusion on stage.

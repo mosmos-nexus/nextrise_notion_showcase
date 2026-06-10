@@ -277,7 +277,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 .takeaway{position:absolute;left:128px;right:128px;bottom:84px;display:flex;align-items:center;gap:28px;
   background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;
   padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
-.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.14em;color:#fff;
+.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.08em;color:#fff;
   background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
 .takeaway p{font-size:27px;line-height:1.45;font-weight:600;color:var(--text-body)}
 .takeaway p b{color:var(--blue-core)}

@@ -301,7 +301,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 .takeaway{position:absolute;left:128px;right:128px;bottom:84px;display:flex;align-items:center;gap:28px;
   background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;
   padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
-.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.14em;color:#fff;
+.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.08em;color:#fff;
   background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
 .takeaway p{font-size:27px;line-height:1.45;font-weight:600;color:var(--text-body)}
 .takeaway p b{color:var(--blue-core)}
@@ -475,10 +475,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
 /* s2c — 구조 해부 panning annotation (WP4) */
 #s2c{--bloom:.4}
-#s2c .slide-inner{position:absolute;inset:0;padding:64px 96px 76px}
+#s2c .slide-inner{position:absolute;inset:0;padding:112px 128px 76px} /* WP-D: 전역 헤더 리듬(x128) 정렬 */
 #s2c .chip-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
 #s2c .chip-header .kicker{margin:0}
-#s2c .pan-wrap{position:absolute;left:96px;right:96px;top:164px;bottom:76px;
+#s2c .pan-wrap{position:absolute;left:128px;right:128px;top:188px;bottom:64px;
   border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#fff;border:1px solid var(--border-default)}
 /* The annotation SVG is 1474×1218; rendered in a container that is ~1728×840 px
    We set a tall inner div and transform-Y to pan it */
@@ -533,10 +533,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
 /* s2d — n8n 자동화 플로우 전용 (WP4) */
 #s2d{--bloom:.42}
-#s2d .slide-inner{position:absolute;inset:0;padding:80px 96px 80px}
+#s2d .slide-inner{position:absolute;inset:0;padding:112px 128px 80px} /* WP-D: 전역 헤더 리듬 정렬 */
 #s2d .flow-header{margin-bottom:28px}
 /* flow card: full-width, native aspect of n8n_flow.svg (1673×472) */
-#s2d .flow-card{position:absolute;left:96px;right:96px;top:268px;
+#s2d .flow-card{position:absolute;left:128px;right:128px;top:300px;
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e3);
   padding:40px 48px 36px;overflow:visible}
 /* D3: 자산의 노란 주석은 다크 배경 기준으로 제작됨 — Blue Black 패널 위에 올려 가독성 확보,
@@ -652,10 +652,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
 /* s3c — MCP 연결도 DEDICATED FULL SCREEN (WP5: enlarged hub, no metrics) */
 #s3c{--bloom:.65}
-#s3c header{position:absolute;left:128px;right:128px;top:80px}
+#s3c header{position:absolute;left:128px;right:128px;top:112px} /* WP-D: 전역 헤더 리듬 정렬 */
 #s3c header .kicker{margin-bottom:14px}
 /* Full-screen hubmap: fills below the header */
-#s3c .hubmap{position:absolute;left:80px;right:80px;top:220px;bottom:80px}
+#s3c .hubmap{position:absolute;left:80px;right:80px;top:248px;bottom:80px}
 #s3c .hubmap svg.rays{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 #s3c .rays path{fill:none;stroke:url(#lg-line);stroke-width:2.5;opacity:.85}
 /* Hub: center-left, enlarged */

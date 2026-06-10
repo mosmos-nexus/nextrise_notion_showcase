@@ -67,10 +67,10 @@
 
 /* s3c — MCP 연결도 DEDICATED FULL SCREEN (WP5: enlarged hub, no metrics) */
 #s3c{--bloom:.65}
-#s3c header{position:absolute;left:128px;right:128px;top:80px}
+#s3c header{position:absolute;left:128px;right:128px;top:112px} /* WP-D: 전역 헤더 리듬 정렬 */
 #s3c header .kicker{margin-bottom:14px}
 /* Full-screen hubmap: fills below the header */
-#s3c .hubmap{position:absolute;left:80px;right:80px;top:220px;bottom:80px}
+#s3c .hubmap{position:absolute;left:80px;right:80px;top:248px;bottom:80px}
 #s3c .hubmap svg.rays{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 #s3c .rays path{fill:none;stroke:url(#lg-line);stroke-width:2.5;opacity:.85}
 /* Hub: center-left, enlarged */
