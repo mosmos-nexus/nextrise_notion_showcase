@@ -1,0 +1,14 @@
+{
+  "name": "nextrise-notion-showcase",
+  "private": true,
+  "version": "3.0.0",
+  "description": "NextRise 2026 Notion Startup Showcase web PPT — src/ partials build to a single self-contained index.html",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:check": "node scripts/build.mjs --check",
+    "verify": "node scripts/verify/walkdeck.js"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.60.0"
+  }
+}
