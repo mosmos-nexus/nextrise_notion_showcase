@@ -1,0 +1,38 @@
+<!-- ════════════════════════════════════════════════════════════
+     S2b · 중헌아카이브 — Oopy 라이브 iframe (WP4 structural replacement)
+     kenburns/hero/scrim CSS removed per CL-6
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2b" data-section="2" data-explore>
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b1"></span><span class="blk b3"></span>
+  </div>
+  <div class="slide-inner">
+    <div class="head-chip rv" style="--d:.1s">
+      <img class="lg" src="assets/logo/joongheon_archive.svg" alt="">
+      <div>
+        <div class="t1">중헌아카이브 — 실제로 돌아가는 모습</div>
+        <div class="t2">Notion으로 짓고 <img src="assets/logo/oopy.webp" alt="Oopy"> Oopy로 호스팅하는 라이브 사이트</div>
+      </div>
+    </div>
+  </div>
+  <!-- browser frame: capture base always visible; iframe overlaid when live -->
+  <div class="browser-wrap rv" style="--d:.25s">
+    <div class="browser">
+      <div class="bar"><i></i><i></i><i></i><span class="url">www.hon2yt2ch.kr</span></div>
+      <div class="shot">
+        <!-- SD2-A: capture base layer — always rendered, never hidden -->
+        <img class="capture-base" src="deck-assets/capture-joongheon-top.png" alt="중헌아카이브 캡처">
+        <!-- live iframe: src set lazily on slide enter via hook; hidden on timeout/block -->
+        <!-- NOTE: no loading="lazy" — a display:none lazy iframe never intersects,
+             so onload never fires; load timing is owned by the iframe manager (src set lazily) -->
+        <iframe class="live-iframe hidden" id="s2b-iframe" title="중헌아카이브 라이브" allow="fullscreen"></iframe>
+      </div>
+    </div>
+  </div>
+  <!-- Mon decorations (조사/정리 theme — S2 section) -->
+  <svg class="mon-deco a m-research float rv-pop" style="--d:.8s"><use href="#mon-body"/><use href="#p-research"/></svg>
+  <svg class="mon-deco b m-organize float f3 rv-pop" style="--d:1.0s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+  <div class="explore-hint" aria-hidden="true"><span class="eh-in">↓ 라이브 탐색</span><span class="eh-out">↑ 돌아가기</span></div>
+</section>

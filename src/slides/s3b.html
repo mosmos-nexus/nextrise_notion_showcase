@@ -1,0 +1,54 @@
+<!-- ════════════════════════════════════════════════════════════
+     S3b · Proact0 — 실사이트 live iframe + capture-pan fallback
+     + 3 point chips (고응집·저결합 wording kept) (WP5)
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3b" data-section="3" data-explore>
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <span class="blk b3"></span><span class="blk b5"></span>
+  </div>
+  <div class="slide-inner">
+    <div class="head-chip rv" style="--d:.1s">
+      <img class="lg" src="assets/logo/proact0.svg" alt="">
+      <div>
+        <div class="t1">Proact0 — 조직 운영도, Notion 하나로</div>
+        <div class="t2">오픈소스 CoAX 허브 — Notion으로 운영하고 Oopy로 공개한 조직 홈</div>
+      </div>
+    </div>
+  </div>
+  <div class="cols rv" style="--d:.25s">
+    <div class="browser-col">
+      <div class="browser">
+        <div class="bar"><i></i><i></i><i></i><span class="url">www.proact0.org</span></div>
+        <div class="shot">
+          <!-- SD2-A: capture base layer — always rendered, never hidden.
+               TALL full capture (1910×1811) so capture-mode slow-pan (C4) has travel;
+               the pan controller wraps it in .capture-pan-inner at runtime -->
+          <img class="capture-base" src="assets/resources/proact0/homepage.png" alt="Proact0 홈페이지 캡처">
+          <!-- NOTE: no loading="lazy" — owned by iframe manager -->
+          <iframe class="live-iframe hidden" id="s3b-iframe" title="Proact0 라이브" allow="fullscreen"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="chip rv" style="--d:.5s">
+        <div class="ci"><svg data-lucide="boxes"></svg></div>
+        <div><h4>고응집 · 저결합 조직 설계</h4><p>역할은 또렷하게, 의존은 느슨하게 — 사람과 에이전트가 섞여도 흔들리지 않는 구조</p></div>
+      </div>
+      <div class="chip rv" style="--d:.65s">
+        <div class="ci"><svg data-lucide="list-checks"></svg></div>
+        <div><h4>Notion 스프린트 보드로 Agile 운영</h4><p>계획·실행·회고가 한 보드에서 — 회의록이 아니라 보드가 조직을 움직여요</p></div>
+      </div>
+      <div class="chip rv" style="--d:.8s">
+        <div class="ci"><svg data-lucide="git-branch"></svg></div>
+        <div><h4>오픈소스 act-operator</h4><p>기획·R&amp;D 관리를 Notion 하나로 — 누구나 가져다 쓸 수 있게 공개했어요</p></div>
+      </div>
+    </div>
+  </div>
+  <!-- Mon decorations (분석/실행 theme) — WP5 A6: was 0 Mon -->
+  <svg class="mon-deco a m-analysis float rv-pop" style="--d:.9s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+  <svg class="mon-deco b m-execute float f3 rv-pop" style="--d:1.1s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+  <svg class="mon-deco c m-analysis float f2 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+  <div class="explore-hint" aria-hidden="true"><span class="eh-in">↓ 라이브 탐색</span><span class="eh-out">↑ 돌아가기</span></div>
+</section>
