@@ -2,6 +2,7 @@
   "enabledPlugins": {
     "frontend-slides@frontend-slides": true,
     "oh-my-claudecode@omc": true,
-    "playwright@claude-plugins-official": true
+    "playwright@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
   }
 }

@@ -150,11 +150,20 @@ svg {
         display: none !important;
     }
 }
+/* M-fix: 모든 reduce 블록은 html:not(.force-motion) 게이트 — ?motion=on 으로
+   발표자가 OS reduced-motion을 무시하고 연출을 강제 재생할 수 있다 (engine.js 짝). */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    html:not(.force-motion) *,
+    html:not(.force-motion) *::before,
+    html:not(.force-motion) *::after {
         animation-duration: 0.01ms !important;
+        /* M-fix: iteration-count cap is REQUIRED with the 0.01ms trick —
+           without it, infinite animations (float 등) loop every 0.01ms and
+           each frame samples a random phase → 캐릭터가 격렬하게 떨리는 strobe. */
+        animation-iteration-count: 1 !important;
+        /* M-fix: 딜레이도 제로 — fill:both의 from(opacity:0) 상태로 --d초간 콘텐츠가
+           보이지 않다가 스냅되는 문제. reduce 사용자는 즉시 완성 화면을 본다. */
+        animation-delay: 0s !important;
         transition-duration: 0.2s !important;
     }
 }
@@ -179,7 +188,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 /* WP1: step-reveal — slides with data-steps hide step items until revealed */
 .step-item{opacity:0;transform:translateY(28px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
 .step-item.step-shown{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.step-item{transform:none;transition:opacity .2s}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) .step-item{transform:none;transition:opacity .2s}}
 
 /* ============================================================
    3. MONO → COSMOS 배경 시스템
@@ -238,23 +247,40 @@ body.no-fade .slide,body.no-fade .slide.active{
    (구버전 rise의 to{transform:none}이 left:50% 요소들의 센터링을 풀어
    배너/칩/로고가 우측으로 밀려 잘리던 버그의 원인) */
 .rv{opacity:0}
-.slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:var(--d,0s)}
+/* M-fix: +.3s 베이스 딜레이 — 슬라이드 크로스페이드(.55s)가 거의 끝난 뒤 등장이 시작되어
+   리빌 앞부분이 페이드에 가려 '휙 지나가는' 문제 해소 (안무 간격은 --d 그대로 유지) */
+.slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:calc(.3s + var(--d,0s))}
 @keyframes rise{from{opacity:0;translate:0 36px}to{opacity:1;translate:0 0}}
-.slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
+.slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(.3s + var(--d,0s))}
 .rv-pop{opacity:0}
 @keyframes pop{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
 @media print{.rv,.rv-pop{opacity:1 !important}}
 
 /* SVG path draw — pathLength="1" 기반 */
 .draw{stroke-dasharray:1;stroke-dashoffset:1}
-.slide.active .draw{animation:drawPath 1.2s ease forwards;animation-delay:var(--d,0s)}
+.slide.active .draw{animation:drawPath 1.2s ease forwards;animation-delay:calc(.3s + var(--d,0s))}
 @keyframes drawPath{to{stroke-dashoffset:0}}
 
 /* 부유 모션 */
 .float{animation:float 5.2s ease-in-out infinite}
 .float.f2{animation-duration:6.4s;animation-delay:-2s}
 .float.f3{animation-duration:7.2s;animation-delay:-3.4s}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+/* M-fix: transform → 독립 translate 속성 — transform 키프레임은 요소의 정적 transform과
+   transform 트랜지션(#s0 .late의 26px 라이즈)을 통째로 삼킨다. rise/pop과 같은 원칙(D4). */
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -14px}}
+/* M-fix: 비활성(visibility:hidden) 슬라이드의 float 일시정지 — 20개 슬라이드 ~30개 요소가
+   보이지도 않으면서 매 프레임 스타일 업데이트를 유발하던 비용 제거 */
+.slide:not(.active) .float{animation-play-state:paused}
+/* M-fix: 등장(pop)+부유(float) 합성 — '.slide.active .rv-pop' 단독 규칙이 .float의
+   무한 부유 애니메이션을 통째로 덮어써 13개 슬라이드의 Mon 장식이 등장 후 영영
+   정지해 있던 버그 (s6d mon-finale에 이미 적용된 것과 동일한 수정 패턴).
+   f2/f3 변형은 듀레이션 롱핸드가 다중 애니메이션 리스트 전체에 매핑되므로
+   pop 듀레이션을 포함한 명시 리스트로 재지정한다. */
+.slide.active .rv-pop.float{
+  animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 5.2s ease-in-out infinite;
+  animation-delay:calc(.3s + var(--d,0s)), calc(1s + var(--d,0s))}
+.slide.active .rv-pop.float.f2{animation-duration:.7s,6.4s}
+.slide.active .rv-pop.float.f3{animation-duration:.7s,7.2s}
 
 /* 카드 공통 */
 .card{background:var(--pure-white);border:1px solid var(--border-subtle);
@@ -342,7 +368,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */
 .explore-hint{position:absolute;right:148px;bottom:26px;z-index:65; /* 페이저(우하단 고정 크롬)와 겹치지 않게 */
   background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
-  padding:10px 22px;font-size:17px;font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1)}
+  padding:10px 22px;font-size:17px;font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1);
+  cursor:pointer;user-select:none} /* E1-fix: clickable escape hatch while iframe owns kbd focus */
 .explore-hint .eh-out{display:none}
 .slide.explore .explore-hint .eh-in{display:none}
 .slide.explore .explore-hint .eh-out{display:inline}

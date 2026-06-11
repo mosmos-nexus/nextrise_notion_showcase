@@ -43,6 +43,11 @@
 #s4b .orbiter .mon{position:absolute;left:-24px;top:-24px;width:48px;height:48px}
 @keyframes orbit{from{transform:rotate(0deg) translateX(240px) rotate(0deg)}
                  to{transform:rotate(360deg) translateX(240px) rotate(-360deg)}}
+/* E2-smooth: 우주 전체(Mos+궤도+심)는 전역 rise(36px) 대신 절제된 12px 소프트 라이즈 —
+   이미 돌고 있는 궤도/심 위에서 36px 급상승(probe 실측 ~116px/s)이
+   'Mos가 위아래로 점프'하듯 보이던 문제. duration/delay는 .rv 규칙을 상속한다. */
+.slide.active#s4b .universe.rv{animation-name:riseSoft}
+@keyframes riseSoft{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
 
 #s4c{--bloom:.9}
 #s4c .cols{position:absolute;left:128px;right:128px;top:300px;bottom:226px;display:grid;grid-template-columns:1fr 640px;gap:70px}
@@ -73,18 +78,26 @@
   display:flex;align-items:center;justify-content:center;color:#fff;
   opacity:0;z-index:7;pointer-events:none}
 #s4b .sim-done svg{width:30px;height:30px}
-#s4b.active .sim-goal{animation:simgoal 12s ease-in-out infinite}
-#s4b.active .sim-done{animation:simdone 12s ease-in-out infinite}
+/* E2-smooth: 루프는 우주 입장(riseSoft, ~2.05s 안착)이 끝난 뒤 시작 — 입장과 비행이
+   겹치며 복합 모션으로 읽히던 문제. 비행 창도 18%→26%로 넓혀 292px를 ~3.1s에 주파(차분). */
+#s4b.active .sim-goal{animation:simgoal 12s ease-in-out infinite;animation-delay:2.4s}
+#s4b.active .sim-done{animation:simdone 12s ease-in-out infinite;animation-delay:2.4s}
 @keyframes simgoal{
   0%{opacity:0;translate:-290px 34px;scale:.85}
-  4%{opacity:1}
-  18%{opacity:1;translate:0 0;scale:1}
-  24%{opacity:0;translate:0 0;scale:.3}
+  6%{opacity:1}
+  26%{opacity:1;translate:0 0;scale:1}
+  33%{opacity:0;translate:0 0;scale:.3}
   100%{opacity:0;translate:0 0;scale:.3}}
 @keyframes simdone{
   0%,50%{opacity:0;translate:0 0;scale:.4}
-  55%{opacity:1;scale:1.12;translate:0 -8px}
-  58%{scale:1}
-  72%{opacity:1;translate:0 -96px}
-  80%,100%{opacity:0;translate:0 -120px}}
-@media (prefers-reduced-motion:reduce){#s4b .sim-goal,#s4b .sim-done{display:none}}
+  56%{opacity:1;scale:1.08;translate:0 -10px}
+  60%{scale:1}
+  74%{opacity:1;translate:0 -96px}
+  82%,100%{opacity:0;translate:0 -120px}}
+@media (prefers-reduced-motion:reduce){
+  html:not(.force-motion) #s4b .sim-goal,html:not(.force-motion) #s4b .sim-done{display:none}
+  /* RM-fix: 궤도 애니메이션이 iteration:1로 즉시 끝나면 transform:none → 6 Mon이
+     중앙 Mos 위에 겹친다 — 60° 간격 정적 배치 폴백 */
+  html:not(.force-motion) #s4b .orbiter{animation:none;
+    transform:rotate(calc(var(--i)*60deg)) translateX(240px) rotate(calc(-60deg*var(--i)))}
+}

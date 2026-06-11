@@ -29,7 +29,7 @@
 #s6b .axis .ai svg{width:32px;height:32px}
 #s6b .axis h4{font-family:var(--font-display);font-size:27px;font-weight:800;color:var(--text-strong);margin-top:18px}
 #s6b .axis p{font-size:20.5px;color:var(--text-muted);line-height:1.5;margin-top:10px}
-@media (prefers-reduced-motion:reduce){#s6b .axis .mon{transition:opacity .2s}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s6b .axis .mon{transition:opacity .2s}}
 
 /* ============================================================
    S6c · CTA — mosmos.world + QR 중앙 크게
@@ -76,7 +76,7 @@
   background:radial-gradient(closest-side,rgba(155,110,239,.17),rgba(15,111,218,.10) 45%,transparent 75%);
   filter:blur(42px);pointer-events:none;z-index:1}
 #s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
-#s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
+#s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: 크리스프 블링크 */
 @media (prefers-reduced-motion:reduce){
-  #s6d .mon-finale,#s6d.active .mon-finale{animation:none;opacity:1}
+  html:not(.force-motion) #s6d .mon-finale,html:not(.force-motion) #s6d.active .mon-finale{animation:none;opacity:1}
 }

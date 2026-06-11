@@ -39,8 +39,8 @@
    (overrides the absolute-fill cover style above) */
 #s3b .capture-pan-inner .capture-base{position:static;inset:auto;width:100%;height:auto;object-fit:unset}
 @media (prefers-reduced-motion: reduce){
-  #s3b .capture-pan-inner{transform:none !important}
-  #s3b .capture-pan-inner .capture-base{position:absolute;inset:0;height:100%;object-fit:contain}
+  html:not(.force-motion) #s3b .capture-pan-inner{transform:none !important}
+  html:not(.force-motion) #s3b .capture-pan-inner .capture-base{position:absolute;inset:0;height:100%;object-fit:contain}
 }
 #s3b .capture-pan-inner img{width:100%;height:auto;display:block}
 #s3b .live-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;background:transparent}
@@ -96,8 +96,8 @@
   transition:stroke-dashoffset 0.9s var(--ease-out,cubic-bezier(.22,1,.36,1))}
 /* reduced-motion: instant full reveal */
 @media (prefers-reduced-motion:reduce){
-  #s3c .rays path.draw{stroke-dashoffset:0;transition:none}
-  #s3c .pill,#s3c .ghead{opacity:1 !important;transform:none !important;transition:none}
+  html:not(.force-motion) #s3c .rays path.draw{stroke-dashoffset:0;transition:none}
+  html:not(.force-motion) #s3c .pill,html:not(.force-motion) #s3c .ghead{opacity:1 !important;transform:none !important;transition:none}
 }
 
 /* s3d — 지표 count-up + Takeaway + QR 배지 (WP5) */

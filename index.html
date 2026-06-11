@@ -174,11 +174,17 @@ svg {
         display: none !important;
     }
 }
+/* M-fix: 모든 reduce 블록은 html:not(.force-motion) 게이트 — ?motion=on 으로
+   발표자가 OS reduced-motion을 무시하고 연출을 강제 재생할 수 있다 (engine.js 짝). */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    html:not(.force-motion) *,
+    html:not(.force-motion) *::before,
+    html:not(.force-motion) *::after {
         animation-duration: 0.01ms !important;
+        /* M-fix: iteration-count cap is REQUIRED with the 0.01ms trick —
+           without it, infinite animations (float 등) loop every 0.01ms and
+           each frame samples a random phase → 캐릭터가 격렬하게 떨리는 strobe. */
+        animation-iteration-count: 1 !important;
         transition-duration: 0.2s !important;
     }
 }
@@ -203,7 +209,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 /* WP1: step-reveal — slides with data-steps hide step items until revealed */
 .step-item{opacity:0;transform:translateY(28px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
 .step-item.step-shown{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.step-item{transform:none;transition:opacity .2s}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) .step-item{transform:none;transition:opacity .2s}}
 
 /* ============================================================
    3. MONO → COSMOS 배경 시스템
@@ -262,16 +268,18 @@ body.no-fade .slide,body.no-fade .slide.active{
    (구버전 rise의 to{transform:none}이 left:50% 요소들의 센터링을 풀어
    배너/칩/로고가 우측으로 밀려 잘리던 버그의 원인) */
 .rv{opacity:0}
-.slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:var(--d,0s)}
+/* M-fix: +.3s 베이스 딜레이 — 슬라이드 크로스페이드(.55s)가 거의 끝난 뒤 등장이 시작되어
+   리빌 앞부분이 페이드에 가려 '휙 지나가는' 문제 해소 (안무 간격은 --d 그대로 유지) */
+.slide.active .rv{animation:rise .85s var(--ease-out) both;animation-delay:calc(.3s + var(--d,0s))}
 @keyframes rise{from{opacity:0;translate:0 36px}to{opacity:1;translate:0 0}}
-.slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
+.slide.active .rv-pop{animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(.3s + var(--d,0s))}
 .rv-pop{opacity:0}
 @keyframes pop{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
 @media print{.rv,.rv-pop{opacity:1 !important}}
 
 /* SVG path draw — pathLength="1" 기반 */
 .draw{stroke-dasharray:1;stroke-dashoffset:1}
-.slide.active .draw{animation:drawPath 1.2s ease forwards;animation-delay:var(--d,0s)}
+.slide.active .draw{animation:drawPath 1.2s ease forwards;animation-delay:calc(.3s + var(--d,0s))}
 @keyframes drawPath{to{stroke-dashoffset:0}}
 
 /* 부유 모션 */
@@ -279,6 +287,16 @@ body.no-fade .slide,body.no-fade .slide.active{
 .float.f2{animation-duration:6.4s;animation-delay:-2s}
 .float.f3{animation-duration:7.2s;animation-delay:-3.4s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+/* M-fix: 등장(pop)+부유(float) 합성 — '.slide.active .rv-pop' 단독 규칙이 .float의
+   무한 부유 애니메이션을 통째로 덮어써 13개 슬라이드의 Mon 장식이 등장 후 영영
+   정지해 있던 버그 (s6d mon-finale에 이미 적용된 것과 동일한 수정 패턴).
+   f2/f3 변형은 듀레이션 롱핸드가 다중 애니메이션 리스트 전체에 매핑되므로
+   pop 듀레이션을 포함한 명시 리스트로 재지정한다. */
+.slide.active .rv-pop.float{
+  animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 5.2s ease-in-out infinite;
+  animation-delay:calc(.3s + var(--d,0s)), calc(1s + var(--d,0s))}
+.slide.active .rv-pop.float.f2{animation-duration:.7s,6.4s}
+.slide.active .rv-pop.float.f3{animation-duration:.7s,7.2s}
 
 /* 카드 공통 */
 .card{background:var(--pure-white);border:1px solid var(--border-subtle);
@@ -366,7 +384,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */
 .explore-hint{position:absolute;right:148px;bottom:26px;z-index:65; /* 페이저(우하단 고정 크롬)와 겹치지 않게 */
   background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
-  padding:10px 22px;font-size:17px;font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1)}
+  padding:10px 22px;font-size:17px;font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1);
+  cursor:pointer;user-select:none} /* E1-fix: clickable escape hatch while iframe owns kbd focus */
 .explore-hint .eh-out{display:none}
 .slide.explore .explore-hint .eh-in{display:none}
 .slide.explore .explore-hint .eh-out{display:inline}
@@ -530,10 +549,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* reduced-motion: 전체 자산을 다크 프레임 위에 contain으로 정적 표시 —
    베이크된 노란 주석이 그대로 읽히므로 DOM 칩은 중복이라 숨긴다 */
 @media (prefers-reduced-motion:reduce){
-  #s2c .pan-wrap{background:#1D2026}
-  #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
-  #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
-  .s2c-chip{display:none !important}
+  html:not(.force-motion) #s2c .pan-wrap{background:#1D2026}
+  html:not(.force-motion) #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
+  html:not(.force-motion) #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
+  html:not(.force-motion) .s2c-chip{display:none !important}
 }
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
@@ -561,7 +580,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2d .flow-stage-chips .stage-chip .cdot{width:12px;height:12px;border-radius:50%;background:var(--gradient-bloom);flex:none}
 /* reduced-motion: instant reveal */
 @media (prefers-reduced-motion:reduce){
-  #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}
+  html:not(.force-motion) #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}
 }
 #s2d .mon-deco{position:absolute;z-index:5}
 #s2d .mon-deco.a{right:118px;top:92px;width:52px;height:52px}
@@ -634,8 +653,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
    (overrides the absolute-fill cover style above) */
 #s3b .capture-pan-inner .capture-base{position:static;inset:auto;width:100%;height:auto;object-fit:unset}
 @media (prefers-reduced-motion: reduce){
-  #s3b .capture-pan-inner{transform:none !important}
-  #s3b .capture-pan-inner .capture-base{position:absolute;inset:0;height:100%;object-fit:contain}
+  html:not(.force-motion) #s3b .capture-pan-inner{transform:none !important}
+  html:not(.force-motion) #s3b .capture-pan-inner .capture-base{position:absolute;inset:0;height:100%;object-fit:contain}
 }
 #s3b .capture-pan-inner img{width:100%;height:auto;display:block}
 #s3b .live-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;background:transparent}
@@ -691,8 +710,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   transition:stroke-dashoffset 0.9s var(--ease-out,cubic-bezier(.22,1,.36,1))}
 /* reduced-motion: instant full reveal */
 @media (prefers-reduced-motion:reduce){
-  #s3c .rays path.draw{stroke-dashoffset:0;transition:none}
-  #s3c .pill,#s3c .ghead{opacity:1 !important;transform:none !important;transition:none}
+  html:not(.force-motion) #s3c .rays path.draw{stroke-dashoffset:0;transition:none}
+  html:not(.force-motion) #s3c .pill,html:not(.force-motion) #s3c .ghead{opacity:1 !important;transform:none !important;transition:none}
 }
 
 /* s3d — 지표 count-up + Takeaway + QR 배지 (WP5) */
@@ -800,7 +819,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   58%{scale:1}
   72%{opacity:1;translate:0 -96px}
   80%,100%{opacity:0;translate:0 -120px}}
-@media (prefers-reduced-motion:reduce){#s4b .sim-goal,#s4b .sim-done{display:none}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s4b .sim-goal,html:not(.force-motion) #s4b .sim-done{display:none}}
 
 /* ============================================================
    S5a · 전환 다리 → 라이브 데모 (zoom-in 핸드오프)
@@ -830,11 +849,14 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   transform:rotate(45deg);border-bottom-left-radius:6px}
 /* Mon 선진입 — 워크스페이스 카드 속으로 빨려 들어간다 */
 #s5a .flymon{position:absolute;z-index:7;width:52px;height:52px;left:var(--sx);top:var(--sy);opacity:0}
-.slide.active#s5a .flymon{animation:flyin 1.7s ease-in both;animation-delay:var(--d)}
+/* M-fix: 1.7s ease-in → 2.6s — 최대 700px를 가로지르는 비행이 순간 최대 ~600px/s로
+   '휙 지나가던' 문제. 가속(빨려 들어감) 캐릭터는 유지하되 전체 속도를 낮추고
+   가시 구간(opacity 창)을 넓혀 비행을 눈으로 따라갈 수 있게 한다. */
+.slide.active#s5a .flymon{animation:flyin 2.6s cubic-bezier(.5,.05,.85,.5) both;animation-delay:var(--d)}
 @keyframes flyin{
   0%{opacity:0;transform:translate(0,0) scale(1)}
-  18%{opacity:1}
-  78%{opacity:.95}
+  10%{opacity:1}
+  86%{opacity:.95}
   100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.22)}
 }
 /* zoom-in(scale+blur) 핸드오프 → s5b */
@@ -854,7 +876,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 @keyframes livebreathe{
   0%,100%{box-shadow:0 0 0 0 rgba(15,111,218,.35);opacity:1}
   50%{box-shadow:0 0 0 18px rgba(15,111,218,0);opacity:.75}}
-@media (prefers-reduced-motion:reduce){#s5b .live-dot{animation:none}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s5b .live-dot{animation:none}}
 #s5b .hold-sub{font-size:28px;font-weight:600;color:var(--bgray-dark);margin-top:18px}
 #s5b .hold-hint{position:absolute;left:0;right:0;bottom:52px;text-align:center;
   font-size:16px;color:var(--bgray-med);font-weight:500;opacity:.65}
@@ -892,7 +914,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6b .axis .ai svg{width:32px;height:32px}
 #s6b .axis h4{font-family:var(--font-display);font-size:27px;font-weight:800;color:var(--text-strong);margin-top:18px}
 #s6b .axis p{font-size:20.5px;color:var(--text-muted);line-height:1.5;margin-top:10px}
-@media (prefers-reduced-motion:reduce){#s6b .axis .mon{transition:opacity .2s}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s6b .axis .mon{transition:opacity .2s}}
 
 /* ============================================================
    S6c · CTA — mosmos.world + QR 중앙 크게
@@ -941,7 +963,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
 #s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
 @media (prefers-reduced-motion:reduce){
-  #s6d .mon-finale,#s6d.active .mon-finale{animation:none;opacity:1}
+  html:not(.force-motion) #s6d .mon-finale,html:not(.force-motion) #s6d.active .mon-finale{animation:none;opacity:1}
 }
 </style>
 </head>
@@ -1780,7 +1802,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
   const slides=$$('.slide'), stage=$('#deckStage'), pager=$('#pager');
   const pnodes=$$('.pnode');
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* M-fix: ?motion=on 발표자 오버라이드 — OS가 reduced-motion인 환경(행사장 PC,
+     원격 데스크톱, Windows '애니메이션 효과' 꺼짐)에서도 연출을 강제 재생한다.
+     기본값은 OS 설정 존중(접근성 유지); CSS측은 html.force-motion 게이트와 짝. */
+  const forceMotion=(()=>{ try{ return new URLSearchParams(location.search).get('motion')==='on'; }catch(e){ return false; } })();
+  if(forceMotion) document.documentElement.classList.add('force-motion');
+  const reduced=!forceMotion && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur=0, busy=false;
   const timers=new Set();
   const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);fn()},ms);timers.add(t);return t};
@@ -1934,7 +1961,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   /* —— S6d 태그라인 타이프 (keyed to slide id s6d — WP8 remap) —— */
   function playClosing(){
     const el=$('#s6d .type2'); if(!el)return;
-    later(()=>{ typeInto(el); }, reduced?0:2100);
+    /* M-fix: 2100→1400ms — 빈 화면 대기가 길어 '타이핑이 안 나오는' 느낌을 주던 간극 축소 */
+    later(()=>{ typeInto(el); }, reduced?0:1400);
   }
 
   /* === SLIDE TRANSITION === */
@@ -2078,11 +2106,20 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       /* E1: 라이브 탐색 서브페이지 — data-explore 슬라이드에서 ↓ 확장, ↑ 복귀 (비내비) */
       case 'ArrowDown':{
         const sl=slides[cur];
-        if(sl&&sl.dataset.explore!==undefined){ e.preventDefault(); sl.classList.add('explore'); }
+        if(sl&&sl.dataset.explore!==undefined){
+          e.preventDefault(); sl.classList.add('explore');
+          /* E1-fix: live embed loads ONLY here (no boot preload / auto-live) */
+          if(deck.iframe&&deck.iframe.goLive) deck.iframe.goLive();
+        }
         return;}
       case 'ArrowUp':{
         const sl=slides[cur];
-        if(sl&&sl.classList.contains('explore')){ e.preventDefault(); sl.classList.remove('explore'); }
+        if(sl&&sl.classList.contains('explore')){
+          e.preventDefault(); sl.classList.remove('explore');
+          /* E1-fix: unload embed + reclaim keyboard focus from the iframe */
+          if(deck.iframe&&deck.iframe.standby) deck.iframe.standby();
+          window.focus();
+        }
         return;}
     }
 
@@ -2124,6 +2161,20 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     const psec=+p.dataset.sec;
     const idx=sectionFirstSlide[psec];
     if(idx!==undefined) show(idx);
+  }));
+
+  /* E1-fix: explore-hint click = mouse escape hatch. While the live iframe
+     holds keyboard focus the deck never sees ↑, but a click on deck chrome
+     (outside the iframe) both fires here and returns focus to the deck. */
+  document.querySelectorAll('.explore-hint').forEach(h=>h.addEventListener('click',()=>{
+    const sl=h.closest('.slide');
+    if(!sl||sl.dataset.explore===undefined) return;
+    const on=sl.classList.toggle('explore');
+    if(deck.iframe){
+      if(on&&deck.iframe.goLive) deck.iframe.goLive();
+      else if(!on&&deck.iframe.standby) deck.iframe.standby();
+    }
+    window.focus();
   }));
 
   addEventListener('hashchange',()=>{ const h=parseInt(location.hash.slice(1),10);
@@ -2178,6 +2229,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
     /* Mouse parallax state */
     let mouseX=W/2, mouseY=H/2, parX=0, parY=0;
+    let lastParX='', lastParY=''; /* M-fix: 마지막 기록값 — 동일값 setProperty 스킵용 */
     const PAR_MAX=10; /* max ±10px */
     addEventListener('mousemove',e=>{
       /* Convert to stage space via inverse of fit() transform */
@@ -2200,9 +2252,16 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       parX+=(targetParX-parX)*0.06;
       parY+=(targetParY-parY)*0.06;
 
-      /* Apply parallax to midground .bg glows/blk via CSS vars on deck-stage */
-      stage.style.setProperty('--par-x',parX.toFixed(2)+'px');
-      stage.style.setProperty('--par-y',parY.toFixed(2)+'px');
+      /* Apply parallax to midground .bg glows/blk via CSS vars on deck-stage.
+         M-fix: 0.1px 양자화 + 동일값 스킵 — 매 프레임 커스텀 프로퍼티를 갱신하면
+         var() 소비 서브트리 전체가 스타일 무효화되어 큰 DOM에서 프레임을 깎는다.
+         마우스가 멈추면 ~1초 내 수렴해 기록이 완전히 멈춘다. */
+      const pxs=parX.toFixed(1)+'px', pys=parY.toFixed(1)+'px';
+      if(pxs!==lastParX||pys!==lastParY){
+        stage.style.setProperty('--par-x',pxs);
+        stage.style.setProperty('--par-y',pys);
+        lastParX=pxs; lastParY=pys;
+      }
 
       ctx.clearRect(0,0,W,H);
 
@@ -2259,7 +2318,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     if(reduced) return;
     const style=document.createElement('style');
     style.textContent=`
-      /* WP2: mouse micro-parallax on midground elements */
+      /* WP2: mouse micro-parallax on midground elements
+         M-fix: html.force-motion(?motion=on)에서도 동일 적용 — reduce 환경 발표자 오버라이드 */
       @media (prefers-reduced-motion: no-preference){
         #deckStage .bg .glow,
         #deckStage .bg .blk {
@@ -2267,6 +2327,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
           transition: transform 0.1s linear;
           will-change: transform;
         }
+      }
+      html.force-motion #deckStage .bg .glow,
+      html.force-motion #deckStage .bg .blk {
+        transform: translate(var(--par-x,0px), var(--par-y,0px));
+        transition: transform 0.1s linear;
+        will-change: transform;
       }
     `;
     document.head.appendChild(style);
@@ -2599,18 +2665,25 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
 
   /* ================================================================
-     WP4/WP5 — IFRAME MANAGER FACTORY (SD2-A)
-     makeIframeManager({slideId, iframeId, src, preloadDelay})
-     Instantiated for s2b (Oopy, 4500ms) and s3b (Proact0, 12000ms).
-     deck.iframe.reload / forceCapture dispatch to the ACTIVE slide's manager.
+     WP4/WP5 — IFRAME MANAGER FACTORY (SD2-A, E1-fix capture-first)
+     makeIframeManager({slideId, iframeId, src})
+     Instantiated for s2b (Oopy) and s3b (Proact0).
+     deck.iframe.reload / forceCapture / goLive / standby dispatch to the
+     ACTIVE slide's manager.
      Rules:
        - capture base always rendered (never hidden)
        - NO loading="lazy" — src set lazily by manager
+       - E1-fix: NO boot preload, NO auto-load on slide enter — the live
+         embed loads ONLY on explicit explore entry (↓ / hint click).
+         Rationale: an auto-shown cross-origin iframe steals keyboard focus
+         (nav keys die) and its background JS causes visible flicker.
+       - setLive reveals the iframe only while the slide is in explore mode
        - onload → no-cors fetch reachability probe → live or capture
        - 8s LOAD_TIMEOUT → capture (late onload still upgrades if not F-pinned)
+       - standby (↑ / hint click / slide leave) hides AND unloads the embed
        - F pins capture (userForced), R re-arms
      ================================================================ */
-  function makeIframeManager({slideId, iframeId, src, preloadDelay}){
+  function makeIframeManager({slideId, iframeId, src}){
     const LOAD_TIMEOUT=8000;
     let iframeState='idle'; /* idle | loading | live | capture */
     let userForced=false;
@@ -2626,7 +2699,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       iframeState='live';
       const {iframe}=getEls();
       if(!iframe) return;
-      iframe.classList.remove('hidden');
+      /* E1-fix: reveal only while exploring — if the presenter already left
+         explore mode (or the slide), keep the loaded iframe hidden. */
+      const slide=document.getElementById(slideId);
+      if(slide&&slide.classList.contains('explore')) iframe.classList.remove('hidden');
     }
 
     function setCapture(){
@@ -2675,34 +2751,49 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       loadIframe();
     }
 
-    /* Hook: ensure loading on enter; leave iframe mounted (don't destroy) */
+    /* E1-fix: goLive — explicit presenter action (↓ / hint click).
+       Already-loaded iframe is just revealed; otherwise start the load
+       (capture base keeps showing underneath until the probe passes). */
+    function goLive(){
+      userForced=false;
+      if(iframeState==='live'){ setLive(); return; }
+      loadIframe();
+    }
+
+    /* E1-fix: standby — hide the live layer AND unload the embed so its
+       background JS fully stops (about:blank). Capture base remains. */
+    function standby(){
+      if(loadTimer){ clearTimeout(loadTimer); loadTimer=null; }
+      iframeState='idle';
+      const {iframe}=getEls();
+      if(!iframe) return;
+      iframe.classList.add('hidden');
+      if(iframe.src) iframe.src='about:blank';
+    }
+
+    /* Hook: E1-fix — no auto-load on enter (capture is the default face);
+       leaving the slide always unloads the embed. */
     registerHook(slideId,{
-      onEnter(){ loadIframe(); },
-      onLeave(){}
+      onEnter(){},
+      onLeave(){ standby(); }
     });
 
-    /* Preload: warm the embed after boot so slide arrives already-live.
-       setTimeout (not later()) — must survive slide changes.
-       s3b staggered to 12s so the two embeds don't compete. */
-    setTimeout(loadIframe, preloadDelay);
-
-    /* Return reload/forceCapture interface */
+    /* Return presenter-action interface */
     return {
       reload(){ userForced=false; reloadIframe(); },
-      forceCapture(){ userForced=true; setCapture(); }
+      forceCapture(){ userForced=true; setCapture(); },
+      goLive, standby
     };
   }
 
   /* Instantiate managers */
   const mgr_s2b=makeIframeManager({
     slideId:'s2b', iframeId:'s2b-iframe',
-    src:'https://www.hon2yt2ch.kr/',
-    preloadDelay:4500
+    src:'https://www.hon2yt2ch.kr/'
   });
   const mgr_s3b=makeIframeManager({
     slideId:'s3b', iframeId:'s3b-iframe',
-    src:'https://www.proact0.org/',
-    preloadDelay:12000
+    src:'https://www.proact0.org/'
   });
 
   /* deck.iframe.reload / forceCapture — dispatch to ACTIVE slide's manager */
@@ -2715,6 +2806,17 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     const id=slides[cur]&&slides[cur].id;
     if(id==='s2b') mgr_s2b.forceCapture();
     else if(id==='s3b') mgr_s3b.forceCapture();
+  };
+  /* E1-fix: explore entry/exit dispatch (engine ↓/↑ + hint click) */
+  deck.iframe.goLive=function(){
+    const id=slides[cur]&&slides[cur].id;
+    if(id==='s2b') mgr_s2b.goLive();
+    else if(id==='s3b') mgr_s3b.goLive();
+  };
+  deck.iframe.standby=function(){
+    const id=slides[cur]&&slides[cur].id;
+    if(id==='s2b') mgr_s2b.standby();
+    else if(id==='s3b') mgr_s3b.standby();
   };
 
   /* ================================================================

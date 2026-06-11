@@ -86,10 +86,10 @@
 /* reduced-motion: 전체 자산을 다크 프레임 위에 contain으로 정적 표시 —
    베이크된 노란 주석이 그대로 읽히므로 DOM 칩은 중복이라 숨긴다 */
 @media (prefers-reduced-motion:reduce){
-  #s2c .pan-wrap{background:#1D2026}
-  #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
-  #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
-  .s2c-chip{display:none !important}
+  html:not(.force-motion) #s2c .pan-wrap{background:#1D2026}
+  html:not(.force-motion) #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
+  html:not(.force-motion) #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
+  html:not(.force-motion) .s2c-chip{display:none !important}
 }
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
@@ -117,7 +117,7 @@
 #s2d .flow-stage-chips .stage-chip .cdot{width:12px;height:12px;border-radius:50%;background:var(--gradient-bloom);flex:none}
 /* reduced-motion: instant reveal */
 @media (prefers-reduced-motion:reduce){
-  #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}
+  html:not(.force-motion) #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}
 }
 #s2d .mon-deco{position:absolute;z-index:5}
 #s2d .mon-deco.a{right:118px;top:92px;width:52px;height:52px}

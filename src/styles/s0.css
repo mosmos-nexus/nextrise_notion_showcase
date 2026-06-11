@@ -22,7 +22,7 @@
 #s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:96px;line-height:1.22;
   letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:240px}
 #s0 .s0-title .caret{display:inline-block;width:6px;height:.92em;margin-left:8px;vertical-align:-.12em;
-  border-radius:3px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
+  border-radius:3px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: steps(2)는 4단계 반투명 깜빡임 — 크리스프 블링크로 */
 @keyframes caret{50%{opacity:0}}
 /* bloom 이후 페이드 요소들 */
 #s0 .late{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}

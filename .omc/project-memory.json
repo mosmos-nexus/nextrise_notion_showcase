@@ -9,7 +9,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build:check --silent && git log --oneline -6 && cat >> .omc/handoffs/polish-backlog.md <<'EOF'\n\n## v3.1 experiments (2026-06-11, presenter-directed \"untried attempts\")\n- E5 KEEP: s2c content-band clamp + dark pan frame (no baked-label fragments; overview = annotated blueprint).\n- E4 KEEP: s3c curved fan (arc bulge pill offsets + matched ray lengths).\n- E3 KEEP: s5b LIVE indicator dot, 3.2s calm breathe (reduced-motion: static).\n- E2 KEEP: s4b CSS-only simulation loop — goal card flies to Mos, absorbed, done badge rises (12s, icon-only, no invented copy; reduced-motion: hidden).\n- E1 KEEP: live-explore sub-page (↓ expands s2b/s3b live iframe to full stage, ↑ returns; non-nav; auto-reset on leave) — non-linear flow for Q&A deep-dives.\n- Page-snap: NOT attempted — fixed-stage deck already snaps per slide; scroll-snap conflicts with the skill invariant.\n- No rollbacks needed; every experiment passed screenshot review on first or second iteration.\nEOF\ngit add .omc/handoffs/polish-backlog.md && git commit --quiet -m \"docs: v3.1 experiment log\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>\" && echo committed",
+    "buildCommand": "npm run build:check 2>&1 | tail -3",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -45,20 +45,92 @@
   "hotPaths": [
     {
       "path": "index.html",
-      "accessCount": 208,
-      "lastAccessed": 1781114409431,
+      "accessCount": 215,
+      "lastAccessed": 1781140262779,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/base.css",
+      "accessCount": 21,
+      "lastAccessed": 1781143251256,
+      "type": "file"
+    },
+    {
+      "path": "src/js/engine.js",
+      "accessCount": 17,
+      "lastAccessed": 1781143215117,
       "type": "file"
     },
     {
       "path": "src/styles/s2.css",
-      "accessCount": 9,
-      "lastAccessed": 1781116815902,
+      "accessCount": 13,
+      "lastAccessed": 1781142564957,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s4.css",
+      "accessCount": 13,
+      "lastAccessed": 1781143250808,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s6.css",
+      "accessCount": 12,
+      "lastAccessed": 1781143136489,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s5.css",
+      "accessCount": 12,
+      "lastAccessed": 1781143164944,
+      "type": "file"
+    },
+    {
+      "path": "src/js/starfield.js",
+      "accessCount": 11,
+      "lastAccessed": 1781143245944,
       "type": "file"
     },
     {
       "path": "src/js/pan-s2c.js",
+      "accessCount": 8,
+      "lastAccessed": 1781143258318,
+      "type": "file"
+    },
+    {
+      "path": "src/js/iframe-manager.js",
+      "accessCount": 7,
+      "lastAccessed": 1781142013229,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s3.css",
+      "accessCount": 7,
+      "lastAccessed": 1781142570723,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s0.css",
+      "accessCount": 7,
+      "lastAccessed": 1781143155081,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s5a.html",
+      "accessCount": 7,
+      "lastAccessed": 1781143181926,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s1.html",
+      "accessCount": 7,
+      "lastAccessed": 1781143187307,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4b.html",
       "accessCount": 6,
-      "lastAccessed": 1781117403086,
+      "lastAccessed": 1781142997324,
       "type": "file"
     },
     {
@@ -68,81 +140,45 @@
       "type": "file"
     },
     {
-      "path": "src/slides/s1.html",
+      "path": "src/slides/s2c.html",
       "accessCount": 3,
-      "lastAccessed": 1781115112989,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s6.css",
-      "accessCount": 3,
-      "lastAccessed": 1781116068547,
+      "lastAccessed": 1781141959681,
       "type": "file"
     },
     {
       "path": "src/slides/s3a.html",
-      "accessCount": 2,
-      "lastAccessed": 1781114897538,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s3.css",
-      "accessCount": 2,
-      "lastAccessed": 1781114926096,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/base.css",
-      "accessCount": 2,
-      "lastAccessed": 1781115109927,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s2c.html",
-      "accessCount": 2,
-      "lastAccessed": 1781115478030,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s5a.html",
-      "accessCount": 2,
-      "lastAccessed": 1781116053764,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s4.css",
-      "accessCount": 2,
-      "lastAccessed": 1781116057960,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s6d.html",
-      "accessCount": 2,
-      "lastAccessed": 1781116070868,
+      "accessCount": 3,
+      "lastAccessed": 1781141966836,
       "type": "file"
     },
     {
       "path": "src/slides/s5b.html",
-      "accessCount": 2,
-      "lastAccessed": 1781117583884,
+      "accessCount": 3,
+      "lastAccessed": 1781141977445,
       "type": "file"
     },
     {
-      "path": "src/styles/s5.css",
-      "accessCount": 2,
-      "lastAccessed": 1781117589060,
+      "path": "src/slides/s6d.html",
+      "accessCount": 3,
+      "lastAccessed": 1781141979702,
       "type": "file"
     },
     {
-      "path": "src/slides/s4b.html",
-      "accessCount": 2,
-      "lastAccessed": 1781117676442,
+      "path": "src/slides/s0.html",
+      "accessCount": 3,
+      "lastAccessed": 1781142883210,
       "type": "file"
     },
     {
-      "path": "src/js/engine.js",
+      "path": "src/js/pan-s3b.js",
+      "accessCount": 3,
+      "lastAccessed": 1781143257670,
+      "type": "file"
+    },
+    {
+      "path": "src/js/hooks-s3c.js",
       "accessCount": 2,
-      "lastAccessed": 1781117824148,
+      "lastAccessed": 1781142237547,
       "type": "file"
     },
     {
@@ -212,12 +248,6 @@
       "type": "file"
     },
     {
-      "path": "src/js/pan-s3b.js",
-      "accessCount": 1,
-      "lastAccessed": 1781115386428,
-      "type": "file"
-    },
-    {
       "path": "package.json",
       "accessCount": 1,
       "lastAccessed": 1781115390615,
@@ -227,6 +257,90 @@
       "path": "scripts/verify/walkdeck.js",
       "accessCount": 1,
       "lastAccessed": 1781115395173,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s2a.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141958279,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s2b.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141958726,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s2d.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141960164,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s2e.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141960468,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s1.css",
+      "accessCount": 1,
+      "lastAccessed": 1781141964374,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s3b.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141967316,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s3c.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141967793,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s3d.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141968794,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4a.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141969228,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4c.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141970216,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s6a.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141977924,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s6b.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141978902,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s6c.html",
+      "accessCount": 1,
+      "lastAccessed": 1781141979333,
+      "type": "file"
+    },
+    {
+      "path": "src/js/hooks-s2d.js",
+      "accessCount": 1,
+      "lastAccessed": 1781142011810,
       "type": "file"
     }
   ],

@@ -47,6 +47,8 @@
 
     /* Mouse parallax state */
     let mouseX=W/2, mouseY=H/2, parX=0, parY=0;
+    let lastParX='', lastParY=''; /* M-fix: 마지막 기록값 — 동일값 setProperty 스킵용 */
+    let wasDrawn=false; /* B3-fix: 직전 프레임에 별을 그렸는지 — 불필요한 clearRect 스킵 */
     const PAR_MAX=10; /* max ±10px */
     addEventListener('mousemove',e=>{
       /* Convert to stage space via inverse of fit() transform */
@@ -69,14 +71,24 @@
       parX+=(targetParX-parX)*0.06;
       parY+=(targetParY-parY)*0.06;
 
-      /* Apply parallax to midground .bg glows/blk via CSS vars on deck-stage */
-      stage.style.setProperty('--par-x',parX.toFixed(2)+'px');
-      stage.style.setProperty('--par-y',parY.toFixed(2)+'px');
+      /* Apply parallax to midground .bg glows/blk via CSS vars on deck-stage.
+         M-fix: 0.1px 양자화 + 동일값 스킵 — 매 프레임 커스텀 프로퍼티를 갱신하면
+         var() 소비 서브트리 전체가 스타일 무효화되어 큰 DOM에서 프레임을 깎는다.
+         마우스가 멈추면 ~1초 내 수렴해 기록이 완전히 멈춘다. */
+      const pxs=parX.toFixed(1)+'px', pys=parY.toFixed(1)+'px';
+      if(pxs!==lastParX||pys!==lastParY){
+        stage.style.setProperty('--par-x',pxs);
+        stage.style.setProperty('--par-y',pys);
+        lastParX=pxs; lastParY=pys;
+      }
 
-      ctx.clearRect(0,0,W,H);
+      /* B3-fix: 아무것도 그리지 않는 프레임의 전체 캔버스 clear 스킵 */
+      if(bloomCur>0.05) ctx.clearRect(0,0,W,H);
+      else if(wasDrawn){ ctx.clearRect(0,0,W,H); wasDrawn=false; }
 
       /* Only draw stars when bloom > 0.05 */
       if(bloomCur>0.05){
+        wasDrawn=true;
         const globalAlpha=bloomCur*0.85;
         for(let i=0;i<stars.length;i++){
           const s=stars[i];
@@ -128,14 +140,23 @@
     if(reduced) return;
     const style=document.createElement('style');
     style.textContent=`
-      /* WP2: mouse micro-parallax on midground elements */
+      /* WP2: mouse micro-parallax on midground elements
+         M-fix: html.force-motion(?motion=on)에서도 동일 적용 — reduce 환경 발표자 오버라이드
+         B2-fix: 'transition: transform .1s' 제거 — transition 숏핸드가 base.css의
+         .bg .glow/.blk bloom 페이드(opacity/filter .9s)를 캐스케이드로 통째 대체해
+         페이드가 즉시 스냅됐고, 매 프레임 var 갱신마다 transition이 재시작되며
+         거대한 blur 레이어에 churn을 만들었다. rAF lerp가 이미 움직임을 부드럽게 한다. */
       @media (prefers-reduced-motion: no-preference){
         #deckStage .bg .glow,
         #deckStage .bg .blk {
           transform: translate(var(--par-x,0px), var(--par-y,0px));
-          transition: transform 0.1s linear;
           will-change: transform;
         }
+      }
+      html.force-motion #deckStage .bg .glow,
+      html.force-motion #deckStage .bg .blk {
+        transform: translate(var(--par-x,0px), var(--par-y,0px));
+        will-change: transform;
       }
     `;
     document.head.appendChild(style);

@@ -26,11 +26,14 @@
   transform:rotate(45deg);border-bottom-left-radius:6px}
 /* Mon 선진입 — 워크스페이스 카드 속으로 빨려 들어간다 */
 #s5a .flymon{position:absolute;z-index:7;width:52px;height:52px;left:var(--sx);top:var(--sy);opacity:0}
-.slide.active#s5a .flymon{animation:flyin 1.7s ease-in both;animation-delay:var(--d)}
+/* M-fix: 고정 1.7s ease-in → 거리 정규화 var(--fd) — 비행거리(565~725px)와 무관하게
+   동일 듀레이션이라 빠른 놈은 ~700px/s로 '휙 지나가던' 문제. 마크업의 --fd가
+   ~280px/s 등속 기준으로 개별 지정되고, 가시 구간(opacity 창)도 넓혔다. */
+.slide.active#s5a .flymon{animation:flyin var(--fd,2.3s) cubic-bezier(.5,.05,.85,.5) both;animation-delay:var(--d)}
 @keyframes flyin{
   0%{opacity:0;transform:translate(0,0) scale(1)}
-  18%{opacity:1}
-  78%{opacity:.95}
+  10%{opacity:1}
+  86%{opacity:.95}
   100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.22)}
 }
 /* zoom-in(scale+blur) 핸드오프 → s5b */
@@ -45,12 +48,15 @@
   letter-spacing:-.02em;color:var(--text-strong);margin-top:28px;
   display:flex;align-items:center;gap:26px}
 /* E3: LIVE 인디케이터 — 3.2초 차분한 호흡 (대기 화면이 '멈춘 앱'으로 보이지 않게) */
-#s5b .live-dot{width:26px;height:26px;border-radius:50%;background:var(--blue-core);
-  box-shadow:0 0 0 0 rgba(15,111,218,.35);animation:livebreathe 3.2s ease-in-out infinite}
+/* E3-smooth: box-shadow 확산(페인트 바운드, 매 프레임 리페인트) → 컴포지터 전용
+   ::after 링의 scale/opacity로 재표현 — 동일한 3.2s 차분한 호흡(E3 KEEP) */
+#s5b .live-dot{position:relative;width:26px;height:26px;border-radius:50%;background:var(--blue-core)}
+#s5b .live-dot::after{content:'';position:absolute;inset:0;border-radius:50%;
+  background:rgba(15,111,218,.35);animation:livebreathe 3.2s ease-in-out infinite}
 @keyframes livebreathe{
-  0%,100%{box-shadow:0 0 0 0 rgba(15,111,218,.35);opacity:1}
-  50%{box-shadow:0 0 0 18px rgba(15,111,218,0);opacity:.75}}
-@media (prefers-reduced-motion:reduce){#s5b .live-dot{animation:none}}
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(2.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s5b .live-dot::after{animation:none;opacity:0}}
 #s5b .hold-sub{font-size:28px;font-weight:600;color:var(--bgray-dark);margin-top:18px}
 #s5b .hold-hint{position:absolute;left:0;right:0;bottom:52px;text-align:center;
   font-size:16px;color:var(--bgray-med);font-weight:500;opacity:.65}

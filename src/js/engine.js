@@ -14,7 +14,12 @@
   const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
   const slides=$$('.slide'), stage=$('#deckStage'), pager=$('#pager');
   const pnodes=$$('.pnode');
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* M-fix: ?motion=on 발표자 오버라이드 — OS가 reduced-motion인 환경(행사장 PC,
+     원격 데스크톱, Windows '애니메이션 효과' 꺼짐)에서도 연출을 강제 재생한다.
+     기본값은 OS 설정 존중(접근성 유지); CSS측은 html.force-motion 게이트와 짝. */
+  const forceMotion=(()=>{ try{ return new URLSearchParams(location.search).get('motion')==='on'; }catch(e){ return false; } })();
+  if(forceMotion) document.documentElement.classList.add('force-motion');
+  const reduced=!forceMotion && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur=0, busy=false;
   const timers=new Set();
   const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);fn()},ms);timers.add(t);return t};
@@ -122,17 +127,29 @@
   fit(); addEventListener('resize',fit);
 
   /* —— 타이프라이터 —— */
+  /* F1-fix: 고스트 프리레이아웃 — 전체 문장을 visibility:hidden 글자 span으로 먼저
+     배치한 뒤 한 글자씩 켠다. 기존 방식은 중앙정렬 shrink-to-fit 박스가 글자마다
+     재센터링되어 제목이 초당 16회 수평으로 흔들렸다. 레이아웃은 이제 불변. */
   function typeInto(el,done){
     const txt=(el.dataset.text||'').replace(/\\n/g,'\n');
     el.textContent='';
-    const caret=document.createElement('span'); caret.className='caret'; el.appendChild(caret);
-    if(reduced){ caret.remove(); el.innerHTML=txt.replace(/\n/g,'<br>'); done&&done(); return; }
+    if(reduced){ el.innerHTML=txt.replace(/\n/g,'<br>'); done&&done(); return; }
+    const caret=document.createElement('span'); caret.className='caret';
+    const chars=[];
+    for(const ch of txt){
+      if(ch==='\n'){ el.appendChild(document.createElement('br')); chars.push(null); }
+      else{ const s=document.createElement('span'); s.textContent=ch; s.style.visibility='hidden';
+            el.appendChild(s); chars.push(s); }
+    }
     let i=0;
+    const placeCaret=()=>{ const next=chars.slice(i).find(c=>c);
+      if(next) el.insertBefore(caret,next); else el.appendChild(caret); };
+    placeCaret();
     (function step(){
-      if(i>=txt.length){ later(()=>caret.remove(),1200); done&&done(); return; }
-      const ch=txt[i++];
-      caret.before(ch==='\n'?document.createElement('br'):document.createTextNode(ch));
-      later(step, ch==='\n'?260:62);
+      if(i>=chars.length){ later(()=>caret.remove(),1200); done&&done(); return; }
+      const c=chars[i++];
+      if(c){ c.style.visibility='visible'; placeCaret(); later(step,62); }
+      else{ placeCaret(); later(step,260); }
     })();
   }
 
@@ -158,6 +175,9 @@
   function playCover(){
     const s0=$('#s0'); if(s0.classList.contains('played'))return;
     s0.classList.add('played');
+    /* S1-fix: .played가 #s0 --bloom 0→.4를 켜는데 캔버스 별 타깃은 show()에서만
+       읽혀 커버의 시그니처 순간에 별이 안 떴다 — 즉시 갱신 */
+    updateStarBloom(s0);
     later(()=>typeInto(s0.querySelector('.s0-title')), 420);
   }
   function resetCover(){
@@ -168,7 +188,8 @@
   /* —— S6d 태그라인 타이프 (keyed to slide id s6d — WP8 remap) —— */
   function playClosing(){
     const el=$('#s6d .type2'); if(!el)return;
-    later(()=>{ typeInto(el); }, reduced?0:2100);
+    /* M-fix: 2100→1400ms — 빈 화면 대기가 길어 '타이핑이 안 나오는' 느낌을 주던 간극 축소 */
+    later(()=>{ typeInto(el); }, reduced?0:1400);
   }
 
   /* === SLIDE TRANSITION === */
@@ -178,7 +199,14 @@
 
   function show(n,instant){
     n=Math.max(0,Math.min(n,slides.length-1));
+    /* R2-fix: 같은 슬라이드 재진입(Home on s0, 현재 섹션 pnode 클릭 등)은 no-op —
+       진행 중인 타이프라이터/카운터 타이머를 죽이고 아무것도 복구하지 않아
+       제목이 반쯤 타이핑된 채 멈추던 문제. (부팅 시엔 아직 .active가 아니라 통과) */
+    if(slides[n]===slides[cur]&&slides[n].classList.contains('active')) return;
     clearTimers();
+    /* R1-fix: clearTimers가 s5a 줌의 busy 해제 타이머(980ms)를 방금 죽였을 수 있다 —
+       직접 점프(pnode/hash/Home/End)는 항상 내비 잠금을 푼다. 안 풀면 busy=true 영구. */
+    busy=false;
     const prev=slides[cur];
     cur=n;
     /* WP1: write position on every show() */
@@ -312,11 +340,20 @@
       /* E1: 라이브 탐색 서브페이지 — data-explore 슬라이드에서 ↓ 확장, ↑ 복귀 (비내비) */
       case 'ArrowDown':{
         const sl=slides[cur];
-        if(sl&&sl.dataset.explore!==undefined){ e.preventDefault(); sl.classList.add('explore'); }
+        if(sl&&sl.dataset.explore!==undefined){
+          e.preventDefault(); sl.classList.add('explore');
+          /* E1-fix: live embed loads ONLY here (no boot preload / auto-live) */
+          if(deck.iframe&&deck.iframe.goLive) deck.iframe.goLive();
+        }
         return;}
       case 'ArrowUp':{
         const sl=slides[cur];
-        if(sl&&sl.classList.contains('explore')){ e.preventDefault(); sl.classList.remove('explore'); }
+        if(sl&&sl.classList.contains('explore')){
+          e.preventDefault(); sl.classList.remove('explore');
+          /* E1-fix: unload embed + reclaim keyboard focus from the iframe */
+          if(deck.iframe&&deck.iframe.standby) deck.iframe.standby();
+          window.focus();
+        }
         return;}
     }
 
@@ -358,6 +395,20 @@
     const psec=+p.dataset.sec;
     const idx=sectionFirstSlide[psec];
     if(idx!==undefined) show(idx);
+  }));
+
+  /* E1-fix: explore-hint click = mouse escape hatch. While the live iframe
+     holds keyboard focus the deck never sees ↑, but a click on deck chrome
+     (outside the iframe) both fires here and returns focus to the deck. */
+  document.querySelectorAll('.explore-hint').forEach(h=>h.addEventListener('click',()=>{
+    const sl=h.closest('.slide');
+    if(!sl||sl.dataset.explore===undefined) return;
+    const on=sl.classList.toggle('explore');
+    if(deck.iframe){
+      if(on&&deck.iframe.goLive) deck.iframe.goLive();
+      else if(!on&&deck.iframe.standby) deck.iframe.standby();
+    }
+    window.focus();
   }));
 
   addEventListener('hashchange',()=>{ const h=parseInt(location.hash.slice(1),10);

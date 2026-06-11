@@ -1,17 +1,24 @@
 
   /* ================================================================
-     WP4/WP5 — IFRAME MANAGER FACTORY (SD2-A)
-     makeIframeManager({slideId, iframeId, src, preloadDelay})
-     Instantiated for s2b (Oopy, 4500ms) and s3b (Proact0, 12000ms).
-     deck.iframe.reload / forceCapture dispatch to the ACTIVE slide's manager.
+     WP4/WP5 — IFRAME MANAGER FACTORY (SD2-A, E1-fix capture-first)
+     makeIframeManager({slideId, iframeId, src})
+     Instantiated for s2b (Oopy) and s3b (Proact0).
+     deck.iframe.reload / forceCapture / goLive / standby dispatch to the
+     ACTIVE slide's manager.
      Rules:
        - capture base always rendered (never hidden)
        - NO loading="lazy" — src set lazily by manager
+       - E1-fix: NO boot preload, NO auto-load on slide enter — the live
+         embed loads ONLY on explicit explore entry (↓ / hint click).
+         Rationale: an auto-shown cross-origin iframe steals keyboard focus
+         (nav keys die) and its background JS causes visible flicker.
+       - setLive reveals the iframe only while the slide is in explore mode
        - onload → no-cors fetch reachability probe → live or capture
        - 8s LOAD_TIMEOUT → capture (late onload still upgrades if not F-pinned)
+       - standby (↑ / hint click / slide leave) hides AND unloads the embed
        - F pins capture (userForced), R re-arms
      ================================================================ */
-  function makeIframeManager({slideId, iframeId, src, preloadDelay}){
+  function makeIframeManager({slideId, iframeId, src}){
     const LOAD_TIMEOUT=8000;
     let iframeState='idle'; /* idle | loading | live | capture */
     let userForced=false;
@@ -27,7 +34,10 @@
       iframeState='live';
       const {iframe}=getEls();
       if(!iframe) return;
-      iframe.classList.remove('hidden');
+      /* E1-fix: reveal only while exploring — if the presenter already left
+         explore mode (or the slide), keep the loaded iframe hidden. */
+      const slide=document.getElementById(slideId);
+      if(slide&&slide.classList.contains('explore')) iframe.classList.remove('hidden');
     }
 
     function setCapture(){
@@ -76,34 +86,49 @@
       loadIframe();
     }
 
-    /* Hook: ensure loading on enter; leave iframe mounted (don't destroy) */
+    /* E1-fix: goLive — explicit presenter action (↓ / hint click).
+       Already-loaded iframe is just revealed; otherwise start the load
+       (capture base keeps showing underneath until the probe passes). */
+    function goLive(){
+      userForced=false;
+      if(iframeState==='live'){ setLive(); return; }
+      loadIframe();
+    }
+
+    /* E1-fix: standby — hide the live layer AND unload the embed so its
+       background JS fully stops (about:blank). Capture base remains. */
+    function standby(){
+      if(loadTimer){ clearTimeout(loadTimer); loadTimer=null; }
+      iframeState='idle';
+      const {iframe}=getEls();
+      if(!iframe) return;
+      iframe.classList.add('hidden');
+      if(iframe.src) iframe.src='about:blank';
+    }
+
+    /* Hook: E1-fix — no auto-load on enter (capture is the default face);
+       leaving the slide always unloads the embed. */
     registerHook(slideId,{
-      onEnter(){ loadIframe(); },
-      onLeave(){}
+      onEnter(){},
+      onLeave(){ standby(); }
     });
 
-    /* Preload: warm the embed after boot so slide arrives already-live.
-       setTimeout (not later()) — must survive slide changes.
-       s3b staggered to 12s so the two embeds don't compete. */
-    setTimeout(loadIframe, preloadDelay);
-
-    /* Return reload/forceCapture interface */
+    /* Return presenter-action interface */
     return {
       reload(){ userForced=false; reloadIframe(); },
-      forceCapture(){ userForced=true; setCapture(); }
+      forceCapture(){ userForced=true; setCapture(); },
+      goLive, standby
     };
   }
 
   /* Instantiate managers */
   const mgr_s2b=makeIframeManager({
     slideId:'s2b', iframeId:'s2b-iframe',
-    src:'https://www.hon2yt2ch.kr/',
-    preloadDelay:4500
+    src:'https://www.hon2yt2ch.kr/'
   });
   const mgr_s3b=makeIframeManager({
     slideId:'s3b', iframeId:'s3b-iframe',
-    src:'https://www.proact0.org/',
-    preloadDelay:12000
+    src:'https://www.proact0.org/'
   });
 
   /* deck.iframe.reload / forceCapture — dispatch to ACTIVE slide's manager */
@@ -116,4 +141,15 @@
     const id=slides[cur]&&slides[cur].id;
     if(id==='s2b') mgr_s2b.forceCapture();
     else if(id==='s3b') mgr_s3b.forceCapture();
+  };
+  /* E1-fix: explore entry/exit dispatch (engine ↓/↑ + hint click) */
+  deck.iframe.goLive=function(){
+    const id=slides[cur]&&slides[cur].id;
+    if(id==='s2b') mgr_s2b.goLive();
+    else if(id==='s3b') mgr_s3b.goLive();
+  };
+  deck.iframe.standby=function(){
+    const id=slides[cur]&&slides[cur].id;
+    if(id==='s2b') mgr_s2b.standby();
+    else if(id==='s3b') mgr_s3b.standby();
   };
