@@ -119,6 +119,7 @@
     function animateToStop(inner,fromTx,fromTy,fromS,toTx,toTy,toS,durationMs,abortSignal){
       return new Promise(resolve=>{
         if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
+        inner.style.transition='none'; /* P2-fix: 프레임당 재기록 제거 */
         const t0=performance.now();
         function frame(now){
           if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
@@ -128,7 +129,6 @@
           const tx=fromTx+(toTx-fromTx)*e;
           const ty=fromTy+(toTy-fromTy)*e;
           const s=fromS+(toS-fromS)*e;
-          inner.style.transition='none';
           inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
           if(p<1) requestAnimationFrame(frame);
           else resolve('done');

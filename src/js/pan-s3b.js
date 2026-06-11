@@ -64,13 +64,13 @@
     function animatePanS3b(inner,fromY,toY,duration,abortSignal){
       return new Promise(resolve=>{
         if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
+        inner.style.transition='none'; /* P2-fix: 프레임당 재기록 제거 */
         const t0=performance.now();
         function frame(now){
           if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
           const p=Math.min((now-t0)/duration,1);
           const e=p<0.5?4*p*p*p:(1-Math.pow(-2*p+2,3)/2);
           const ty=fromY+(toY-fromY)*e;
-          inner.style.transition='none';
           inner.style.transform='translateY('+ty.toFixed(2)+'px)';
           if(p<1) requestAnimationFrame(frame);
           else resolve('done');
@@ -138,6 +138,9 @@
         const hr=await delayS3b(HOLD_MS,sig);
         if(hr==='aborted') return;
         inner.style.transform='translateY('+currentY.toFixed(2)+'px) scale(1)';
+        /* P1-fix: .35s 줌아웃 이징이 다음 레그의 transition:none에 잘려 스냅하던 문제 — 완료 대기 */
+        const zr=await delayS3b(380,sig);
+        if(zr==='aborted') return;
       }
       panRunning=false;
     }
