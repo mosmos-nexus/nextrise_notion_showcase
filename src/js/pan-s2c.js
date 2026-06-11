@@ -18,7 +18,7 @@
     deck.pan.toggle=function(){};
 
     const ZOOM=2.8;                 /* 표시 크기 대비 배율 (SVG라 벡터로 선명) */
-    const LENS_W=570, LENS_H=420;   /* CSS .zoom-lens와 동일 (로컬 px) — 기존比 1.5배 */
+    const LENS_W=720, LENS_H=420;   /* CSS .zoom-lens와 동일 (로컬 px) — 기존比 1.5배 */
 
     let img=null, lens=null, wrap=null, bound=false;
 
