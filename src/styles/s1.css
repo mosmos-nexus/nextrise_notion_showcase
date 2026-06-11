@@ -11,9 +11,9 @@
 #s1 .tl-node .disc{width:158px;height:158px;border-radius:50%;background:#fff;border:1.5px solid var(--border-default);
   box-shadow:var(--e2);display:flex;align-items:center;justify-content:center;position:relative}
 #s1 .tl-node .disc img{width:84px;height:84px;object-fit:contain}
-#s1 .tl-node .stage-tag{font-size:19px;font-weight:700;letter-spacing:.1em;color:var(--bgray-med)}
-#s1 .tl-node .nm{font-family:var(--font-display);font-weight:800;font-size:33px;color:var(--text-strong)}
-#s1 .tl-node .ds{font-size:21px;color:var(--text-muted);font-weight:500}
+#s1 .tl-node .stage-tag{font-size:var(--fs-badge);font-weight:700;letter-spacing:.1em;color:var(--bgray-med)}
+#s1 .tl-node .nm{font-family:var(--font-display);font-weight:800;font-size:var(--fs-c1);color:var(--text-strong)}
+#s1 .tl-node .ds{font-size:var(--fs-c3);color:var(--text-muted);font-weight:500}
 #s1 .tl-node .mon{position:absolute;right:-12px;top:-12px}
 /* 노드별 흑백 → 컬러 점등 */
 #s1 .tl-node .disc img{filter:grayscale(1)}
@@ -27,6 +27,6 @@
   display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border-default);
   border-radius:var(--r-pill);padding:16px 34px;box-shadow:var(--e2)}
 #s1 .tl-notion img{width:42px;height:42px}
-#s1 .tl-notion span{font-size:25px;font-weight:700;color:var(--text-strong)}
-#s1 .s1-sub{position:absolute;left:0;right:0;bottom:74px;text-align:center;font-size:28px;color:var(--bgray-dark);font-weight:500}
+#s1 .tl-notion span{font-size:var(--fs-c2);font-weight:700;color:var(--text-strong)}
+#s1 .s1-sub{position:absolute;left:0;right:0;bottom:74px;text-align:center;font-size:var(--fs-sub);color:var(--bgray-dark);font-weight:500}
 #s1 .s1-sub b{color:var(--text-strong)}

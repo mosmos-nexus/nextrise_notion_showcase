@@ -25,6 +25,15 @@
   --ease-out:cubic-bezier(.22,1,.36,1);
   --font-display:'NanumSquare','Pretendard Variable',sans-serif;
   --font-body:'Pretendard Variable',-apple-system,'Segoe UI',sans-serif;
+  /* TYPE SCALE — 발표(뒷자리) 가독성 계층. title/sub는 고정, content는 강조도에 따라 c1>c2>c3 비교 선택 */
+  --fs-hero:112px;     /* entro/ending title — s0·s5a·s5b·s6a·s6d */
+  --fs-hero-sub:44px;  /* hero 보조 행 (엔딩 서브라인) */
+  --fs-title:84px;     /* slide title(headline) — 고정 */
+  --fs-sub:34px;       /* subtitle/lead — 고정 */
+  --fs-c1:30px;        /* content 강조 — 카드 제목·takeaway */
+  --fs-c2:26px;        /* content 기본 — 본문·설명·칩 */
+  --fs-c3:22px;        /* content 보조 — 캡션·메타 */
+  --fs-badge:20px;     /* 마이크로 라벨 — URL바·뱃지·힌트 (최소선) */
   /* Deck chrome */
   --stage-bg:#0E1117; --slide-bg:#FFFFFF;
 }
@@ -232,13 +241,13 @@ body.no-fade .slide,body.no-fade .slide.active{
    ============================================================ */
 .slide{padding:112px 128px 96px}
 .kicker{display:flex;align-items:center;gap:18px;font-family:var(--font-body);
-  font-size:24px;font-weight:700;letter-spacing:.1em;color:var(--blue-core)}
+  font-size:var(--fs-c2);font-weight:700;letter-spacing:.1em;color:var(--blue-core)}
 .kicker::before{content:'';width:34px;height:4px;border-radius:4px;background:var(--gradient-bloom)}
-.headline{font-family:var(--font-display);font-weight:800;font-size:78px;line-height:1.18;
+.headline{font-family:var(--font-display);font-weight:800;font-size:var(--fs-title);line-height:1.18;
   letter-spacing:-.02em;color:var(--text-strong);margin-top:26px;text-wrap:balance}
 .headline em{font-style:normal;background:var(--gradient-bloom);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.sub{font-size:30px;line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
+.sub{font-size:var(--fs-sub);line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
 .sub b{color:var(--text-strong);font-weight:700}
 
 /* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정)
@@ -293,7 +302,7 @@ body.no-fade .slide,body.no-fade .slide.active{
   background:var(--clear-white);border-bottom:1px solid var(--border-subtle);flex:none}
 .browser .bar i{width:12px;height:12px;border-radius:50%;background:var(--border-strong)}
 .browser .bar i:nth-child(1){background:#F0A8A8}.browser .bar i:nth-child(2){background:#F0D49B}.browser .bar i:nth-child(3){background:#A8D8AC}
-.browser .bar .url{margin-left:10px;font-size:17px;color:var(--text-muted);
+.browser .bar .url{margin-left:10px;font-size:var(--fs-badge);color:var(--text-muted);
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-pill);padding:4px 18px}
 .browser .shot{flex:1;min-height:0;overflow:hidden;position:relative}
 /* WP3: object-fit:cover → contain so every asset is fully perceivable at native aspect (D2) */
@@ -303,9 +312,9 @@ body.no-fade .slide,body.no-fade .slide.active{
 .takeaway{position:absolute;left:128px;right:128px;bottom:84px;display:flex;align-items:center;gap:28px;
   background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;
   padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
-.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.08em;color:#fff;
+.takeaway .tag{flex:none;font-size:var(--fs-badge);font-weight:800;letter-spacing:.08em;color:#fff;
   background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
-.takeaway p{font-size:27px;line-height:1.45;font-weight:600;color:var(--text-body)}
+.takeaway p{font-size:var(--fs-c1);line-height:1.45;font-weight:600;color:var(--text-body)}
 .takeaway p b{color:var(--blue-core)}
 
 /* 지표 카드 + count-up */
@@ -317,7 +326,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 .metric .mi svg{width:30px;height:30px}
 .metric .num{font-family:var(--font-display);font-weight:800;font-size:84px;line-height:1;
   letter-spacing:-.02em;color:var(--text-strong);font-variant-numeric:tabular-nums}
-.metric .lbl{font-size:25px;font-weight:700;color:var(--bgray-dark)}
+.metric .lbl{font-size:var(--fs-c2);font-weight:700;color:var(--bgray-dark)}
 
 /* ============================================================
    5. Mon — 인라인 SVG 위성 캐릭터 (블롭 + 컬 + 점눈·미소·볼터치)
@@ -368,7 +377,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */
 .explore-hint{position:absolute;right:148px;bottom:26px;z-index:65; /* 페이저(우하단 고정 크롬)와 겹치지 않게 */
   background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
-  padding:10px 22px;font-size:17px;font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1);
+  padding:10px 22px;font-size:var(--fs-badge);font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1);
   cursor:pointer;user-select:none} /* E1-fix: clickable escape hatch while iframe owns kbd focus */
 .explore-hint .eh-out{display:none}
 .slide.explore .explore-hint .eh-in{display:none}

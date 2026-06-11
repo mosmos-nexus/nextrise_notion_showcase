@@ -49,6 +49,15 @@
   --ease-out:cubic-bezier(.22,1,.36,1);
   --font-display:'NanumSquare','Pretendard Variable',sans-serif;
   --font-body:'Pretendard Variable',-apple-system,'Segoe UI',sans-serif;
+  /* TYPE SCALE — 발표(뒷자리) 가독성 계층. title/sub는 고정, content는 강조도에 따라 c1>c2>c3 비교 선택 */
+  --fs-hero:112px;     /* entro/ending title — s0·s5a·s5b·s6a·s6d */
+  --fs-hero-sub:44px;  /* hero 보조 행 (엔딩 서브라인) */
+  --fs-title:84px;     /* slide title(headline) — 고정 */
+  --fs-sub:34px;       /* subtitle/lead — 고정 */
+  --fs-c1:30px;        /* content 강조 — 카드 제목·takeaway */
+  --fs-c2:26px;        /* content 기본 — 본문·설명·칩 */
+  --fs-c3:22px;        /* content 보조 — 캡션·메타 */
+  --fs-badge:20px;     /* 마이크로 라벨 — URL바·뱃지·힌트 (최소선) */
   /* Deck chrome */
   --stage-bg:#0E1117; --slide-bg:#FFFFFF;
 }
@@ -256,13 +265,13 @@ body.no-fade .slide,body.no-fade .slide.active{
    ============================================================ */
 .slide{padding:112px 128px 96px}
 .kicker{display:flex;align-items:center;gap:18px;font-family:var(--font-body);
-  font-size:24px;font-weight:700;letter-spacing:.1em;color:var(--blue-core)}
+  font-size:var(--fs-c2);font-weight:700;letter-spacing:.1em;color:var(--blue-core)}
 .kicker::before{content:'';width:34px;height:4px;border-radius:4px;background:var(--gradient-bloom)}
-.headline{font-family:var(--font-display);font-weight:800;font-size:78px;line-height:1.18;
+.headline{font-family:var(--font-display);font-weight:800;font-size:var(--fs-title);line-height:1.18;
   letter-spacing:-.02em;color:var(--text-strong);margin-top:26px;text-wrap:balance}
 .headline em{font-style:normal;background:var(--gradient-bloom);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.sub{font-size:30px;line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
+.sub{font-size:var(--fs-sub);line-height:1.55;color:var(--bgray-dark);margin-top:26px;font-weight:500;text-wrap:pretty}
 .sub b{color:var(--text-strong);font-weight:700}
 
 /* Reveal — 슬라이드 활성화 시 스태거 등장 (--d 로 딜레이 지정)
@@ -317,7 +326,7 @@ body.no-fade .slide,body.no-fade .slide.active{
   background:var(--clear-white);border-bottom:1px solid var(--border-subtle);flex:none}
 .browser .bar i{width:12px;height:12px;border-radius:50%;background:var(--border-strong)}
 .browser .bar i:nth-child(1){background:#F0A8A8}.browser .bar i:nth-child(2){background:#F0D49B}.browser .bar i:nth-child(3){background:#A8D8AC}
-.browser .bar .url{margin-left:10px;font-size:17px;color:var(--text-muted);
+.browser .bar .url{margin-left:10px;font-size:var(--fs-badge);color:var(--text-muted);
   background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-pill);padding:4px 18px}
 .browser .shot{flex:1;min-height:0;overflow:hidden;position:relative}
 /* WP3: object-fit:cover → contain so every asset is fully perceivable at native aspect (D2) */
@@ -327,9 +336,9 @@ body.no-fade .slide,body.no-fade .slide.active{
 .takeaway{position:absolute;left:128px;right:128px;bottom:84px;display:flex;align-items:center;gap:28px;
   background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;
   padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
-.takeaway .tag{flex:none;font-size:17px;font-weight:800;letter-spacing:.08em;color:#fff;
+.takeaway .tag{flex:none;font-size:var(--fs-badge);font-weight:800;letter-spacing:.08em;color:#fff;
   background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
-.takeaway p{font-size:27px;line-height:1.45;font-weight:600;color:var(--text-body)}
+.takeaway p{font-size:var(--fs-c1);line-height:1.45;font-weight:600;color:var(--text-body)}
 .takeaway p b{color:var(--blue-core)}
 
 /* 지표 카드 + count-up */
@@ -341,7 +350,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 .metric .mi svg{width:30px;height:30px}
 .metric .num{font-family:var(--font-display);font-weight:800;font-size:84px;line-height:1;
   letter-spacing:-.02em;color:var(--text-strong);font-variant-numeric:tabular-nums}
-.metric .lbl{font-size:25px;font-weight:700;color:var(--bgray-dark)}
+.metric .lbl{font-size:var(--fs-c2);font-weight:700;color:var(--bgray-dark)}
 
 /* ============================================================
    5. Mon — 인라인 SVG 위성 캐릭터 (블롭 + 컬 + 점눈·미소·볼터치)
@@ -392,7 +401,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */
 .explore-hint{position:absolute;right:148px;bottom:26px;z-index:65; /* 페이저(우하단 고정 크롬)와 겹치지 않게 */
   background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
-  padding:10px 22px;font-size:17px;font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1);
+  padding:10px 22px;font-size:var(--fs-badge);font-weight:700;color:var(--bgray-dark);box-shadow:var(--e1);
   cursor:pointer;user-select:none} /* E1-fix: clickable escape hatch while iframe owns kbd focus */
 .explore-hint .eh-out{display:none}
 .slide.explore .explore-hint .eh-in{display:none}
@@ -406,7 +415,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s0.played{--bloom:.4}
 #s0 .bg .grid-lines{opacity:1}
 #s0 .s0-top{position:absolute;top:118px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:14px;
-  font-size:21px;font-weight:600;letter-spacing:.06em;color:var(--bgray-med)}
+  font-size:var(--fs-c3);font-weight:600;letter-spacing:.06em;color:var(--bgray-med)}
 #s0 .s0-top img{width:30px;height:30px}
 #s0 .s0-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:40px}
 /* 중앙 블록 — Core Blue → Pop Purple bloom */
@@ -420,17 +429,17 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   box-shadow:0 24px 64px rgba(15,111,218,.28)}
 #s0.played .s0-block .sym-mono{opacity:0}
 #s0.played .s0-block .sym-grad{opacity:1}
-#s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:96px;line-height:1.22;
-  letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:240px}
+#s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:var(--fs-hero);line-height:1.22;
+  letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:280px}
 #s0 .s0-title .caret{display:inline-block;width:6px;height:.92em;margin-left:8px;vertical-align:-.12em;
   border-radius:3px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: steps(2)는 4단계 반투명 깜빡임 — 크리스프 블링크로 */
 @keyframes caret{50%{opacity:0}}
 /* bloom 이후 페이드 요소들 */
 #s0 .late{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
 #s0.played .late{opacity:1;transform:none}
-#s0 .s0-sub{font-size:34px;font-weight:600;color:var(--bgray-dark);margin-top:34px;transition-delay:2.2s}
-#s0 .s0-sub .en{color:var(--text-faint);font-weight:500;font-size:28px}
-#s0 .s0-foot{position:absolute;bottom:70px;left:0;right:0;text-align:center;font-size:22px;
+#s0 .s0-sub{font-size:var(--fs-sub);font-weight:600;color:var(--bgray-dark);margin-top:34px;transition-delay:2.2s}
+#s0 .s0-sub .en{color:var(--bgray-med);font-weight:500;font-size:var(--fs-c2)}
+#s0 .s0-foot{position:absolute;bottom:70px;left:0;right:0;text-align:center;font-size:var(--fs-c3);
   color:var(--bgray-med);font-weight:600;letter-spacing:.04em;transition-delay:2.6s}
 #s0 .s0-foot b{color:var(--text-strong)}
 #s0 .s0-mos{position:absolute;right:150px;bottom:120px;width:300px;transition-delay:1.9s}
@@ -449,9 +458,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s1 .tl-node .disc{width:158px;height:158px;border-radius:50%;background:#fff;border:1.5px solid var(--border-default);
   box-shadow:var(--e2);display:flex;align-items:center;justify-content:center;position:relative}
 #s1 .tl-node .disc img{width:84px;height:84px;object-fit:contain}
-#s1 .tl-node .stage-tag{font-size:19px;font-weight:700;letter-spacing:.1em;color:var(--bgray-med)}
-#s1 .tl-node .nm{font-family:var(--font-display);font-weight:800;font-size:33px;color:var(--text-strong)}
-#s1 .tl-node .ds{font-size:21px;color:var(--text-muted);font-weight:500}
+#s1 .tl-node .stage-tag{font-size:var(--fs-badge);font-weight:700;letter-spacing:.1em;color:var(--bgray-med)}
+#s1 .tl-node .nm{font-family:var(--font-display);font-weight:800;font-size:var(--fs-c1);color:var(--text-strong)}
+#s1 .tl-node .ds{font-size:var(--fs-c3);color:var(--text-muted);font-weight:500}
 #s1 .tl-node .mon{position:absolute;right:-12px;top:-12px}
 /* 노드별 흑백 → 컬러 점등 */
 #s1 .tl-node .disc img{filter:grayscale(1)}
@@ -465,8 +474,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border-default);
   border-radius:var(--r-pill);padding:16px 34px;box-shadow:var(--e2)}
 #s1 .tl-notion img{width:42px;height:42px}
-#s1 .tl-notion span{font-size:25px;font-weight:700;color:var(--text-strong)}
-#s1 .s1-sub{position:absolute;left:0;right:0;bottom:74px;text-align:center;font-size:28px;color:var(--bgray-dark);font-weight:500}
+#s1 .tl-notion span{font-size:var(--fs-c2);font-weight:700;color:var(--text-strong)}
+#s1 .s1-sub{position:absolute;left:0;right:0;bottom:74px;text-align:center;font-size:var(--fs-sub);color:var(--bgray-dark);font-weight:500}
 #s1 .s1-sub b{color:var(--text-strong)}
 
 /* ============================================================
@@ -491,8 +500,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   background:rgba(255,255,255,.95);border:1px solid var(--border-subtle);border-radius:var(--r-pill);
   padding:14px 30px 14px 18px;box-shadow:var(--e2);width:fit-content}
 #s2b .head-chip img.lg{width:44px;height:44px;border-radius:12px}
-#s2b .head-chip .t1{font-size:23px;font-weight:800;color:var(--text-strong)}
-#s2b .head-chip .t2{display:flex;align-items:center;gap:8px;font-size:18px;color:var(--text-muted);font-weight:600}
+#s2b .head-chip .t1{font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s2b .head-chip .t2{display:flex;align-items:center;gap:8px;font-size:var(--fs-c3);color:var(--text-muted);font-weight:600}
 #s2b .head-chip .t2 img{height:20px;width:auto;border-radius:4px}
 /* browser frame filling remainder of the slide */
 #s2b .browser-wrap{flex:1;position:absolute;left:96px;right:96px;top:192px;bottom:80px}
@@ -527,12 +536,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* (주의: .pan-wrap은 position:absolute — 이미 칩의 포지셔닝 컨텍스트다. relative로 덮으면 높이가 붕괴한다) */
 .s2c-chip{
   position:absolute;
-  max-width:480px;
+  max-width:560px;
   background:rgba(255,255,255,.97);
   border:1.5px solid #F0C45A;
   border-radius:12px;
   padding:12px 20px;
-  font-size:22px;
+  font-size:var(--fs-c2);
   font-weight:600;
   color:#1D2026;
   line-height:1.35;
@@ -548,11 +557,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   opacity:1;
   transform:translateY(0);
 }
-/* 정거장당 한 묶음만 표시 — 프레임 좌/우 상단 코너 고정 앵커 (줌 상태와 무관하게 클립 없음) */
-.s2c-chip--left{top:24px;left:24px;right:auto}
-.s2c-chip--right{top:24px;right:24px;left:auto}
+/* 정거장당 한 묶음만 표시 — 프레임 좌/우 상단 코너 고정 앵커 (줌 상태와 무관하게 클립 없음)
+   T-fix: top 24→90 — 캡처 자산에 구워진 브라우저 크롬(상단 다크 바)과 겹치지 않게 */
+.s2c-chip--left{top:90px;left:24px;right:auto}
+.s2c-chip--right{top:90px;right:24px;left:auto}
 /* S6: 우측 칩 2개는 인접 형제 — 둘째를 아래로 스택 */
-[data-stop="5"].s2c-chip--right + [data-stop="5"].s2c-chip--right{top:88px}
+[data-stop="5"].s2c-chip--right + [data-stop="5"].s2c-chip--right{top:200px}
 
 /* reduced-motion: 전체 자산을 다크 프레임 위에 contain으로 정적 표시 —
    베이크된 노란 주석이 그대로 읽히므로 DOM 칩은 중복이라 숨긴다 */
@@ -582,7 +592,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2d .flow-stage-chips{display:flex;justify-content:space-around;margin-top:30px}
 #s2d .flow-stage-chips .stage-chip{display:flex;align-items:center;gap:10px;
   background:var(--clear-white);border:1.5px solid var(--border-default);border-radius:var(--r-pill);
-  padding:12px 28px;font-size:22px;font-weight:700;color:var(--text-strong);
+  padding:12px 28px;font-size:var(--fs-c2);font-weight:700;color:var(--text-strong);
   opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
 #s2d .flow-stage-chips .stage-chip.chip-shown{opacity:1;transform:none}
 #s2d .flow-stage-chips .stage-chip .cdot{width:12px;height:12px;border-radius:50%;background:var(--gradient-bloom);flex:none}
@@ -611,7 +621,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   background:rgba(255,255,255,.95);border:1px solid var(--border-subtle);border-radius:var(--r-lg);
   padding:18px 22px;box-shadow:var(--e3);backdrop-filter:blur(6px)}
 .qr-badge img{width:100px;height:100px;display:block}
-.qr-badge .qr-label{font-size:17px;font-weight:700;color:var(--text-strong);text-align:center;line-height:1.3}
+.qr-badge .qr-label{font-size:var(--fs-badge);font-weight:700;color:var(--text-strong);text-align:center;line-height:1.3}
 @media print{.qr-badge{position:static;display:inline-flex}}
 
 /* E1: s2b 탐색 모드 — 브라우저 프레임이 무대 가득 확장 */
@@ -646,8 +656,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   background:rgba(255,255,255,.95);border:1px solid var(--border-subtle);border-radius:var(--r-pill);
   padding:14px 30px 14px 18px;box-shadow:var(--e2);width:fit-content}
 #s3b .head-chip img.lg{width:44px;height:44px;border-radius:12px}
-#s3b .head-chip .t1{font-size:23px;font-weight:800;color:var(--text-strong)}
-#s3b .head-chip .t2{font-size:18px;color:var(--text-muted);font-weight:600}
+#s3b .head-chip .t1{font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s3b .head-chip .t2{font-size:var(--fs-c3);color:var(--text-muted);font-weight:600}
 /* layout: browser left + chips right */
 #s3b .cols{position:absolute;left:96px;right:96px;top:192px;bottom:80px;display:grid;grid-template-columns:880px 1fr;gap:60px}
 #s3b .browser-col{height:100%}
@@ -674,8 +684,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3b .chip .ci{flex:none;width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(15,111,218,.1),rgba(155,110,239,.12));color:var(--blue-core)}
 #s3b .chip .ci svg{width:32px;height:32px}
-#s3b .chip h4{font-size:26px;font-weight:800;color:var(--text-strong);font-family:var(--font-display)}
-#s3b .chip p{font-size:21px;color:var(--text-muted);margin-top:6px;line-height:1.45}
+#s3b .chip h4{font-size:var(--fs-c1);font-weight:800;color:var(--text-strong);font-family:var(--font-display)}
+#s3b .chip p{font-size:var(--fs-c2);color:var(--text-muted);margin-top:6px;line-height:1.45;word-break:keep-all;overflow-wrap:break-word}
 /* Mon decorations */
 #s3b .mon-deco{position:absolute;z-index:5}
 #s3b .mon-deco.a{right:118px;top:86px;width:52px;height:52px}
@@ -696,16 +706,16 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3c .hub .disc{width:200px;height:200px;border-radius:50%;background:#fff;border:2px solid var(--border-default);
   box-shadow:var(--e3);display:flex;align-items:center;justify-content:center}
 #s3c .hub .disc img{width:110px;height:110px}
-#s3c .hub .hlbl{font-size:24px;font-weight:800;color:var(--text-strong);text-align:center;line-height:1.35}
-#s3c .hub .hlbl small{display:block;font-size:18px;font-weight:600;color:var(--text-muted)}
+#s3c .hub .hlbl{font-size:var(--fs-c2);font-weight:800;color:var(--text-strong);text-align:center;line-height:1.35}
+#s3c .hub .hlbl small{display:block;font-size:var(--fs-c3);font-weight:600;color:var(--text-muted)}
 /* Pills: positioned by inline style within the hubmap */
 #s3c .pill{position:absolute;display:flex;align-items:center;gap:14px;background:#fff;
   border:1px solid var(--border-subtle);border-radius:var(--r-pill);padding:12px 26px 12px 14px;box-shadow:var(--e2)}
 #s3c .pill img{width:38px;height:38px;object-fit:contain}
-#s3c .pill span{font-size:22px;font-weight:700;color:var(--text-body);white-space:nowrap}
+#s3c .pill span{font-size:var(--fs-c2);font-weight:700;color:var(--text-body);white-space:nowrap}
 /* Group headers */
-#s3c .ghead{position:absolute;font-size:17px;font-weight:800;letter-spacing:.08em;color:var(--bgray-med);
-  text-transform:uppercase}
+#s3c .ghead{position:absolute;font-size:var(--fs-badge);font-weight:800;letter-spacing:.08em;color:var(--bgray-med);
+  text-transform:uppercase;transform:translateY(-8px)} /* T-fix: 라벨 확대 후 첫 칩과의 호흡 복원 */
 #s3c .ghead img{width:22px;height:22px;vertical-align:-4px;margin-right:8px}
 /* Mon decorations */
 #s3c .mon-deco{position:absolute;z-index:5}
@@ -727,6 +737,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3d .grid4{position:absolute;left:128px;right:128px;top:348px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
 #s3d .grid4 .metric{padding:48px 36px;gap:18px}
 #s3d .grid4 .num{font-size:70px}
+/* T-fix: 카피가 QR 배지(우하단 고정) 아래로 깔리지 않게 — s2e와 동일 보정 */
+#s3d .takeaway{right:332px}
 #s3d .mon{position:absolute;z-index:3}
 #s3d .mon.a{right:118px;top:292px;width:58px;height:58px}
 #s3d .mon.b{left:104px;top:796px;width:54px;height:54px}
@@ -752,8 +764,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4a .pillar .pi{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;
   background:var(--pg,var(--gradient-brand));color:#fff;box-shadow:var(--e2)}
 #s4a .pillar .pi svg{width:38px;height:38px}
-#s4a .pillar h3{font-family:var(--font-display);font-size:31px;font-weight:800;color:var(--text-strong);margin-top:26px}
-#s4a .pillar p{font-size:23px;line-height:1.5;color:var(--bgray-dark);margin-top:12px}
+#s4a .pillar h3{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong);margin-top:26px}
+#s4a .pillar p{font-size:var(--fs-c2);line-height:1.5;color:var(--bgray-dark);margin-top:12px}
 #s4a .pillar p b{color:var(--text-strong)}
 #s4a .p1{--pg:linear-gradient(135deg,#0F6FDA,#9CBDE9)}
 #s4a .p2{--pg:linear-gradient(135deg,#9B6EEF,#F5A8C5)}
@@ -767,14 +779,16 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4b{--bloom:1}
 #s4b .cols{position:absolute;left:118px;right:118px;top:120px;bottom:100px;display:grid;grid-template-columns:980px 1fr;gap:64px;align-items:center}
 #s4b .browser{height:680px}
-#s4b .shot-cap{margin-top:18px;display:flex;align-items:center;gap:12px;font-size:21px;font-weight:600;color:var(--text-muted)}
+#s4b .shot-cap{margin-top:18px;display:flex;align-items:center;gap:12px;font-size:var(--fs-c3);font-weight:600;color:var(--text-muted)}
 #s4b .shot-cap img{width:26px;height:26px}
 #s4b .right{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
 #s4b .right .hlogo{height:74px;width:auto}
 /* D5: 카피 블록과 궤도 우주 사이 수직 리듬 타이트하게 */
-#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:22px}
-#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px}
-#s4b .universe{position:relative;width:560px;height:404px;margin-top:-18px}
+#s4b .right h3{font-family:var(--font-display);font-size:var(--fs-hero-sub);font-weight:800;color:var(--text-strong);margin-top:22px}
+/* T-fix: 궤도 Mon이 카피 위를 지나가며 글자를 가리던 문제 — 텍스트를 궤도 위 레이어로 */
+#s4b .right p.cp{font-size:var(--fs-c2);line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px;
+  position:relative;z-index:3}
+#s4b .universe{position:relative;width:560px;height:404px;margin-top:12px}
 #s4b .universe .mos{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:280px}
 #s4b .orbit-ring{position:absolute;left:50%;top:54%;width:480px;height:480px;margin:-240px 0 0 -240px;
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
@@ -792,16 +806,17 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4c{--bloom:.9}
 #s4c .cols{position:absolute;left:128px;right:128px;top:300px;bottom:226px;display:grid;grid-template-columns:1fr 640px;gap:70px}
 #s4c .demos{display:grid;grid-template-columns:1fr 1fr;gap:26px}
-#s4c .demo{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:30px 32px;box-shadow:var(--e1);display:flex;flex-direction:column;justify-content:center;gap:14px}
+#s4c .demo{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:30px 32px;box-shadow:var(--e1);display:flex;flex-direction:column;justify-content:flex-start;gap:14px} /* T-fix: 행간 줄 수 차이에도 행 정렬 유지 */
+#s4c .demo p{word-break:keep-all;overflow-wrap:break-word} /* 한글 단어 단위 줄바꿈 */
 #s4c .demo .di{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(15,111,218,.12),rgba(0,160,163,.12));color:var(--blue-core)}
 #s4c .demo .di svg,#s4c .demo .di img{width:30px;height:30px}
-#s4c .demo h4{font-family:var(--font-display);font-size:25.5px;font-weight:800;color:var(--text-strong)}
-#s4c .demo p{font-size:19.5px;color:var(--text-muted);line-height:1.45}
+#s4c .demo h4{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s4c .demo p{font-size:var(--fs-c2);color:var(--text-muted);line-height:1.45}
 #s4c .preview{display:flex;flex-direction:column;gap:16px}
 #s4c .preview .card{padding:18px;display:flex;flex-direction:column;gap:0;overflow:hidden}
 #s4c .preview .card img{width:100%;border-radius:12px}
-#s4c .preview .pcap{font-size:19px;color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
+#s4c .preview .pcap{font-size:var(--fs-c3);color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
 /* WP6 A6: s4c Mon decorations (생성/소통 theme — 2 Mons) */
 #s4c .mon-deco{position:absolute;z-index:5}
 #s4c .mon-deco.a{right:130px;top:90px;width:52px;height:52px}
@@ -849,10 +864,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s5a{--bloom:1}
 #s5a .s5-inner{position:absolute;inset:0;padding:96px 128px}
 #s5a .center{position:absolute;left:0;right:0;top:128px;display:flex;flex-direction:column;align-items:center;text-align:center;z-index:5}
-#s5a .center h2{font-family:var(--font-display);font-size:92px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
+#s5a .center h2{font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
 #s5a .chips{display:flex;gap:18px;margin-top:44px}
 #s5a .chips .kw{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--border-default);
-  border-radius:var(--r-pill);padding:16px 32px;font-size:25px;font-weight:700;color:var(--text-body);box-shadow:var(--e2)}
+  border-radius:var(--r-pill);padding:16px 32px;font-size:var(--fs-c2);font-weight:700;color:var(--text-body);box-shadow:var(--e2)}
 #s5a .chips .kw .cdot{width:12px;height:12px;border-radius:50%}
 #s5a .chips .kw img{width:28px;height:28px}
 #s5a .stage-shots{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);width:1560px;height:480px;z-index:2}
@@ -864,7 +879,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s5a .shotcard.c3{right:30px;bottom:24px;transform:rotate(4deg)}
 #s5a .mos{position:absolute;left:128px;top:560px;width:235px;z-index:6}
 #s5a .bubble{position:absolute;left:330px;top:545px;z-index:6;background:#fff;border:1.5px solid var(--border-default);
-  border-radius:22px;padding:18px 28px;font-size:23px;font-weight:600;color:var(--text-body);box-shadow:var(--e2)}
+  border-radius:22px;padding:18px 28px;font-size:var(--fs-c2);font-weight:600;color:var(--text-body);box-shadow:var(--e2)}
 #s5a .bubble::after{content:'';position:absolute;left:-12px;top:38px;width:22px;height:22px;background:#fff;
   border-left:1.5px solid var(--border-default);border-bottom:1.5px solid var(--border-default);
   transform:rotate(45deg);border-bottom-left-radius:6px}
@@ -888,7 +903,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s5b{--bloom:1}
 #s5b .hold-center{position:absolute;left:0;right:0;top:0;bottom:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;z-index:5}
-#s5b .hold-label{font-family:var(--font-display);font-size:88px;font-weight:800;
+#s5b .hold-label{font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;
   letter-spacing:-.02em;color:var(--text-strong);margin-top:28px;
   display:flex;align-items:center;gap:26px}
 /* E3: LIVE 인디케이터 — 3.2초 차분한 호흡 (대기 화면이 '멈춘 앱'으로 보이지 않게) */
@@ -901,9 +916,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   0%,100%{transform:scale(1);opacity:1}
   50%{transform:scale(2.4);opacity:0}}
 @media (prefers-reduced-motion:reduce){html:not(.force-motion) #s5b .live-dot::after{animation:none;opacity:0}}
-#s5b .hold-sub{font-size:28px;font-weight:600;color:var(--bgray-dark);margin-top:18px}
+#s5b .hold-sub{font-size:var(--fs-sub);font-weight:600;color:var(--bgray-dark);margin-top:18px}
 #s5b .hold-hint{position:absolute;left:0;right:0;bottom:52px;text-align:center;
-  font-size:16px;color:var(--bgray-med);font-weight:500;opacity:.65}
+  font-size:var(--fs-badge);color:var(--bgray-med);font-weight:500;opacity:.65}
 #s5b .mos{width:220px;z-index:6}
 .slide.active#s5b .mos{animation:float 3.8s ease-in-out infinite}
 
@@ -912,8 +927,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
    ============================================================ */
 #s6a{--bloom:1}
 #s6a .top{position:absolute;left:0;right:0;top:308px;display:flex;flex-direction:column;align-items:center;text-align:center}
-#s6a .top h2{font-family:var(--font-display);font-size:82px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong);margin-top:0}
-#s6a .top p{font-size:30px;color:var(--bgray-dark);font-weight:500;margin-top:20px}
+#s6a .top h2{font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;letter-spacing:-.02em;color:var(--text-strong);margin-top:0}
+#s6a .top p{font-size:var(--fs-sub);color:var(--bgray-dark);font-weight:500;margin-top:20px}
 #s6a .mos-hero{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);width:430px;z-index:5}
 
 /* ============================================================
@@ -921,10 +936,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
    ============================================================ */
 #s6b{--bloom:.7}
 /* D7: .kicker 베이스가 flex이므로 justify-content로 센터링 — 헤드라인과 한 축 */
-#s6b .kicker{position:absolute;left:0;right:0;top:152px;justify-content:center;
-  font-size:18px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-core);opacity:.75}
-#s6b .head{position:absolute;left:0;right:0;top:200px;text-align:center;
-  font-family:var(--font-display);font-size:60px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
+#s6b .kicker{position:absolute;left:0;right:0;top:148px;justify-content:center;
+  font-size:var(--fs-c3);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-core);opacity:.75}
+#s6b .head{position:absolute;left:0;right:0;top:204px;text-align:center;
+  font-family:var(--font-display);font-size:var(--fs-title);font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
 #s6b .axes{position:absolute;left:140px;right:140px;top:448px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
 #s6b .axis{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
   padding:68px 44px 52px;box-shadow:var(--e2);text-align:center}
@@ -936,8 +951,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6b .axis .ai{width:62px;height:62px;margin:0 auto;border-radius:18px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(15,111,218,.1),rgba(155,110,239,.14));color:var(--blue-core)}
 #s6b .axis .ai svg{width:32px;height:32px}
-#s6b .axis h4{font-family:var(--font-display);font-size:27px;font-weight:800;color:var(--text-strong);margin-top:18px}
-#s6b .axis p{font-size:20.5px;color:var(--text-muted);line-height:1.5;margin-top:10px}
+#s6b .axis h4{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong);margin-top:18px}
+#s6b .axis p{font-size:var(--fs-c2);color:var(--text-muted);line-height:1.5;margin-top:10px;word-break:keep-all;overflow-wrap:break-word}
 @media (prefers-reduced-motion:reduce){html:not(.force-motion) #s6b .axis .mon{transition:opacity .2s}}
 
 /* ============================================================
@@ -947,12 +962,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6c .cta-wrap{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
   display:flex;flex-direction:column;align-items:center;gap:36px}
 #s6c .cta-url{display:flex;align-items:center;gap:14px;background:var(--gradient-bloom);color:#fff;
-  border-radius:var(--r-pill);padding:22px 56px;font-size:36px;font-weight:800;font-family:var(--font-display);
+  border-radius:var(--r-pill);padding:28px 64px;font-size:56px;font-weight:800;font-family:var(--font-display);
   box-shadow:0 14px 38px rgba(15,111,218,.32);text-decoration:none}
 #s6c .qr-center{background:#fff;border:1px solid var(--border-subtle);border-radius:24px;
   padding:18px;box-shadow:var(--e2)}
 #s6c .qr-center img{width:240px;height:240px;display:block}
-#s6c .net-copy{max-width:640px;font-size:22px;line-height:1.6;color:var(--bgray-dark);font-weight:500;text-align:center}
+#s6c .net-copy{max-width:760px;font-size:var(--fs-c2);line-height:1.6;color:var(--bgray-dark);font-weight:500;text-align:center}
 #s6c .net-copy b{color:var(--text-strong)}
 #s6c .hlogo-foot{position:absolute;left:64px;bottom:48px;height:40px;width:auto;opacity:.8}
 /* CTA 화면 Mon 2기 — 밀도 규칙(2-3) 충족, CTA 시선 방해 없는 측면 배치 */
@@ -964,7 +979,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
    S6d · 마침 — Mos greeting + ALL Mon + typewriter tagline
    ============================================================ */
 #s6d{--bloom:1}
-#s6d .mos-greeting{position:absolute;left:50%;bottom:170px;transform:translateX(-50%);width:300px;z-index:6}
+/* T-fix: 엔딩 메시지를 무대의 주인공으로 — 타이프 라인은 hero 크기로 화면 중앙,
+   로고는 상단·Mos는 하단 중앙, Mon 6기는 메시지~Mos를 감싸는 아치로 재배치 */
+#s6d .mos-greeting{position:absolute;left:50%;bottom:104px;transform:translateX(-50%);width:280px;z-index:6}
 /* Six Mon variants gathered around — varied sizes, gentle float */
 #s6d .mon-finale{position:absolute;z-index:5}
 /* 등장(pop)과 부유(float)를 합성 — mfN 규칙(ID 명시도)이 .rv-pop의 pop을 밀어내
@@ -972,20 +989,28 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6d.active .mon-finale{
   animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 6.2s ease-in-out infinite;
   animation-delay:var(--d,0s), calc(var(--d,0s) + .9s)}
-/* D8: 가장자리 산개 → Mos(중앙 하단) 주위로 모여드는 아치 — 피날레 밀도 */
-#s6d .mon-finale.mf1{width:64px;height:64px;left:566px;top:648px}
-#s6d .mon-finale.mf2{width:54px;height:54px;left:692px;top:512px}
-#s6d .mon-finale.mf3{width:60px;height:60px;left:846px;top:442px}
-#s6d .mon-finale.mf4{width:58px;height:58px;right:842px;top:452px}
-#s6d .mon-finale.mf5{width:64px;height:64px;right:678px;top:528px}
-#s6d .mon-finale.mf6{width:50px;height:50px;right:556px;top:660px}
-#s6d .vlogo{position:absolute;left:50%;top:128px;transform:translateX(-50%);height:160px;width:auto}
+/* 중앙 메시지 좌우 → Mos를 향해 내려오는 아치 — 피날레 밀도 */
+#s6d .mon-finale.mf1{width:64px;height:64px;left:392px;top:496px}
+#s6d .mon-finale.mf2{width:54px;height:54px;left:556px;top:664px}
+#s6d .mon-finale.mf3{width:60px;height:60px;left:736px;top:800px}
+#s6d .mon-finale.mf4{width:58px;height:58px;right:392px;top:496px}
+#s6d .mon-finale.mf5{width:64px;height:64px;right:556px;top:664px}
+#s6d .mon-finale.mf6{width:50px;height:50px;right:736px;top:800px}
+#s6d .vlogo{position:absolute;left:50%;top:84px;transform:translateX(-50%);height:140px;width:auto}
 /* D8: 축하 글로우 — Mos 뒤 은은한 파스텔 광원 */
 #s6d .finale-glow{position:absolute;left:50%;bottom:40px;width:1240px;height:720px;transform:translateX(-50%);
   background:radial-gradient(closest-side,rgba(155,110,239,.17),rgba(15,111,218,.10) 45%,transparent 75%);
   filter:blur(42px);pointer-events:none;z-index:1}
-#s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
-#s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: 크리스프 블링크 */
+/* 엔딩 타이틀 — 타이프되는 "감사합니다" (hero 계층) */
+#s6d .tagline{position:absolute;left:0;right:0;top:368px;text-align:center;z-index:5;
+  font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;letter-spacing:-.02em;
+  color:var(--text-strong);min-height:150px}
+#s6d .tagline .caret{display:inline-block;width:7px;height:.88em;margin-left:10px;vertical-align:-.08em;border-radius:3px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: 크리스프 블링크 */
+/* 엔딩 서브라인 — 타이프가 끝난 뒤 떠오른다 (hero-sub 계층) */
+#s6d .tag-sub{position:absolute;left:0;right:0;top:548px;text-align:center;z-index:5;
+  font-size:var(--fs-hero-sub);font-weight:700;color:var(--bgray-dark)}
+#s6d .tag-sub b{background:var(--gradient-bloom);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 @media (prefers-reduced-motion:reduce){
   html:not(.force-motion) #s6d .mon-finale,html:not(.force-motion) #s6d.active .mon-finale{animation:none;opacity:1}
 }
@@ -1267,7 +1292,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <div class="slide-inner">
     <div class="flow-header rv" style="--d:.05s">
       <div class="kicker">n8n → Notion 자동화 파이프라인</div>
-      <h2 class="headline" style="font-size:62px;margin-top:16px">글이 <em>스스로 분류·적재</em>되는 구조</h2>
+      <h2 class="headline" style="margin-top:16px">글이 <em>스스로 분류·적재</em>되는 구조</h2>
     </div>
   </div>
   <div class="flow-card rv" style="--d:.3s">
@@ -1802,7 +1827,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <svg class="mon-finale mf5 m-create rv-pop" style="--d:.6s"><use href="#mon-body"/><use href="#p-create"/></svg>
   <svg class="mon-finale mf6 m-comm rv-pop" style="--d:.35s"><use href="#mon-body"/><use href="#p-comm"/></svg>
   <img class="mos-greeting rv" style="--d:.55s" src="deck-assets/mos-greeting.png" alt="Mos가 인사하는 모습">
-  <p class="tagline"><span class="type2" data-text="감사합니다 — 내 AI가 자라는 세계, mosmos"></span></p>
+  <p class="tagline"><span class="type2" data-text="감사합니다"></span></p>
+  <p class="tag-sub rv" style="--d:2.2s">내 AI가 자라는 세계, <b>mosmos</b></p>
 </section>
 
 </main>

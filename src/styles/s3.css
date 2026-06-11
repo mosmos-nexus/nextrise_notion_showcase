@@ -24,8 +24,8 @@
   background:rgba(255,255,255,.95);border:1px solid var(--border-subtle);border-radius:var(--r-pill);
   padding:14px 30px 14px 18px;box-shadow:var(--e2);width:fit-content}
 #s3b .head-chip img.lg{width:44px;height:44px;border-radius:12px}
-#s3b .head-chip .t1{font-size:23px;font-weight:800;color:var(--text-strong)}
-#s3b .head-chip .t2{font-size:18px;color:var(--text-muted);font-weight:600}
+#s3b .head-chip .t1{font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s3b .head-chip .t2{font-size:var(--fs-c3);color:var(--text-muted);font-weight:600}
 /* layout: browser left + chips right */
 #s3b .cols{position:absolute;left:96px;right:96px;top:192px;bottom:80px;display:grid;grid-template-columns:880px 1fr;gap:60px}
 #s3b .browser-col{height:100%}
@@ -52,8 +52,8 @@
 #s3b .chip .ci{flex:none;width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(15,111,218,.1),rgba(155,110,239,.12));color:var(--blue-core)}
 #s3b .chip .ci svg{width:32px;height:32px}
-#s3b .chip h4{font-size:26px;font-weight:800;color:var(--text-strong);font-family:var(--font-display)}
-#s3b .chip p{font-size:21px;color:var(--text-muted);margin-top:6px;line-height:1.45}
+#s3b .chip h4{font-size:var(--fs-c1);font-weight:800;color:var(--text-strong);font-family:var(--font-display)}
+#s3b .chip p{font-size:var(--fs-c2);color:var(--text-muted);margin-top:6px;line-height:1.45;word-break:keep-all;overflow-wrap:break-word}
 /* Mon decorations */
 #s3b .mon-deco{position:absolute;z-index:5}
 #s3b .mon-deco.a{right:118px;top:86px;width:52px;height:52px}
@@ -74,16 +74,16 @@
 #s3c .hub .disc{width:200px;height:200px;border-radius:50%;background:#fff;border:2px solid var(--border-default);
   box-shadow:var(--e3);display:flex;align-items:center;justify-content:center}
 #s3c .hub .disc img{width:110px;height:110px}
-#s3c .hub .hlbl{font-size:24px;font-weight:800;color:var(--text-strong);text-align:center;line-height:1.35}
-#s3c .hub .hlbl small{display:block;font-size:18px;font-weight:600;color:var(--text-muted)}
+#s3c .hub .hlbl{font-size:var(--fs-c2);font-weight:800;color:var(--text-strong);text-align:center;line-height:1.35}
+#s3c .hub .hlbl small{display:block;font-size:var(--fs-c3);font-weight:600;color:var(--text-muted)}
 /* Pills: positioned by inline style within the hubmap */
 #s3c .pill{position:absolute;display:flex;align-items:center;gap:14px;background:#fff;
   border:1px solid var(--border-subtle);border-radius:var(--r-pill);padding:12px 26px 12px 14px;box-shadow:var(--e2)}
 #s3c .pill img{width:38px;height:38px;object-fit:contain}
-#s3c .pill span{font-size:22px;font-weight:700;color:var(--text-body);white-space:nowrap}
+#s3c .pill span{font-size:var(--fs-c2);font-weight:700;color:var(--text-body);white-space:nowrap}
 /* Group headers */
-#s3c .ghead{position:absolute;font-size:17px;font-weight:800;letter-spacing:.08em;color:var(--bgray-med);
-  text-transform:uppercase}
+#s3c .ghead{position:absolute;font-size:var(--fs-badge);font-weight:800;letter-spacing:.08em;color:var(--bgray-med);
+  text-transform:uppercase;transform:translateY(-8px)} /* T-fix: 라벨 확대 후 첫 칩과의 호흡 복원 */
 #s3c .ghead img{width:22px;height:22px;vertical-align:-4px;margin-right:8px}
 /* Mon decorations */
 #s3c .mon-deco{position:absolute;z-index:5}
@@ -105,6 +105,8 @@
 #s3d .grid4{position:absolute;left:128px;right:128px;top:348px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
 #s3d .grid4 .metric{padding:48px 36px;gap:18px}
 #s3d .grid4 .num{font-size:70px}
+/* T-fix: 카피가 QR 배지(우하단 고정) 아래로 깔리지 않게 — s2e와 동일 보정 */
+#s3d .takeaway{right:332px}
 #s3d .mon{position:absolute;z-index:3}
 #s3d .mon.a{right:118px;top:292px;width:58px;height:58px}
 #s3d .mon.b{left:104px;top:796px;width:54px;height:54px}

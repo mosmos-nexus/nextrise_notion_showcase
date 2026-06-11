@@ -5,10 +5,10 @@
 #s5a{--bloom:1}
 #s5a .s5-inner{position:absolute;inset:0;padding:96px 128px}
 #s5a .center{position:absolute;left:0;right:0;top:128px;display:flex;flex-direction:column;align-items:center;text-align:center;z-index:5}
-#s5a .center h2{font-family:var(--font-display);font-size:92px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
+#s5a .center h2{font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
 #s5a .chips{display:flex;gap:18px;margin-top:44px}
 #s5a .chips .kw{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--border-default);
-  border-radius:var(--r-pill);padding:16px 32px;font-size:25px;font-weight:700;color:var(--text-body);box-shadow:var(--e2)}
+  border-radius:var(--r-pill);padding:16px 32px;font-size:var(--fs-c2);font-weight:700;color:var(--text-body);box-shadow:var(--e2)}
 #s5a .chips .kw .cdot{width:12px;height:12px;border-radius:50%}
 #s5a .chips .kw img{width:28px;height:28px}
 #s5a .stage-shots{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);width:1560px;height:480px;z-index:2}
@@ -20,7 +20,7 @@
 #s5a .shotcard.c3{right:30px;bottom:24px;transform:rotate(4deg)}
 #s5a .mos{position:absolute;left:128px;top:560px;width:235px;z-index:6}
 #s5a .bubble{position:absolute;left:330px;top:545px;z-index:6;background:#fff;border:1.5px solid var(--border-default);
-  border-radius:22px;padding:18px 28px;font-size:23px;font-weight:600;color:var(--text-body);box-shadow:var(--e2)}
+  border-radius:22px;padding:18px 28px;font-size:var(--fs-c2);font-weight:600;color:var(--text-body);box-shadow:var(--e2)}
 #s5a .bubble::after{content:'';position:absolute;left:-12px;top:38px;width:22px;height:22px;background:#fff;
   border-left:1.5px solid var(--border-default);border-bottom:1.5px solid var(--border-default);
   transform:rotate(45deg);border-bottom-left-radius:6px}
@@ -44,7 +44,7 @@
 #s5b{--bloom:1}
 #s5b .hold-center{position:absolute;left:0;right:0;top:0;bottom:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;z-index:5}
-#s5b .hold-label{font-family:var(--font-display);font-size:88px;font-weight:800;
+#s5b .hold-label{font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;
   letter-spacing:-.02em;color:var(--text-strong);margin-top:28px;
   display:flex;align-items:center;gap:26px}
 /* E3: LIVE 인디케이터 — 3.2초 차분한 호흡 (대기 화면이 '멈춘 앱'으로 보이지 않게) */
@@ -57,8 +57,8 @@
   0%,100%{transform:scale(1);opacity:1}
   50%{transform:scale(2.4);opacity:0}}
 @media (prefers-reduced-motion:reduce){html:not(.force-motion) #s5b .live-dot::after{animation:none;opacity:0}}
-#s5b .hold-sub{font-size:28px;font-weight:600;color:var(--bgray-dark);margin-top:18px}
+#s5b .hold-sub{font-size:var(--fs-sub);font-weight:600;color:var(--bgray-dark);margin-top:18px}
 #s5b .hold-hint{position:absolute;left:0;right:0;bottom:52px;text-align:center;
-  font-size:16px;color:var(--bgray-med);font-weight:500;opacity:.65}
+  font-size:var(--fs-badge);color:var(--bgray-med);font-weight:500;opacity:.65}
 #s5b .mos{width:220px;z-index:6}
 .slide.active#s5b .mos{animation:float 3.8s ease-in-out infinite}

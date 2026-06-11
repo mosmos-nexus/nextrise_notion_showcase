@@ -3,8 +3,8 @@
    ============================================================ */
 #s6a{--bloom:1}
 #s6a .top{position:absolute;left:0;right:0;top:308px;display:flex;flex-direction:column;align-items:center;text-align:center}
-#s6a .top h2{font-family:var(--font-display);font-size:82px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong);margin-top:0}
-#s6a .top p{font-size:30px;color:var(--bgray-dark);font-weight:500;margin-top:20px}
+#s6a .top h2{font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;letter-spacing:-.02em;color:var(--text-strong);margin-top:0}
+#s6a .top p{font-size:var(--fs-sub);color:var(--bgray-dark);font-weight:500;margin-top:20px}
 #s6a .mos-hero{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);width:430px;z-index:5}
 
 /* ============================================================
@@ -12,10 +12,10 @@
    ============================================================ */
 #s6b{--bloom:.7}
 /* D7: .kicker 베이스가 flex이므로 justify-content로 센터링 — 헤드라인과 한 축 */
-#s6b .kicker{position:absolute;left:0;right:0;top:152px;justify-content:center;
-  font-size:18px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-core);opacity:.75}
-#s6b .head{position:absolute;left:0;right:0;top:200px;text-align:center;
-  font-family:var(--font-display);font-size:60px;font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
+#s6b .kicker{position:absolute;left:0;right:0;top:148px;justify-content:center;
+  font-size:var(--fs-c3);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-core);opacity:.75}
+#s6b .head{position:absolute;left:0;right:0;top:204px;text-align:center;
+  font-family:var(--font-display);font-size:var(--fs-title);font-weight:800;letter-spacing:-.02em;color:var(--text-strong)}
 #s6b .axes{position:absolute;left:140px;right:140px;top:448px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
 #s6b .axis{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
   padding:68px 44px 52px;box-shadow:var(--e2);text-align:center}
@@ -27,8 +27,8 @@
 #s6b .axis .ai{width:62px;height:62px;margin:0 auto;border-radius:18px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(15,111,218,.1),rgba(155,110,239,.14));color:var(--blue-core)}
 #s6b .axis .ai svg{width:32px;height:32px}
-#s6b .axis h4{font-family:var(--font-display);font-size:27px;font-weight:800;color:var(--text-strong);margin-top:18px}
-#s6b .axis p{font-size:20.5px;color:var(--text-muted);line-height:1.5;margin-top:10px}
+#s6b .axis h4{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong);margin-top:18px}
+#s6b .axis p{font-size:var(--fs-c2);color:var(--text-muted);line-height:1.5;margin-top:10px;word-break:keep-all;overflow-wrap:break-word}
 @media (prefers-reduced-motion:reduce){html:not(.force-motion) #s6b .axis .mon{transition:opacity .2s}}
 
 /* ============================================================
@@ -38,12 +38,12 @@
 #s6c .cta-wrap{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
   display:flex;flex-direction:column;align-items:center;gap:36px}
 #s6c .cta-url{display:flex;align-items:center;gap:14px;background:var(--gradient-bloom);color:#fff;
-  border-radius:var(--r-pill);padding:22px 56px;font-size:36px;font-weight:800;font-family:var(--font-display);
+  border-radius:var(--r-pill);padding:28px 64px;font-size:56px;font-weight:800;font-family:var(--font-display);
   box-shadow:0 14px 38px rgba(15,111,218,.32);text-decoration:none}
 #s6c .qr-center{background:#fff;border:1px solid var(--border-subtle);border-radius:24px;
   padding:18px;box-shadow:var(--e2)}
 #s6c .qr-center img{width:240px;height:240px;display:block}
-#s6c .net-copy{max-width:640px;font-size:22px;line-height:1.6;color:var(--bgray-dark);font-weight:500;text-align:center}
+#s6c .net-copy{max-width:760px;font-size:var(--fs-c2);line-height:1.6;color:var(--bgray-dark);font-weight:500;text-align:center}
 #s6c .net-copy b{color:var(--text-strong)}
 #s6c .hlogo-foot{position:absolute;left:64px;bottom:48px;height:40px;width:auto;opacity:.8}
 /* CTA 화면 Mon 2기 — 밀도 규칙(2-3) 충족, CTA 시선 방해 없는 측면 배치 */
@@ -55,7 +55,9 @@
    S6d · 마침 — Mos greeting + ALL Mon + typewriter tagline
    ============================================================ */
 #s6d{--bloom:1}
-#s6d .mos-greeting{position:absolute;left:50%;bottom:170px;transform:translateX(-50%);width:300px;z-index:6}
+/* T-fix: 엔딩 메시지를 무대의 주인공으로 — 타이프 라인은 hero 크기로 화면 중앙,
+   로고는 상단·Mos는 하단 중앙, Mon 6기는 메시지~Mos를 감싸는 아치로 재배치 */
+#s6d .mos-greeting{position:absolute;left:50%;bottom:104px;transform:translateX(-50%);width:280px;z-index:6}
 /* Six Mon variants gathered around — varied sizes, gentle float */
 #s6d .mon-finale{position:absolute;z-index:5}
 /* 등장(pop)과 부유(float)를 합성 — mfN 규칙(ID 명시도)이 .rv-pop의 pop을 밀어내
@@ -63,20 +65,28 @@
 #s6d.active .mon-finale{
   animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 6.2s ease-in-out infinite;
   animation-delay:var(--d,0s), calc(var(--d,0s) + .9s)}
-/* D8: 가장자리 산개 → Mos(중앙 하단) 주위로 모여드는 아치 — 피날레 밀도 */
-#s6d .mon-finale.mf1{width:64px;height:64px;left:566px;top:648px}
-#s6d .mon-finale.mf2{width:54px;height:54px;left:692px;top:512px}
-#s6d .mon-finale.mf3{width:60px;height:60px;left:846px;top:442px}
-#s6d .mon-finale.mf4{width:58px;height:58px;right:842px;top:452px}
-#s6d .mon-finale.mf5{width:64px;height:64px;right:678px;top:528px}
-#s6d .mon-finale.mf6{width:50px;height:50px;right:556px;top:660px}
-#s6d .vlogo{position:absolute;left:50%;top:128px;transform:translateX(-50%);height:160px;width:auto}
+/* 중앙 메시지 좌우 → Mos를 향해 내려오는 아치 — 피날레 밀도 */
+#s6d .mon-finale.mf1{width:64px;height:64px;left:392px;top:496px}
+#s6d .mon-finale.mf2{width:54px;height:54px;left:556px;top:664px}
+#s6d .mon-finale.mf3{width:60px;height:60px;left:736px;top:800px}
+#s6d .mon-finale.mf4{width:58px;height:58px;right:392px;top:496px}
+#s6d .mon-finale.mf5{width:64px;height:64px;right:556px;top:664px}
+#s6d .mon-finale.mf6{width:50px;height:50px;right:736px;top:800px}
+#s6d .vlogo{position:absolute;left:50%;top:84px;transform:translateX(-50%);height:140px;width:auto}
 /* D8: 축하 글로우 — Mos 뒤 은은한 파스텔 광원 */
 #s6d .finale-glow{position:absolute;left:50%;bottom:40px;width:1240px;height:720px;transform:translateX(-50%);
   background:radial-gradient(closest-side,rgba(155,110,239,.17),rgba(15,111,218,.10) 45%,transparent 75%);
   filter:blur(42px);pointer-events:none;z-index:1}
-#s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
-#s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: 크리스프 블링크 */
+/* 엔딩 타이틀 — 타이프되는 "감사합니다" (hero 계층) */
+#s6d .tagline{position:absolute;left:0;right:0;top:368px;text-align:center;z-index:5;
+  font-family:var(--font-display);font-size:var(--fs-hero);font-weight:800;letter-spacing:-.02em;
+  color:var(--text-strong);min-height:150px}
+#s6d .tagline .caret{display:inline-block;width:7px;height:.88em;margin-left:10px;vertical-align:-.08em;border-radius:3px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: 크리스프 블링크 */
+/* 엔딩 서브라인 — 타이프가 끝난 뒤 떠오른다 (hero-sub 계층) */
+#s6d .tag-sub{position:absolute;left:0;right:0;top:548px;text-align:center;z-index:5;
+  font-size:var(--fs-hero-sub);font-weight:700;color:var(--bgray-dark)}
+#s6d .tag-sub b{background:var(--gradient-bloom);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 @media (prefers-reduced-motion:reduce){
   html:not(.force-motion) #s6d .mon-finale,html:not(.force-motion) #s6d.active .mon-finale{animation:none;opacity:1}
 }

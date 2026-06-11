@@ -5,7 +5,7 @@
 #s0.played{--bloom:.4}
 #s0 .bg .grid-lines{opacity:1}
 #s0 .s0-top{position:absolute;top:118px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:14px;
-  font-size:21px;font-weight:600;letter-spacing:.06em;color:var(--bgray-med)}
+  font-size:var(--fs-c3);font-weight:600;letter-spacing:.06em;color:var(--bgray-med)}
 #s0 .s0-top img{width:30px;height:30px}
 #s0 .s0-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:40px}
 /* 중앙 블록 — Core Blue → Pop Purple bloom */
@@ -19,17 +19,17 @@
   box-shadow:0 24px 64px rgba(15,111,218,.28)}
 #s0.played .s0-block .sym-mono{opacity:0}
 #s0.played .s0-block .sym-grad{opacity:1}
-#s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:96px;line-height:1.22;
-  letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:240px}
+#s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:var(--fs-hero);line-height:1.22;
+  letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:280px}
 #s0 .s0-title .caret{display:inline-block;width:6px;height:.92em;margin-left:8px;vertical-align:-.12em;
   border-radius:3px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: steps(2)는 4단계 반투명 깜빡임 — 크리스프 블링크로 */
 @keyframes caret{50%{opacity:0}}
 /* bloom 이후 페이드 요소들 */
 #s0 .late{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
 #s0.played .late{opacity:1;transform:none}
-#s0 .s0-sub{font-size:34px;font-weight:600;color:var(--bgray-dark);margin-top:34px;transition-delay:2.2s}
-#s0 .s0-sub .en{color:var(--text-faint);font-weight:500;font-size:28px}
-#s0 .s0-foot{position:absolute;bottom:70px;left:0;right:0;text-align:center;font-size:22px;
+#s0 .s0-sub{font-size:var(--fs-sub);font-weight:600;color:var(--bgray-dark);margin-top:34px;transition-delay:2.2s}
+#s0 .s0-sub .en{color:var(--bgray-med);font-weight:500;font-size:var(--fs-c2)}
+#s0 .s0-foot{position:absolute;bottom:70px;left:0;right:0;text-align:center;font-size:var(--fs-c3);
   color:var(--bgray-med);font-weight:600;letter-spacing:.04em;transition-delay:2.6s}
 #s0 .s0-foot b{color:var(--text-strong)}
 #s0 .s0-mos{position:absolute;right:150px;bottom:120px;width:300px;transition-delay:1.9s}

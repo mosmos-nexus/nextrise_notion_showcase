@@ -12,8 +12,8 @@
 #s4a .pillar .pi{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;
   background:var(--pg,var(--gradient-brand));color:#fff;box-shadow:var(--e2)}
 #s4a .pillar .pi svg{width:38px;height:38px}
-#s4a .pillar h3{font-family:var(--font-display);font-size:31px;font-weight:800;color:var(--text-strong);margin-top:26px}
-#s4a .pillar p{font-size:23px;line-height:1.5;color:var(--bgray-dark);margin-top:12px}
+#s4a .pillar h3{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong);margin-top:26px}
+#s4a .pillar p{font-size:var(--fs-c2);line-height:1.5;color:var(--bgray-dark);margin-top:12px}
 #s4a .pillar p b{color:var(--text-strong)}
 #s4a .p1{--pg:linear-gradient(135deg,#0F6FDA,#9CBDE9)}
 #s4a .p2{--pg:linear-gradient(135deg,#9B6EEF,#F5A8C5)}
@@ -27,14 +27,16 @@
 #s4b{--bloom:1}
 #s4b .cols{position:absolute;left:118px;right:118px;top:120px;bottom:100px;display:grid;grid-template-columns:980px 1fr;gap:64px;align-items:center}
 #s4b .browser{height:680px}
-#s4b .shot-cap{margin-top:18px;display:flex;align-items:center;gap:12px;font-size:21px;font-weight:600;color:var(--text-muted)}
+#s4b .shot-cap{margin-top:18px;display:flex;align-items:center;gap:12px;font-size:var(--fs-c3);font-weight:600;color:var(--text-muted)}
 #s4b .shot-cap img{width:26px;height:26px}
 #s4b .right{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
 #s4b .right .hlogo{height:74px;width:auto}
 /* D5: 카피 블록과 궤도 우주 사이 수직 리듬 타이트하게 */
-#s4b .right h3{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--text-strong);margin-top:22px}
-#s4b .right p.cp{font-size:26px;line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px}
-#s4b .universe{position:relative;width:560px;height:404px;margin-top:-18px}
+#s4b .right h3{font-family:var(--font-display);font-size:var(--fs-hero-sub);font-weight:800;color:var(--text-strong);margin-top:22px}
+/* T-fix: 궤도 Mon이 카피 위를 지나가며 글자를 가리던 문제 — 텍스트를 궤도 위 레이어로 */
+#s4b .right p.cp{font-size:var(--fs-c2);line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px;
+  position:relative;z-index:3}
+#s4b .universe{position:relative;width:560px;height:404px;margin-top:12px}
 #s4b .universe .mos{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:280px}
 #s4b .orbit-ring{position:absolute;left:50%;top:54%;width:480px;height:480px;margin:-240px 0 0 -240px;
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
@@ -52,16 +54,17 @@
 #s4c{--bloom:.9}
 #s4c .cols{position:absolute;left:128px;right:128px;top:300px;bottom:226px;display:grid;grid-template-columns:1fr 640px;gap:70px}
 #s4c .demos{display:grid;grid-template-columns:1fr 1fr;gap:26px}
-#s4c .demo{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:30px 32px;box-shadow:var(--e1);display:flex;flex-direction:column;justify-content:center;gap:14px}
+#s4c .demo{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:30px 32px;box-shadow:var(--e1);display:flex;flex-direction:column;justify-content:flex-start;gap:14px} /* T-fix: 행간 줄 수 차이에도 행 정렬 유지 */
+#s4c .demo p{word-break:keep-all;overflow-wrap:break-word} /* 한글 단어 단위 줄바꿈 */
 #s4c .demo .di{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,rgba(15,111,218,.12),rgba(0,160,163,.12));color:var(--blue-core)}
 #s4c .demo .di svg,#s4c .demo .di img{width:30px;height:30px}
-#s4c .demo h4{font-family:var(--font-display);font-size:25.5px;font-weight:800;color:var(--text-strong)}
-#s4c .demo p{font-size:19.5px;color:var(--text-muted);line-height:1.45}
+#s4c .demo h4{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s4c .demo p{font-size:var(--fs-c2);color:var(--text-muted);line-height:1.45}
 #s4c .preview{display:flex;flex-direction:column;gap:16px}
 #s4c .preview .card{padding:18px;display:flex;flex-direction:column;gap:0;overflow:hidden}
 #s4c .preview .card img{width:100%;border-radius:12px}
-#s4c .preview .pcap{font-size:19px;color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
+#s4c .preview .pcap{font-size:var(--fs-c3);color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
 /* WP6 A6: s4c Mon decorations (생성/소통 theme — 2 Mons) */
 #s4c .mon-deco{position:absolute;z-index:5}
 #s4c .mon-deco.a{right:130px;top:90px;width:52px;height:52px}
