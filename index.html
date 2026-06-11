@@ -185,6 +185,9 @@ svg {
            without it, infinite animations (float 등) loop every 0.01ms and
            each frame samples a random phase → 캐릭터가 격렬하게 떨리는 strobe. */
         animation-iteration-count: 1 !important;
+        /* M-fix: 딜레이도 제로 — fill:both의 from(opacity:0) 상태로 --d초간 콘텐츠가
+           보이지 않다가 스냅되는 문제. reduce 사용자는 즉시 완성 화면을 본다. */
+        animation-delay: 0s !important;
         transition-duration: 0.2s !important;
     }
 }
@@ -286,7 +289,12 @@ body.no-fade .slide,body.no-fade .slide.active{
 .float{animation:float 5.2s ease-in-out infinite}
 .float.f2{animation-duration:6.4s;animation-delay:-2s}
 .float.f3{animation-duration:7.2s;animation-delay:-3.4s}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+/* M-fix: transform → 독립 translate 속성 — transform 키프레임은 요소의 정적 transform과
+   transform 트랜지션(#s0 .late의 26px 라이즈)을 통째로 삼킨다. rise/pop과 같은 원칙(D4). */
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -14px}}
+/* M-fix: 비활성(visibility:hidden) 슬라이드의 float 일시정지 — 20개 슬라이드 ~30개 요소가
+   보이지도 않으면서 매 프레임 스타일 업데이트를 유발하던 비용 제거 */
+.slide:not(.active) .float{animation-play-state:paused}
 /* M-fix: 등장(pop)+부유(float) 합성 — '.slide.active .rv-pop' 단독 규칙이 .float의
    무한 부유 애니메이션을 통째로 덮어써 13개 슬라이드의 Mon 장식이 등장 후 영영
    정지해 있던 버그 (s6d mon-finale에 이미 적용된 것과 동일한 수정 패턴).
@@ -415,7 +423,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s0 .s0-title{font-family:var(--font-display);font-weight:800;font-size:96px;line-height:1.22;
   letter-spacing:-.02em;color:var(--text-strong);margin-top:56px;min-height:240px}
 #s0 .s0-title .caret{display:inline-block;width:6px;height:.92em;margin-left:8px;vertical-align:-.12em;
-  border-radius:3px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
+  border-radius:3px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: steps(2)는 4단계 반투명 깜빡임 — 크리스프 블링크로 */
 @keyframes caret{50%{opacity:0}}
 /* bloom 이후 페이드 요소들 */
 #s0 .late{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
@@ -775,6 +783,11 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4b .orbiter .mon{position:absolute;left:-24px;top:-24px;width:48px;height:48px}
 @keyframes orbit{from{transform:rotate(0deg) translateX(240px) rotate(0deg)}
                  to{transform:rotate(360deg) translateX(240px) rotate(-360deg)}}
+/* E2-smooth: 우주 전체(Mos+궤도+심)는 전역 rise(36px) 대신 절제된 12px 소프트 라이즈 —
+   이미 돌고 있는 궤도/심 위에서 36px 급상승(probe 실측 ~116px/s)이
+   'Mos가 위아래로 점프'하듯 보이던 문제. duration/delay는 .rv 규칙을 상속한다. */
+.slide.active#s4b .universe.rv{animation-name:riseSoft}
+@keyframes riseSoft{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
 
 #s4c{--bloom:.9}
 #s4c .cols{position:absolute;left:128px;right:128px;top:300px;bottom:226px;display:grid;grid-template-columns:1fr 640px;gap:70px}
@@ -805,21 +818,29 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   display:flex;align-items:center;justify-content:center;color:#fff;
   opacity:0;z-index:7;pointer-events:none}
 #s4b .sim-done svg{width:30px;height:30px}
-#s4b.active .sim-goal{animation:simgoal 12s ease-in-out infinite}
-#s4b.active .sim-done{animation:simdone 12s ease-in-out infinite}
+/* E2-smooth: 루프는 우주 입장(riseSoft, ~2.05s 안착)이 끝난 뒤 시작 — 입장과 비행이
+   겹치며 복합 모션으로 읽히던 문제. 비행 창도 18%→26%로 넓혀 292px를 ~3.1s에 주파(차분). */
+#s4b.active .sim-goal{animation:simgoal 12s ease-in-out infinite;animation-delay:2.4s}
+#s4b.active .sim-done{animation:simdone 12s ease-in-out infinite;animation-delay:2.4s}
 @keyframes simgoal{
   0%{opacity:0;translate:-290px 34px;scale:.85}
-  4%{opacity:1}
-  18%{opacity:1;translate:0 0;scale:1}
-  24%{opacity:0;translate:0 0;scale:.3}
+  6%{opacity:1}
+  26%{opacity:1;translate:0 0;scale:1}
+  33%{opacity:0;translate:0 0;scale:.3}
   100%{opacity:0;translate:0 0;scale:.3}}
 @keyframes simdone{
   0%,50%{opacity:0;translate:0 0;scale:.4}
-  55%{opacity:1;scale:1.12;translate:0 -8px}
-  58%{scale:1}
-  72%{opacity:1;translate:0 -96px}
-  80%,100%{opacity:0;translate:0 -120px}}
-@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s4b .sim-goal,html:not(.force-motion) #s4b .sim-done{display:none}}
+  56%{opacity:1;scale:1.08;translate:0 -10px}
+  60%{scale:1}
+  74%{opacity:1;translate:0 -96px}
+  82%,100%{opacity:0;translate:0 -120px}}
+@media (prefers-reduced-motion:reduce){
+  html:not(.force-motion) #s4b .sim-goal,html:not(.force-motion) #s4b .sim-done{display:none}
+  /* RM-fix: 궤도 애니메이션이 iteration:1로 즉시 끝나면 transform:none → 6 Mon이
+     중앙 Mos 위에 겹친다 — 60° 간격 정적 배치 폴백 */
+  html:not(.force-motion) #s4b .orbiter{animation:none;
+    transform:rotate(calc(var(--i)*60deg)) translateX(240px) rotate(calc(-60deg*var(--i)))}
+}
 
 /* ============================================================
    S5a · 전환 다리 → 라이브 데모 (zoom-in 핸드오프)
@@ -849,10 +870,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   transform:rotate(45deg);border-bottom-left-radius:6px}
 /* Mon 선진입 — 워크스페이스 카드 속으로 빨려 들어간다 */
 #s5a .flymon{position:absolute;z-index:7;width:52px;height:52px;left:var(--sx);top:var(--sy);opacity:0}
-/* M-fix: 1.7s ease-in → 2.6s — 최대 700px를 가로지르는 비행이 순간 최대 ~600px/s로
-   '휙 지나가던' 문제. 가속(빨려 들어감) 캐릭터는 유지하되 전체 속도를 낮추고
-   가시 구간(opacity 창)을 넓혀 비행을 눈으로 따라갈 수 있게 한다. */
-.slide.active#s5a .flymon{animation:flyin 2.6s cubic-bezier(.5,.05,.85,.5) both;animation-delay:var(--d)}
+/* M-fix: 고정 1.7s ease-in → 거리 정규화 var(--fd) — 비행거리(565~725px)와 무관하게
+   동일 듀레이션이라 빠른 놈은 ~700px/s로 '휙 지나가던' 문제. 마크업의 --fd가
+   ~280px/s 등속 기준으로 개별 지정되고, 가시 구간(opacity 창)도 넓혔다. */
+.slide.active#s5a .flymon{animation:flyin var(--fd,2.3s) cubic-bezier(.5,.05,.85,.5) both;animation-delay:var(--d)}
 @keyframes flyin{
   0%{opacity:0;transform:translate(0,0) scale(1)}
   10%{opacity:1}
@@ -871,12 +892,15 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   letter-spacing:-.02em;color:var(--text-strong);margin-top:28px;
   display:flex;align-items:center;gap:26px}
 /* E3: LIVE 인디케이터 — 3.2초 차분한 호흡 (대기 화면이 '멈춘 앱'으로 보이지 않게) */
-#s5b .live-dot{width:26px;height:26px;border-radius:50%;background:var(--blue-core);
-  box-shadow:0 0 0 0 rgba(15,111,218,.35);animation:livebreathe 3.2s ease-in-out infinite}
+/* E3-smooth: box-shadow 확산(페인트 바운드, 매 프레임 리페인트) → 컴포지터 전용
+   ::after 링의 scale/opacity로 재표현 — 동일한 3.2s 차분한 호흡(E3 KEEP) */
+#s5b .live-dot{position:relative;width:26px;height:26px;border-radius:50%;background:var(--blue-core)}
+#s5b .live-dot::after{content:'';position:absolute;inset:0;border-radius:50%;
+  background:rgba(15,111,218,.35);animation:livebreathe 3.2s ease-in-out infinite}
 @keyframes livebreathe{
-  0%,100%{box-shadow:0 0 0 0 rgba(15,111,218,.35);opacity:1}
-  50%{box-shadow:0 0 0 18px rgba(15,111,218,0);opacity:.75}}
-@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s5b .live-dot{animation:none}}
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(2.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion) #s5b .live-dot::after{animation:none;opacity:0}}
 #s5b .hold-sub{font-size:28px;font-weight:600;color:var(--bgray-dark);margin-top:18px}
 #s5b .hold-hint{position:absolute;left:0;right:0;bottom:52px;text-align:center;
   font-size:16px;color:var(--bgray-med);font-weight:500;opacity:.65}
@@ -961,7 +985,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   background:radial-gradient(closest-side,rgba(155,110,239,.17),rgba(15,111,218,.10) 45%,transparent 75%);
   filter:blur(42px);pointer-events:none;z-index:1}
 #s6d .tagline{position:absolute;left:0;right:0;bottom:118px;text-align:center;font-size:26px;font-weight:600;color:var(--bgray-med);min-height:40px}
-#s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(2) infinite}
+#s6d .tagline .caret{display:inline-block;width:4px;height:.9em;margin-left:6px;vertical-align:-.1em;border-radius:2px;background:var(--blue-core);animation:caret 1s steps(1,end) infinite} /* M-fix: 크리스프 블링크 */
 @media (prefers-reduced-motion:reduce){
   html:not(.force-motion) #s6d .mon-finale,html:not(.force-motion) #s6d.active .mon-finale{animation:none;opacity:1}
 }
@@ -1111,12 +1135,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <span class="nm">mosmos</span>
       <span class="ds">Notion-native 운영 OS</span>
     </div>
-    <div class="tl-notion rv" style="--d:2.9s">
+    <div class="tl-notion rv" style="--d:2.6s"><!-- M-fix: 발표 호흡 밖(3.2s+)으로 밀리던 꼬리 트림 -->
       <img src="assets/logo/notion.svg" alt="Notion">
       <span>변하지 않은 중심, Notion</span>
     </div>
   </div>
-  <p class="s1-sub rv" style="--d:3.2s">개인(블로그) → 오픈소스(Proact0) → 비즈니스(Mosmos) — 변하지 않은 건, 늘 그 중심에 <b>Notion</b>이 있었다는 것</p>
+  <p class="s1-sub rv" style="--d:2.8s">개인(블로그) → 오픈소스(Proact0) → 비즈니스(Mosmos) — 변하지 않은 건, 늘 그 중심에 <b>Notion</b>이 있었다는 것</p>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -1660,12 +1684,13 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <!-- D6: 시연 전환 멘트 (발표자 승인 카피 교체, CL-1) -->
     <div class="bubble rv" style="--d:1.3s">그럼, 실제 워크스페이스에서 보여드릴게요 — Mon들이 먼저 준비하고 있어요</div>
     <!-- Mon 선진입 — 화면 곳곳에서 중앙 워크스페이스로 빨려 들어감 -->
-    <svg class="flymon mon m-research" style="--sx:420px;--sy:330px;--tx:480px;--ty:430px;--d:1.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
-    <svg class="flymon mon m-analysis" style="--sx:1500px;--sy:300px;--tx:-560px;--ty:460px;--d:1.95s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-    <svg class="flymon mon m-organize" style="--sx:260px;--sy:760px;--tx:660px;--ty:60px;--d:2.2s"><use href="#mon-body"/><use href="#p-organize"/></svg>
-    <svg class="flymon mon m-create" style="--sx:1660px;--sy:700px;--tx:-700px;--ty:110px;--d:2.45s"><use href="#mon-body"/><use href="#p-create"/></svg>
-    <svg class="flymon mon m-execute" style="--sx:760px;--sy:240px;--tx:180px;--ty:540px;--d:2.7s"><use href="#mon-body"/><use href="#p-execute"/></svg>
-    <svg class="flymon mon m-comm" style="--sx:1180px;--sy:250px;--tx:-220px;--ty:520px;--d:2.95s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+    <!-- M-fix: --fd = 거리 정규화 비행시간(~280px/s) — 거리 무관 고정 1.7s라 빠른 놈이 '휙' 지나가던 문제 -->
+    <svg class="flymon mon m-research" style="--sx:420px;--sy:330px;--tx:480px;--ty:430px;--d:1.7s;--fd:2.3s"><use href="#mon-body"/><use href="#p-research"/></svg>
+    <svg class="flymon mon m-analysis" style="--sx:1500px;--sy:300px;--tx:-560px;--ty:460px;--d:1.95s;--fd:2.6s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+    <svg class="flymon mon m-organize" style="--sx:260px;--sy:760px;--tx:660px;--ty:60px;--d:2.2s;--fd:2.4s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+    <svg class="flymon mon m-create" style="--sx:1660px;--sy:700px;--tx:-700px;--ty:110px;--d:2.45s;--fd:2.5s"><use href="#mon-body"/><use href="#p-create"/></svg>
+    <svg class="flymon mon m-execute" style="--sx:760px;--sy:240px;--tx:180px;--ty:540px;--d:2.7s;--fd:2.05s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+    <svg class="flymon mon m-comm" style="--sx:1180px;--sy:250px;--tx:-220px;--ty:520px;--d:2.95s;--fd:2.05s"><use href="#mon-body"/><use href="#p-comm"/></svg>
   </div>
 </section>
 
@@ -1915,17 +1940,29 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   fit(); addEventListener('resize',fit);
 
   /* —— 타이프라이터 —— */
+  /* F1-fix: 고스트 프리레이아웃 — 전체 문장을 visibility:hidden 글자 span으로 먼저
+     배치한 뒤 한 글자씩 켠다. 기존 방식은 중앙정렬 shrink-to-fit 박스가 글자마다
+     재센터링되어 제목이 초당 16회 수평으로 흔들렸다. 레이아웃은 이제 불변. */
   function typeInto(el,done){
     const txt=(el.dataset.text||'').replace(/\\n/g,'\n');
     el.textContent='';
-    const caret=document.createElement('span'); caret.className='caret'; el.appendChild(caret);
-    if(reduced){ caret.remove(); el.innerHTML=txt.replace(/\n/g,'<br>'); done&&done(); return; }
+    if(reduced){ el.innerHTML=txt.replace(/\n/g,'<br>'); done&&done(); return; }
+    const caret=document.createElement('span'); caret.className='caret';
+    const chars=[];
+    for(const ch of txt){
+      if(ch==='\n'){ el.appendChild(document.createElement('br')); chars.push(null); }
+      else{ const s=document.createElement('span'); s.textContent=ch; s.style.visibility='hidden';
+            el.appendChild(s); chars.push(s); }
+    }
     let i=0;
+    const placeCaret=()=>{ const next=chars.slice(i).find(c=>c);
+      if(next) el.insertBefore(caret,next); else el.appendChild(caret); };
+    placeCaret();
     (function step(){
-      if(i>=txt.length){ later(()=>caret.remove(),1200); done&&done(); return; }
-      const ch=txt[i++];
-      caret.before(ch==='\n'?document.createElement('br'):document.createTextNode(ch));
-      later(step, ch==='\n'?260:62);
+      if(i>=chars.length){ later(()=>caret.remove(),1200); done&&done(); return; }
+      const c=chars[i++];
+      if(c){ c.style.visibility='visible'; placeCaret(); later(step,62); }
+      else{ placeCaret(); later(step,260); }
     })();
   }
 
@@ -1951,6 +1988,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   function playCover(){
     const s0=$('#s0'); if(s0.classList.contains('played'))return;
     s0.classList.add('played');
+    /* S1-fix: .played가 #s0 --bloom 0→.4를 켜는데 캔버스 별 타깃은 show()에서만
+       읽혀 커버의 시그니처 순간에 별이 안 떴다 — 즉시 갱신 */
+    updateStarBloom(s0);
     later(()=>typeInto(s0.querySelector('.s0-title')), 420);
   }
   function resetCover(){
@@ -1972,7 +2012,14 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 
   function show(n,instant){
     n=Math.max(0,Math.min(n,slides.length-1));
+    /* R2-fix: 같은 슬라이드 재진입(Home on s0, 현재 섹션 pnode 클릭 등)은 no-op —
+       진행 중인 타이프라이터/카운터 타이머를 죽이고 아무것도 복구하지 않아
+       제목이 반쯤 타이핑된 채 멈추던 문제. (부팅 시엔 아직 .active가 아니라 통과) */
+    if(slides[n]===slides[cur]&&slides[n].classList.contains('active')) return;
     clearTimers();
+    /* R1-fix: clearTimers가 s5a 줌의 busy 해제 타이머(980ms)를 방금 죽였을 수 있다 —
+       직접 점프(pnode/hash/Home/End)는 항상 내비 잠금을 푼다. 안 풀면 busy=true 영구. */
+    busy=false;
     const prev=slides[cur];
     cur=n;
     /* WP1: write position on every show() */
@@ -2230,6 +2277,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     /* Mouse parallax state */
     let mouseX=W/2, mouseY=H/2, parX=0, parY=0;
     let lastParX='', lastParY=''; /* M-fix: 마지막 기록값 — 동일값 setProperty 스킵용 */
+    let wasDrawn=false; /* B3-fix: 직전 프레임에 별을 그렸는지 — 불필요한 clearRect 스킵 */
     const PAR_MAX=10; /* max ±10px */
     addEventListener('mousemove',e=>{
       /* Convert to stage space via inverse of fit() transform */
@@ -2263,10 +2311,13 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
         lastParX=pxs; lastParY=pys;
       }
 
-      ctx.clearRect(0,0,W,H);
+      /* B3-fix: 아무것도 그리지 않는 프레임의 전체 캔버스 clear 스킵 */
+      if(bloomCur>0.05) ctx.clearRect(0,0,W,H);
+      else if(wasDrawn){ ctx.clearRect(0,0,W,H); wasDrawn=false; }
 
       /* Only draw stars when bloom > 0.05 */
       if(bloomCur>0.05){
+        wasDrawn=true;
         const globalAlpha=bloomCur*0.85;
         for(let i=0;i<stars.length;i++){
           const s=stars[i];
@@ -2319,19 +2370,21 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     const style=document.createElement('style');
     style.textContent=`
       /* WP2: mouse micro-parallax on midground elements
-         M-fix: html.force-motion(?motion=on)에서도 동일 적용 — reduce 환경 발표자 오버라이드 */
+         M-fix: html.force-motion(?motion=on)에서도 동일 적용 — reduce 환경 발표자 오버라이드
+         B2-fix: 'transition: transform .1s' 제거 — transition 숏핸드가 base.css의
+         .bg .glow/.blk bloom 페이드(opacity/filter .9s)를 캐스케이드로 통째 대체해
+         페이드가 즉시 스냅됐고, 매 프레임 var 갱신마다 transition이 재시작되며
+         거대한 blur 레이어에 churn을 만들었다. rAF lerp가 이미 움직임을 부드럽게 한다. */
       @media (prefers-reduced-motion: no-preference){
         #deckStage .bg .glow,
         #deckStage .bg .blk {
           transform: translate(var(--par-x,0px), var(--par-y,0px));
-          transition: transform 0.1s linear;
           will-change: transform;
         }
       }
       html.force-motion #deckStage .bg .glow,
       html.force-motion #deckStage .bg .blk {
         transform: translate(var(--par-x,0px), var(--par-y,0px));
-        transition: transform 0.1s linear;
         will-change: transform;
       }
     `;
