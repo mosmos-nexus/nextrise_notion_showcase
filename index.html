@@ -530,16 +530,13 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* 풀샷 — 주석 SVG(1474×1218) 전체가 프레임 안에 보이도록 contain */
 #s2c .zoom-img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;cursor:crosshair}
 /* 돋보기 렌즈 — 커서 아래 영역을 확대(배율 2.8x)해서 비추는 네모 창. 위치·배경은 JS가 갱신.
+   background-color는 프레임(#1D2026)과 동일 — SVG 좌우 여백이 투명이라, 흰색이면 확대 시
+   여백이 흰 바탕으로 비쳐 보였다. 화면색과 맞춰 자연스럽게 블렌딩.
    pointer-events:none 이라 mousemove는 항상 이미지로 전달된다 */
-#s2c .zoom-lens{position:absolute;width:380px;height:280px;border-radius:14px;
-  border:3px solid var(--blue-core);background-color:#fff;background-repeat:no-repeat;
-  box-shadow:0 12px 34px rgba(15,111,218,.4),0 0 0 2px rgba(255,255,255,.9) inset;
+#s2c .zoom-lens{position:absolute;width:570px;height:420px;border-radius:16px;
+  border:3px solid var(--blue-core);background-color:#1D2026;background-repeat:no-repeat;
+  box-shadow:0 14px 40px rgba(15,111,218,.42);
   pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}
-/* 안내 핀트 — 풀샷 위에서 돋보기 사용법을 알려주는 알약 */
-#s2c .zoom-hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;
-  background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
-  padding:8px 22px;font-size:var(--fs-badge);font-weight:700;color:var(--bgray-dark);
-  box-shadow:var(--e1);pointer-events:none}
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
 #s2c .mon-deco.b{right:200px;bottom:84px;width:48px;height:48px}
@@ -1224,7 +1221,6 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <img src="assets/resources/joongheon_archive/homepage_with_yellow_annotation.svg"
          alt="중헌아카이브 홈페이지 구조 — 노란 어노테이션 포함" id="s2c-pan-img" class="zoom-img">
     <div class="zoom-lens" id="s2c-lens" aria-hidden="true"></div>
-    <div class="zoom-hint" aria-hidden="true">🔍 커서를 올린 부분이 확대돼요</div>
   </div>
   <!-- Mon decorations -->
   <svg class="mon-deco a m-research float rv-pop" style="--d:.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
@@ -2430,7 +2426,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     deck.pan.toggle=function(){};
 
     const ZOOM=2.8;                 /* 표시 크기 대비 배율 (SVG라 벡터로 선명) */
-    const LENS_W=380, LENS_H=280;   /* CSS .zoom-lens와 동일 (로컬 px) */
+    const LENS_W=570, LENS_H=420;   /* CSS .zoom-lens와 동일 (로컬 px) — 기존比 1.5배 */
 
     let img=null, lens=null, wrap=null, bound=false;
 
@@ -2460,16 +2456,22 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       if(cx<0||cy<0||cx>ow||cy>oh){ hideLens(); return; }
       ensureLensBg();
       lens.style.opacity='1';
-      /* 렌즈를 커서 중심에 두되 이미지 경계 안으로 클램프 */
-      let lx=cx-LENS_W/2, ly=cy-LENS_H/2;
-      lx=Math.max(0,Math.min(Math.max(0,ow-LENS_W),lx));
-      ly=Math.max(0,Math.min(Math.max(0,oh-LENS_H),ly));
-      /* 렌즈 위치는 pan-wrap(=offsetParent) 기준 = 이미지 오프셋 + 이미지내 위치 */
-      lens.style.left=(img.offsetLeft+lx)+'px';
-      lens.style.top=(img.offsetTop+ly)+'px';
-      /* 배경: 표시 크기의 ZOOM배로 키워, 렌즈가 덮은 영역이 그대로 확대돼 보이게 */
+      /* 확대 영역: 커서를 중심으로 (렌즈크기/배율)만큼의 이미지 영역을 잡고, 이미지 경계로만 클램프.
+         (렌즈 박스 클램프와 분리 — 영역 클램프는 작아서 커서가 사진 맨 밑/가장자리까지 닿는다) */
+      const RW=LENS_W/ZOOM, RH=LENS_H/ZOOM;
+      let rx=cx-RW/2, ry=cy-RH/2;
+      rx=Math.max(0,Math.min(Math.max(0,ow-RW),rx));
+      ry=Math.max(0,Math.min(Math.max(0,oh-RH),ry));
+      /* 렌즈 박스: 커서를 따라가되 프레임(pan-wrap) 안으로만 클램프 — 박스가 사진 맨 밑까지 내려간다 */
+      const fw=wrap.offsetWidth, fh=wrap.offsetHeight;
+      let bx=img.offsetLeft+cx-LENS_W/2, by=img.offsetTop+cy-LENS_H/2;
+      bx=Math.max(0,Math.min(Math.max(0,fw-LENS_W),bx));
+      by=Math.max(0,Math.min(Math.max(0,fh-LENS_H),by));
+      lens.style.left=bx+'px';
+      lens.style.top=by+'px';
+      /* 배경: 표시 크기의 ZOOM배로 키워, 잡은 영역이 그대로 확대돼 보이게 */
       lens.style.backgroundSize=(ow*ZOOM)+'px '+(oh*ZOOM)+'px';
-      lens.style.backgroundPosition='-'+(lx*ZOOM).toFixed(1)+'px -'+(ly*ZOOM).toFixed(1)+'px';
+      lens.style.backgroundPosition='-'+(rx*ZOOM).toFixed(1)+'px -'+(ry*ZOOM).toFixed(1)+'px';
     }
 
     function bind(){

@@ -9,7 +9,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -1 && node /tmp/mag-probe.mjs 2>&1 | grep -E \"s3b|s2c base|TRACKS|deck.pan|ERRORS\"",
+    "buildCommand": "npm run build 2>&1 | tail -1\ncat > /tmp/mag-probe2.mjs <<'EOF'\nimport pw from '/home/hon2yb22/workspace/mosmos/nextrise_notion_showcase/node_modules/playwright-core/index.js';\nimport fs from 'fs';\nconst {chromium}=pw;\nconst OUT='/tmp/shots-mag2'; fs.mkdirSync(OUT,{recursive:true});\nconst b=await chromium.launch({executablePath:'/home/hon2yb22/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome'});\nconst p=await b.newPage({viewport:{width:1920,height:1080}});\nawait p.goto('http://localhost:8923/index.html',{waitUntil:'load'});\nawait p.waitForTimeout(1000);\nawait p.evaluate(()=>{location.hash='#5';}); await p.waitForTimeout(1200);\nconst base=await p.evaluate(()=>{\n  const i=document.getElementById('s2c-pan-img');const l=document.getElementById('s2c-lens');\n  const w=document.querySelector('#s2c .pan-wrap');\n  return {hint:!!document.querySelector('#s2c .zoom-hint'),\n    lensW:l.offsetWidth,lensH:l.offsetHeight,lensBg:getComputedStyle(l).backgroundColor,\n    imgRect:(r=>({x:Math.round(r.x),y:Math.round(r.y),w:Math.round(r.width),h:Math.round(r.height)}))(i.getBoundingClientRect()),\n    frameH:w.offsetHeight,imgOffTop:i.offsetTop};\n});\nconsole.log('base:',JSON.stringify(base));\nconst r=base.imgRect;\nasync function at(fx,fy){await p.mouse.move(r.x+r.w*fx,r.y+r.h*fy);await p.waitForTimeout(150);\n  return await p.evaluate(()=>{const l=document.getElementById('s2c-lens');\n    return {opacity:getComputedStyle(l).opacity,top:parseFloat(l.style.top),left:parseFloat(l.style.left),bgPos:l.style.backgroundPosition};});}\nconst top=await at(0.5,0.04); await p.screenshot({path:`${OUT}/s2c-top.png`});\nconst bot=await at(0.5,0.985); await p.screenshot({path:`${OUT}/s2c-bottom.png`});\nconst mmarginL=await at(0.06,0.5); await p.screenshot({path:`${OUT}/s2c-marginL.png`});\nconsole.log('near TOP   :',JSON.stringify(top));\nconsole.log('near BOTTOM:',JSON.stringify(bot));\nconsole.log('lens bottom edge (top+H):', (bot.top+base.lensH).toFixed(0), '/ frameH', base.frameH, '→ reaches bottom:', (bot.top+base.lensH)>=base.frameH-8);\nconsole.log('margin(left) bgPos:',JSON.stringify(marginL));\nawait b.close();\nEOF\nnode /tmp/mag-probe2.mjs 2>&1 | tail -10",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -56,15 +56,15 @@
       "type": "file"
     },
     {
-      "path": "src/styles/s4.css",
-      "accessCount": 22,
-      "lastAccessed": 1781159927938,
+      "path": "src/styles/s2.css",
+      "accessCount": 24,
+      "lastAccessed": 1781164682225,
       "type": "file"
     },
     {
-      "path": "src/styles/s2.css",
+      "path": "src/styles/s4.css",
       "accessCount": 22,
-      "lastAccessed": 1781163015489,
+      "lastAccessed": 1781159927938,
       "type": "file"
     },
     {
@@ -98,15 +98,15 @@
       "type": "file"
     },
     {
-      "path": "src/js/starfield.js",
-      "accessCount": 11,
-      "lastAccessed": 1781143245944,
+      "path": "src/js/pan-s2c.js",
+      "accessCount": 12,
+      "lastAccessed": 1781164710865,
       "type": "file"
     },
     {
-      "path": "src/js/pan-s2c.js",
-      "accessCount": 10,
-      "lastAccessed": 1781163061268,
+      "path": "src/js/starfield.js",
+      "accessCount": 11,
+      "lastAccessed": 1781143245944,
       "type": "file"
     },
     {
@@ -140,15 +140,15 @@
       "type": "file"
     },
     {
-      "path": "src/slides/s6d.html",
-      "accessCount": 5,
-      "lastAccessed": 1781159137220,
+      "path": "src/slides/s2c.html",
+      "accessCount": 6,
+      "lastAccessed": 1781164687960,
       "type": "file"
     },
     {
-      "path": "src/slides/s2c.html",
+      "path": "src/slides/s6d.html",
       "accessCount": 5,
-      "lastAccessed": 1781163038393,
+      "lastAccessed": 1781159137220,
       "type": "file"
     },
     {

@@ -50,16 +50,13 @@
 /* 풀샷 — 주석 SVG(1474×1218) 전체가 프레임 안에 보이도록 contain */
 #s2c .zoom-img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;cursor:crosshair}
 /* 돋보기 렌즈 — 커서 아래 영역을 확대(배율 2.8x)해서 비추는 네모 창. 위치·배경은 JS가 갱신.
+   background-color는 프레임(#1D2026)과 동일 — SVG 좌우 여백이 투명이라, 흰색이면 확대 시
+   여백이 흰 바탕으로 비쳐 보였다. 화면색과 맞춰 자연스럽게 블렌딩.
    pointer-events:none 이라 mousemove는 항상 이미지로 전달된다 */
-#s2c .zoom-lens{position:absolute;width:380px;height:280px;border-radius:14px;
-  border:3px solid var(--blue-core);background-color:#fff;background-repeat:no-repeat;
-  box-shadow:0 12px 34px rgba(15,111,218,.4),0 0 0 2px rgba(255,255,255,.9) inset;
+#s2c .zoom-lens{position:absolute;width:570px;height:420px;border-radius:16px;
+  border:3px solid var(--blue-core);background-color:#1D2026;background-repeat:no-repeat;
+  box-shadow:0 14px 40px rgba(15,111,218,.42);
   pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}
-/* 안내 핀트 — 풀샷 위에서 돋보기 사용법을 알려주는 알약 */
-#s2c .zoom-hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;
-  background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
-  padding:8px 22px;font-size:var(--fs-badge);font-weight:700;color:var(--bgray-dark);
-  box-shadow:var(--e1);pointer-events:none}
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
 #s2c .mon-deco.b{right:200px;bottom:84px;width:48px;height:48px}

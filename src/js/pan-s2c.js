@@ -18,7 +18,7 @@
     deck.pan.toggle=function(){};
 
     const ZOOM=2.8;                 /* 표시 크기 대비 배율 (SVG라 벡터로 선명) */
-    const LENS_W=380, LENS_H=280;   /* CSS .zoom-lens와 동일 (로컬 px) */
+    const LENS_W=570, LENS_H=420;   /* CSS .zoom-lens와 동일 (로컬 px) — 기존比 1.5배 */
 
     let img=null, lens=null, wrap=null, bound=false;
 
@@ -48,16 +48,22 @@
       if(cx<0||cy<0||cx>ow||cy>oh){ hideLens(); return; }
       ensureLensBg();
       lens.style.opacity='1';
-      /* 렌즈를 커서 중심에 두되 이미지 경계 안으로 클램프 */
-      let lx=cx-LENS_W/2, ly=cy-LENS_H/2;
-      lx=Math.max(0,Math.min(Math.max(0,ow-LENS_W),lx));
-      ly=Math.max(0,Math.min(Math.max(0,oh-LENS_H),ly));
-      /* 렌즈 위치는 pan-wrap(=offsetParent) 기준 = 이미지 오프셋 + 이미지내 위치 */
-      lens.style.left=(img.offsetLeft+lx)+'px';
-      lens.style.top=(img.offsetTop+ly)+'px';
-      /* 배경: 표시 크기의 ZOOM배로 키워, 렌즈가 덮은 영역이 그대로 확대돼 보이게 */
+      /* 확대 영역: 커서를 중심으로 (렌즈크기/배율)만큼의 이미지 영역을 잡고, 이미지 경계로만 클램프.
+         (렌즈 박스 클램프와 분리 — 영역 클램프는 작아서 커서가 사진 맨 밑/가장자리까지 닿는다) */
+      const RW=LENS_W/ZOOM, RH=LENS_H/ZOOM;
+      let rx=cx-RW/2, ry=cy-RH/2;
+      rx=Math.max(0,Math.min(Math.max(0,ow-RW),rx));
+      ry=Math.max(0,Math.min(Math.max(0,oh-RH),ry));
+      /* 렌즈 박스: 커서를 따라가되 프레임(pan-wrap) 안으로만 클램프 — 박스가 사진 맨 밑까지 내려간다 */
+      const fw=wrap.offsetWidth, fh=wrap.offsetHeight;
+      let bx=img.offsetLeft+cx-LENS_W/2, by=img.offsetTop+cy-LENS_H/2;
+      bx=Math.max(0,Math.min(Math.max(0,fw-LENS_W),bx));
+      by=Math.max(0,Math.min(Math.max(0,fh-LENS_H),by));
+      lens.style.left=bx+'px';
+      lens.style.top=by+'px';
+      /* 배경: 표시 크기의 ZOOM배로 키워, 잡은 영역이 그대로 확대돼 보이게 */
       lens.style.backgroundSize=(ow*ZOOM)+'px '+(oh*ZOOM)+'px';
-      lens.style.backgroundPosition='-'+(lx*ZOOM).toFixed(1)+'px -'+(ly*ZOOM).toFixed(1)+'px';
+      lens.style.backgroundPosition='-'+(rx*ZOOM).toFixed(1)+'px -'+(ry*ZOOM).toFixed(1)+'px';
     }
 
     function bind(){
