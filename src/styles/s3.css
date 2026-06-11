@@ -31,8 +31,9 @@
 #s3b .browser-col{height:100%}
 #s3b .browser-col .browser{height:100%}
 #s3b .browser-col .shot{position:relative}
-/* capture base + live iframe (same pattern as s2b) */
-#s3b .capture-base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;z-index:1;display:block}
+/* capture base + live iframe (same pattern as s2b)
+   WP-MAG: cover/top → contain — 자동 패닝 제거 후 캡처를 풀샷으로 정지 표시 */
+#s3b .capture-base{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:1;display:block;background:#fff}
 /* capture pan-inner: only used in capture mode (iframe absent/hidden) */
 #s3b .capture-pan-inner{position:absolute;left:0;right:0;top:0;width:100%;will-change:transform;transition:transform 0s linear}
 /* once wrapped for panning, the capture flows at natural height so there is travel

@@ -523,55 +523,23 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2c .slide-inner{position:absolute;inset:0;padding:112px 128px 76px} /* WP-D: 전역 헤더 리듬(x128) 정렬 */
 #s2c .chip-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
 #s2c .chip-header .kicker{margin:0}
+/* WP-MAG: 자동 크롭줌 투어 제거 → 풀샷 + 돋보기. 프레임은 자산을 contain으로 중앙 정렬 */
 #s2c .pan-wrap{position:absolute;left:128px;right:128px;top:188px;bottom:64px;
-  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#1D2026;border:1px solid var(--border-default)} /* E5: 다크 프레임 — 오버뷰 휴지 상태에서도 베이크 라벨 가독 */
-/* 주석 SVG(1474×1218)를 담는 팬 레이어 — 크롭·줌 transform은 컨트롤러가 적용 */
-#s2c .pan-inner{position:absolute;left:0;right:0;top:0;width:100%;
-  /* height auto-sized by JS; translateY applied by panning controller */
-  will-change:transform;transition:transform 0s linear}
-#s2c .pan-inner img{width:100%;height:auto;display:block}
-/* ── Callout chips — positioned in FRAME space (inside .pan-wrap, relative to wrap) ── */
-/* Left-stack: stacked column from top-left at 24px inset */
-/* Right-stack: stacked column from top-right at 24px inset */
-/* (주의: .pan-wrap은 position:absolute — 이미 칩의 포지셔닝 컨텍스트다. relative로 덮으면 높이가 붕괴한다) */
-.s2c-chip{
-  position:absolute;
-  max-width:560px;
-  background:rgba(255,255,255,.97);
-  border:1.5px solid #F0C45A;
-  border-radius:12px;
-  padding:12px 20px;
-  font-size:var(--fs-c2);
-  font-weight:600;
-  color:#1D2026;
-  line-height:1.35;
-  box-shadow:0 4px 20px rgba(0,0,0,.18),0 1px 4px rgba(0,0,0,.10);
-  opacity:0;
-  transform:translateY(8px);
-  transition:opacity .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1);
-  pointer-events:none;
-  z-index:20;
-  white-space:normal;
-}
-.s2c-chip.chip-shown{
-  opacity:1;
-  transform:translateY(0);
-}
-/* 정거장당 한 묶음만 표시 — 프레임 좌/우 상단 코너 고정 앵커 (줌 상태와 무관하게 클립 없음)
-   T-fix: top 24→90 — 캡처 자산에 구워진 브라우저 크롬(상단 다크 바)과 겹치지 않게 */
-.s2c-chip--left{top:90px;left:24px;right:auto}
-.s2c-chip--right{top:90px;right:24px;left:auto}
-/* S6: 우측 칩 2개는 인접 형제 — 둘째를 아래로 스택 */
-[data-stop="5"].s2c-chip--right + [data-stop="5"].s2c-chip--right{top:200px}
-
-/* reduced-motion: 전체 자산을 다크 프레임 위에 contain으로 정적 표시 —
-   베이크된 노란 주석이 그대로 읽히므로 DOM 칩은 중복이라 숨긴다 */
-@media (prefers-reduced-motion:reduce){
-  html:not(.force-motion) #s2c .pan-wrap{background:#1D2026}
-  html:not(.force-motion) #s2c .pan-inner{position:absolute;inset:0;transform:none !important}
-  html:not(.force-motion) #s2c .pan-inner img{width:100%;height:100%;object-fit:contain}
-  html:not(.force-motion) .s2c-chip{display:none !important}
-}
+  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e3);background:#1D2026;border:1px solid var(--border-default);
+  display:flex;align-items:center;justify-content:center} /* E5: 다크 프레임 — 베이크 라벨 가독 */
+/* 풀샷 — 주석 SVG(1474×1218) 전체가 프레임 안에 보이도록 contain */
+#s2c .zoom-img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;cursor:crosshair}
+/* 돋보기 렌즈 — 커서 아래 영역을 확대(배율 2.8x)해서 비추는 네모 창. 위치·배경은 JS가 갱신.
+   pointer-events:none 이라 mousemove는 항상 이미지로 전달된다 */
+#s2c .zoom-lens{position:absolute;width:380px;height:280px;border-radius:14px;
+  border:3px solid var(--blue-core);background-color:#fff;background-repeat:no-repeat;
+  box-shadow:0 12px 34px rgba(15,111,218,.4),0 0 0 2px rgba(255,255,255,.9) inset;
+  pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}
+/* 안내 핀트 — 풀샷 위에서 돋보기 사용법을 알려주는 알약 */
+#s2c .zoom-hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;
+  background:rgba(255,255,255,.92);border:1px solid var(--border-default);border-radius:var(--r-pill);
+  padding:8px 22px;font-size:var(--fs-badge);font-weight:700;color:var(--bgray-dark);
+  box-shadow:var(--e1);pointer-events:none}
 #s2c .mon-deco{position:absolute;z-index:5}
 #s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
 #s2c .mon-deco.b{right:200px;bottom:84px;width:48px;height:48px}
@@ -663,8 +631,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3b .browser-col{height:100%}
 #s3b .browser-col .browser{height:100%}
 #s3b .browser-col .shot{position:relative}
-/* capture base + live iframe (same pattern as s2b) */
-#s3b .capture-base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;z-index:1;display:block}
+/* capture base + live iframe (same pattern as s2b)
+   WP-MAG: cover/top → contain — 자동 패닝 제거 후 캡처를 풀샷으로 정지 표시 */
+#s3b .capture-base{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:1;display:block;background:#fff}
 /* capture pan-inner: only used in capture mode (iframe absent/hidden) */
 #s3b .capture-pan-inner{position:absolute;left:0;right:0;top:0;width:100%;will-change:transform;transition:transform 0s linear}
 /* once wrapped for panning, the capture flows at natural height so there is travel
@@ -1234,10 +1203,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
-     S2c · 중헌아카이브 — 구조 해부 카메라 크롭줌 (WP-B D2)
+     S2c · 중헌아카이브 — 구조 해부 풀샷 + 돋보기(Magnifier)
      homepage_with_yellow_annotation.svg (1474×1218)
-     Chips authored in DOM inside .pan-wrap (clip boundary).
-     JS assigns chip-shown per stop; reduced-motion shows all statically.
+     자동 크롭줌 투어 제거 → 풀샷을 contain으로 띄우고, 커서를 올린
+     부분이 네모 렌즈 창으로 확대된다(클릭 없이 hover). JS: pan-s2c.js.
      ════════════════════════════════════════════════════════════ -->
 <section class="slide" id="s2c" data-section="2">
   <div class="bg">
@@ -1250,29 +1219,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <div class="kicker rv" style="--d:.05s">중헌아카이브 — '제2의 뇌' 구조 살펴보기</div>
     </div>
   </div>
-  <!-- panning annotation browser frame -->
+  <!-- 풀샷 + 돋보기 렌즈 -->
   <div class="pan-wrap rv" style="--d:.2s">
-    <div class="pan-inner" id="s2c-pan-inner">
-      <img src="assets/resources/joongheon_archive/homepage_with_yellow_annotation.svg"
-           alt="중헌아카이브 홈페이지 구조 — 노란 어노테이션 포함" id="s2c-pan-img">
-    </div>
-    <!-- ── Callout chips (all 10 present in DOM; JS adds chip-shown per stop) ── -->
-    <!-- S1 — stop 0, chip 0 -->
-    <div class="s2c-chip s2c-chip--left" data-stop="0">노션 기반의 개성 있는 UI</div>
-    <!-- S2 — stop 1, chips 1-2 -->
-    <div class="s2c-chip s2c-chip--left" data-stop="1">차별화된 자기 PR 요소</div>
-    <div class="s2c-chip s2c-chip--right" data-stop="1">카테고리 유형 요약 시각화</div>
-    <!-- S3 — stop 2, chip 3 -->
-    <div class="s2c-chip s2c-chip--left" data-stop="2">실시간으로 연동되어 있는 노션 Database</div>
-    <!-- S4 — stop 3, chips 4-5 -->
-    <div class="s2c-chip s2c-chip--left" data-stop="3">AI Agent를 이용한 자동 Public/Private 일정 연동 관리</div>
-    <div class="s2c-chip s2c-chip--right" data-stop="3">AI Agent를 이용한 자동 카테고리 그룹핑</div>
-    <!-- S5 — stop 4, chip 6 -->
-    <div class="s2c-chip s2c-chip--left" data-stop="4">노션 Database 특성에 맞춘 데이터 정규화</div>
-    <!-- S6 — stop 5, chips 7-9 -->
-    <div class="s2c-chip s2c-chip--left" data-stop="5">중요도가 가장 높은 포트폴리오 연결용 CTA(Call To Action) 버튼</div>
-    <div class="s2c-chip s2c-chip--right" data-stop="5">사용자 경험을 위한 상단 이동 버튼</div>
-    <div class="s2c-chip s2c-chip--right" data-stop="5">카카오톡 채널 연동</div>
+    <img src="assets/resources/joongheon_archive/homepage_with_yellow_annotation.svg"
+         alt="중헌아카이브 홈페이지 구조 — 노란 어노테이션 포함" id="s2c-pan-img" class="zoom-img">
+    <div class="zoom-lens" id="s2c-lens" aria-hidden="true"></div>
+    <div class="zoom-hint" aria-hidden="true">🔍 커서를 올린 부분이 확대돼요</div>
   </div>
   <!-- Mon decorations -->
   <svg class="mon-deco a m-research float rv-pop" style="--d:.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
@@ -2460,285 +2412,76 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   window.deck={ pan:{}, iframe:{} };
 
   /* ================================================================
-     WP-B D2 — S2c CAMERA CROP-ZOOM CONTROLLER  (v3 rewrite)
-     Per-zone crop-zoom + DOM callout chip sequencer.
-     Asset: homepage_with_yellow_annotation.svg, 1474×1218 source px.
-     Rendered inside #s2c .pan-wrap (overflow:hidden clip boundary).
-     .pan-inner transform: translate(tx,ty) scale(s) — origin 0 0.
-     Frame coords: wrap rect (left=0, top=0).
-     For a zone anchored at source (sx, sy):
-       scaledX = sx * renderScale
-       scaledY = sy * renderScale
-       tx = -(scaledX - frameW/2)   [x: keep content centre x≈737 for centred zones]
-       ty = -(scaledY - frameH/2)
-     Chips live INSIDE .pan-wrap (frame space) — crisp + unclipped at zoom.
+     WP-MAG — S2c 돋보기(Magnifier) CONTROLLER
+     자동 카메라 크롭줌 투어를 제거하고, 풀샷 위에서 커서를 따라다니는
+     돋보기 렌즈로 교체. 클릭 없이 hover만으로 커서 아래 영역을 확대한다.
+     Asset: homepage_with_yellow_annotation.svg (1474×1218, contain 풀샷).
+
+     deck-stage가 transform:scale(k)로 축소돼 있어도 정확히 동작하도록:
+       - offsetWidth/Left = 로컬(미스케일) px,  getBoundingClientRect = 화면 px
+       - k = boundingWidth / offsetWidth 로 환산
+     reduced-motion과 무관하게 동작(애니메이션이 아니라 상호작용이다).
+
+     deck.pan.toggle은 no-op로 등록 — pan-s3b.js가 이를 origPanToggle로
+     캡처하므로 등록 형태(shape)는 반드시 유지한다.
      ================================================================ */
-  (function initPanController(){
-    if(reduced){ /* reduced-motion: no animation; chips shown statically via CSS */
-      deck.pan.toggle=function(){};
-      return;
+  (function initS2cMagnifier(){
+    /* 패닝 폐지 — P 키 토글은 더 이상 동작 안 함. 단, pan-s3b 위임 체인 보존 위해 등록은 유지 */
+    deck.pan.toggle=function(){};
+
+    const ZOOM=2.8;                 /* 표시 크기 대비 배율 (SVG라 벡터로 선명) */
+    const LENS_W=380, LENS_H=280;   /* CSS .zoom-lens와 동일 (로컬 px) */
+
+    let img=null, lens=null, wrap=null, bound=false;
+
+    function getEls(){
+      wrap=document.querySelector('#s2c .pan-wrap');
+      img=document.getElementById('s2c-pan-img');
+      lens=document.getElementById('s2c-lens');
+      return !!(wrap&&img&&lens);
     }
 
-    /* ── DATA ─────────────────────────────────────────────────────── */
-    const SRC_W=1474, SRC_H=1218;
-    const SRC_CONTENT_CX=737; /* logical centre-x of the content area in source px */
-
-    /* 6 zoom stops — all have chips (verified chip map, authoritative) */
-    const STOPS=[
-      { srcY:146,  srcX:SRC_CONTENT_CX, chips:[0] },          /* S1 */
-      { srcY:381,  srcX:SRC_CONTENT_CX, chips:[1,2] },         /* S2 */
-      { srcY:547,  srcX:SRC_CONTENT_CX, chips:[3] },           /* S3 */
-      { srcY:790,  srcX:SRC_CONTENT_CX, chips:[4,5] },         /* S4 */
-      { srcY:1002, srcX:SRC_CONTENT_CX, chips:[6] },           /* S5 */
-      { srcY:1178, srcX:SRC_CONTENT_CX, chips:[7,8,9] },       /* S6 */
-    ];
-
-    /* 2.0: 가시 소스 폭 = 1474/2.0 = 737px < 콘텐츠 폭(~810px)
-       → 좌우 여백의 베이크된 노란 라벨이 항상 프레임 밖으로 크롭된다 */
-    const ZOOM_AT_HOLD=2.0;
-    const HOLD_MS=1800;       /* hold time at each stop */
-    const CHIP_FADE_MS=350;   /* chip fade-in/out transition */
-    const PAN_SPEED=1.0;      /* px/ms for travel between stops */
-
-    /* ── STATE ────────────────────────────────────────────────────── */
-    let panRunning=false;
-    let panPaused=false;
-    let panAbort=null;
-
-    /* ── ELEMENTS ─────────────────────────────────────────────────── */
-    function getPanEls(){
-      const wrap=document.querySelector('#s2c .pan-wrap');
-      const inner=document.getElementById('s2c-pan-inner');
-      const img=document.getElementById('s2c-pan-img');
-      return {wrap,inner,img};
-    }
-
-    function getChips(){
-      return document.querySelectorAll('#s2c .s2c-chip');
-    }
-
-    /* ── GEOMETRY ─────────────────────────────────────────────────── */
-    function computeGeometry(){
-      const {wrap,inner,img}=getPanEls();
-      if(!wrap||!inner||!img) return null;
-      const wrapRect=wrap.getBoundingClientRect();
-      const frameW=wrapRect.width||1728;
-      const frameH=wrapRect.height||840;
-      const renderScale=frameW/SRC_W;
-      const renderH=SRC_H*renderScale;
-      return {renderScale,renderH,frameW,frameH};
-    }
-
-    /* Compute transform for a given stop at a given zoom scale.
-       Uses transform-origin:0 0, so we manually translate to centre the zone. */
-    /* E5: 줌 홀드 중 가로 클램프를 '콘텐츠 밴드'(사이트 영역 330..1140px)로 좁혀
-       좌우 여백의 베이크된 라벨 파편이 프레임에 절대 들어오지 않게 한다.
-       (가시 밴드 737px < 콘텐츠 810px 이므로 항상 만족 가능) */
-    const CONTENT_X0=330, CONTENT_X1=1140;
-    function stopTransform(stop,scale,geo){
-      const scaledX=stop.srcX*geo.renderScale;
-      const scaledY=stop.srcY*geo.renderScale;
-      /* centre the zone in the frame */
-      let tx=geo.frameW/2-scaledX*scale;
-      let ty=geo.frameH/2-scaledY*scale;
-      /* horizontal clamp: keep the visible band inside the content area */
-      const maxTx=-CONTENT_X0*geo.renderScale*scale;
-      const minTx=geo.frameW-CONTENT_X1*geo.renderScale*scale;
-      const maxTy=0;
-      const minTy=geo.frameH-geo.renderScale*SRC_H*scale;
-      tx=Math.max(minTx,Math.min(maxTx,tx));
-      ty=Math.max(minTy,Math.min(maxTy,ty));
-      return {tx,ty};
-    }
-
-    /* Transform for the full-fit overview (scale so whole image fits with contain-like letterbox) */
-    function overviewTransform(geo){
-      const scaleX=geo.frameW/(geo.renderScale*SRC_W);
-      const scaleY=geo.frameH/(geo.renderScale*SRC_H);
-      const s=Math.min(scaleX,scaleY,1); /* never upscale beyond 1 (image already fills width) */
-      const renderW=geo.renderScale*SRC_W*s;
-      const renderH2=geo.renderScale*SRC_H*s;
-      const tx=(geo.frameW-renderW)/2;
-      const ty=(geo.frameH-renderH2)/2;
-      return {tx,ty,s};
-    }
-
-    /* ── TRANSFORM APPLICATION ────────────────────────────────────── */
-    function applyTransformInstant(inner,tx,ty,s){
-      inner.style.transition='none';
-      inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
-    }
-
-    function applyTransformEased(inner,tx,ty,s,durationMs){
-      inner.style.transition='transform '+durationMs+'ms cubic-bezier(.4,0,.2,1)';
-      inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
-    }
-
-    /* ── ANIMATION HELPERS ────────────────────────────────────────── */
-    /* Animate from current transform to target via rAF */
-    function animateToStop(inner,fromTx,fromTy,fromS,toTx,toTy,toS,durationMs,abortSignal){
-      return new Promise(resolve=>{
-        if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
-        inner.style.transition='none'; /* P2-fix: 프레임당 재기록 제거 */
-        const t0=performance.now();
-        function frame(now){
-          if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
-          const p=Math.min((now-t0)/durationMs,1);
-          /* ease-in-out cubic */
-          const e=p<0.5?4*p*p*p:(1-Math.pow(-2*p+2,3)/2);
-          const tx=fromTx+(toTx-fromTx)*e;
-          const ty=fromTy+(toTy-fromTy)*e;
-          const s=fromS+(toS-fromS)*e;
-          inner.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+s.toFixed(4)+')';
-          if(p<1) requestAnimationFrame(frame);
-          else resolve('done');
-        }
-        requestAnimationFrame(frame);
-      });
-    }
-
-    function delay(ms,abortSignal){
-      return new Promise(resolve=>{
-        if(abortSignal&&abortSignal.aborted){resolve('aborted');return;}
-        const t=setTimeout(()=>resolve('done'),ms);
-        if(abortSignal) abortSignal.addEventListener('abort',()=>{clearTimeout(t);resolve('aborted');});
-      });
-    }
-
-    async function waitUnpaused(abortSignal){
-      while(panPaused){
-        const r=await delay(120,abortSignal);
-        if(r==='aborted') return false;
+    function ensureLensBg(){
+      if(!lens.style.backgroundImage){
+        lens.style.backgroundImage='url("'+img.getAttribute('src')+'")';
       }
-      return true;
     }
 
-    /* ── CHIP MANAGEMENT ─────────────────────────────────────────── */
-    function showChips(indices){
-      const chips=getChips();
-      chips.forEach((c,i)=>{
-        if(indices.includes(i)) c.classList.add('chip-shown');
-        else c.classList.remove('chip-shown');
-      });
+    function hideLens(){ if(lens) lens.style.opacity='0'; }
+
+    function onMove(e){
+      if(!img||!lens) return;
+      const r=img.getBoundingClientRect();            /* 스케일된 화면 px */
+      const ow=img.offsetWidth, oh=img.offsetHeight;  /* 로컬(미스케일) px */
+      if(ow===0||oh===0){ hideLens(); return; }
+      const k=r.width/ow;                             /* deck-stage 누적 스케일 */
+      const cx=(e.clientX-r.left)/k;                  /* 이미지 좌상단 기준 로컬 px */
+      const cy=(e.clientY-r.top)/k;
+      if(cx<0||cy<0||cx>ow||cy>oh){ hideLens(); return; }
+      ensureLensBg();
+      lens.style.opacity='1';
+      /* 렌즈를 커서 중심에 두되 이미지 경계 안으로 클램프 */
+      let lx=cx-LENS_W/2, ly=cy-LENS_H/2;
+      lx=Math.max(0,Math.min(Math.max(0,ow-LENS_W),lx));
+      ly=Math.max(0,Math.min(Math.max(0,oh-LENS_H),ly));
+      /* 렌즈 위치는 pan-wrap(=offsetParent) 기준 = 이미지 오프셋 + 이미지내 위치 */
+      lens.style.left=(img.offsetLeft+lx)+'px';
+      lens.style.top=(img.offsetTop+ly)+'px';
+      /* 배경: 표시 크기의 ZOOM배로 키워, 렌즈가 덮은 영역이 그대로 확대돼 보이게 */
+      lens.style.backgroundSize=(ow*ZOOM)+'px '+(oh*ZOOM)+'px';
+      lens.style.backgroundPosition='-'+(lx*ZOOM).toFixed(1)+'px -'+(ly*ZOOM).toFixed(1)+'px';
     }
 
-    function hideAllChips(){
-      getChips().forEach(c=>c.classList.remove('chip-shown'));
+    function bind(){
+      if(bound||!getEls()) return;
+      img.addEventListener('mousemove',onMove);
+      img.addEventListener('mouseleave',hideLens);
+      bound=true;
     }
 
-    /* ── MAIN SEQUENCE ────────────────────────────────────────────── */
-    async function runPanSequence(){
-      const {wrap,inner,img}=getPanEls();
-      if(!wrap||!inner||!img) return;
-
-      /* Wait for image load */
-      if(!img.complete){
-        await new Promise(r=>img.addEventListener('load',r,{once:true}));
-      }
-
-      const geo=computeGeometry();
-      if(!geo) return;
-
-      const abortCtrl=new AbortController();
-      panAbort=abortCtrl;
-      const sig=abortCtrl.signal;
-
-      /* Set transform-origin once */
-      inner.style.transformOrigin='0 0';
-
-      /* Start: show top of image fully (scale=1, no translate) */
-      applyTransformInstant(inner,0,0,1);
-      hideAllChips();
-
-      const r=await delay(HOLD_MS*0.7,sig);
-      if(r==='aborted') return;
-
-      /* Current transform state for interpolation */
-      let curTx=0, curTy=0, curS=1;
-
-      /* Visit each stop */
-      for(let i=0;i<STOPS.length;i++){
-        const stop=STOPS[i];
-
-        if(!await waitUnpaused(sig)) return;
-        if(sig.aborted) return;
-
-        const {tx:toTx,ty:toTy}=stopTransform(stop,ZOOM_AT_HOLD,geo);
-        const toS=ZOOM_AT_HOLD;
-
-        /* Travel distance in screen pixels (approximate) */
-        const dist=Math.sqrt(Math.pow(toTx-curTx,2)+Math.pow(toTy-curTy,2));
-        const dur=Math.max(700,dist/PAN_SPEED);
-
-        /* Animate to this stop */
-        const res=await animateToStop(inner,curTx,curTy,curS,toTx,toTy,toS,dur,sig);
-        if(res==='aborted') return;
-        curTx=toTx; curTy=toTy; curS=toS;
-
-        if(!await waitUnpaused(sig)) return;
-        if(sig.aborted) return;
-
-        /* Show chips for this stop */
-        showChips(stop.chips);
-
-        /* Hold */
-        const hr=await delay(HOLD_MS,sig);
-        if(hr==='aborted'){ hideAllChips(); return; }
-
-        /* Hide chips */
-        hideAllChips();
-        /* brief pause after chips out */
-        const gr=await delay(CHIP_FADE_MS+80,sig);
-        if(gr==='aborted') return;
-      }
-
-      /* After last stop: ease back to full-fit overview */
-      if(!await waitUnpaused(sig)) return;
-      if(sig.aborted) return;
-
-      const ov=overviewTransform(geo);
-      const overviewDur=1000;
-      const res2=await animateToStop(inner,curTx,curTy,curS,ov.tx,ov.ty,ov.s,overviewDur,sig);
-      if(res2==='aborted') return;
-
-      /* Rest — P restarts */
-      panRunning=false;
-    }
-
-    /* ── START / STOP ─────────────────────────────────────────────── */
-    function startPan(){
-      if(panAbort) panAbort.abort();
-      panRunning=true;
-      panPaused=false;
-      runPanSequence().catch(()=>{});
-    }
-
-    function stopPan(){
-      panRunning=false;
-      if(panAbort){ panAbort.abort(); panAbort=null; }
-    }
-
-    /* ── deck.pan.toggle — MUST keep this registration shape
-       (pan-s3b.js captures origPanToggle = deck.pan.toggle and calls it for non-s3b slides) */
-    deck.pan.toggle=function(){
-      if(!panRunning){
-        startPan();
-      } else if(panPaused){
-        panPaused=false;
-      } else {
-        panPaused=true;
-      }
-    };
-
-    /* ── Lifecycle hooks ──────────────────────────────────────────── */
     registerHook('s2c',{
-      onEnter(){ startPan(); },
-      onLeave(){
-        stopPan();
-        hideAllChips();
-        const {inner}=getPanEls();
-        if(inner){ inner.style.transform=''; inner.style.transition=''; inner.style.transformOrigin=''; }
-      }
+      onEnter(){ bind(); hideLens(); },
+      onLeave(){ hideLens(); }
     });
   })();
 
@@ -3077,21 +2820,21 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       if(inner){ inner.style.transform=''; inner.style.transition=''; }
     }
 
-    /* Hook into slide lifecycle */
+    /* WP-MAG: 자동 패닝 폐지 — 캡처는 풀샷(CSS object-fit:contain)으로 정지 표시.
+       라이브 탐색(↓)은 iframe-manager가 그대로 담당한다.
+       훅은 완전 no-op — stopS3bPan()을 부르면 getPanEls()가 .capture-pan-inner 래퍼를
+       생성하고, 그 래퍼용 규칙(object-fit:unset→fill)이 풀샷 contain을 덮어버린다. */
     registerHook('s3b',{
-      onEnter(){ startS3bPan(); },
-      onLeave(){ stopS3bPan(); }
+      onEnter(){},
+      onLeave(){}
     });
 
-    /* P key on s3b: toggle pause/resume */
+    /* P key 위임 체인 보존: s3b에서는 no-op, 그 외 슬라이드는 기존 토글로 전달 */
     const origPanToggle=deck.pan.toggle;
     deck.pan.toggle=function(){
       const id=slides[cur]&&slides[cur].id;
-      if(id==='s3b'){
-        if(!panRunning){ startS3bPan(); }
-        else if(panPaused){ panPaused=false; }
-        else { panPaused=true; }
-      } else if(origPanToggle){ origPanToggle(); }
+      if(id==='s3b'){ /* 풀샷 모드 — 패닝 없음 */ }
+      else if(origPanToggle){ origPanToggle(); }
     };
   })();
 

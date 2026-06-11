@@ -9,7 +9,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -1 && cat > /tmp/typo-fix-check.mjs <<'EOF'\nimport pw from '/home/hon2yb22/workspace/mosmos/nextrise_notion_showcase/node_modules/playwright-core/index.js';\nimport fs from 'fs';\nconst {chromium} = pw;\nconst OUT='/tmp/shots-fix'; fs.mkdirSync(OUT,{recursive:true});\nconst browser=await chromium.launch({executablePath:'/home/hon2yb22/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome'});\nconst page=await browser.newPage({viewport:{width:1920,height:1080}});\nawait page.goto('http://localhost:8923/index.html',{waitUntil:'load'});\nawait page.waitForTimeout(1500);\n// slide index (0-based) -> hash i+1\nconst TARGETS=[[0,'s0'],[3,'s2b'],[4,'s2c'],[8,'s3b'],[9,'s3c'],[10,'s3d'],[12,'s4b'],[13,'s4c'],[17,'s6b'],[18,'s6c'],[19,'s6d']];\nfor(const [i,id] of TARGETS){\n  await page.evaluate(n=>{location.hash='#'+(n+1);},i);\n  await page.waitForTimeout(500);\n  if(id==='s0') await page.keyboard.press('Space');\n  if(id==='s6b'){ // step through 3 reveals\n    await page.waitForTimeout(1200);\n    for(let k=0;k<3;k++){ await page.keyboard.press('ArrowRight'); await page.waitForTimeout(700); }\n  }\n  await page.waitForTimeout(id==='s6d'||id==='s0'?4500:2600);\n  await page.screenshot({path:`${OUT}/${String(i).padStart(2,'0')}-${id}.png`});\n  console.log('shot',id);\n}\nawait browser.close();\nEOF\nnode /tmp/typo-fix-check.mjs 2>&1 | tail -12",
+    "buildCommand": "npm run build 2>&1 | tail -1 && node /tmp/mag-probe.mjs 2>&1 | grep -E \"s3b|s2c base|TRACKS|deck.pan|ERRORS\"",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -63,14 +63,20 @@
     },
     {
       "path": "src/styles/s2.css",
-      "accessCount": 20,
-      "lastAccessed": 1781159907757,
+      "accessCount": 22,
+      "lastAccessed": 1781163015489,
       "type": "file"
     },
     {
       "path": "src/styles/s6.css",
       "accessCount": 20,
       "lastAccessed": 1781159931646,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s3.css",
+      "accessCount": 18,
+      "lastAccessed": 1781163083305,
       "type": "file"
     },
     {
@@ -83,12 +89,6 @@
       "path": "src/styles/s5.css",
       "accessCount": 17,
       "lastAccessed": 1781159062037,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s3.css",
-      "accessCount": 17,
-      "lastAccessed": 1781159929836,
       "type": "file"
     },
     {
@@ -105,8 +105,8 @@
     },
     {
       "path": "src/js/pan-s2c.js",
-      "accessCount": 8,
-      "lastAccessed": 1781143258318,
+      "accessCount": 10,
+      "lastAccessed": 1781163061268,
       "type": "file"
     },
     {
@@ -134,9 +134,21 @@
       "type": "file"
     },
     {
+      "path": "src/js/pan-s3b.js",
+      "accessCount": 6,
+      "lastAccessed": 1781163170917,
+      "type": "file"
+    },
+    {
       "path": "src/slides/s6d.html",
       "accessCount": 5,
       "lastAccessed": 1781159137220,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s2c.html",
+      "accessCount": 5,
+      "lastAccessed": 1781163038393,
       "type": "file"
     },
     {
@@ -149,12 +161,6 @@
       "path": "QA_REPORT.md",
       "accessCount": 3,
       "lastAccessed": 1781113076947,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s2c.html",
-      "accessCount": 3,
-      "lastAccessed": 1781141959681,
       "type": "file"
     },
     {
@@ -176,12 +182,6 @@
       "type": "file"
     },
     {
-      "path": "src/js/pan-s3b.js",
-      "accessCount": 3,
-      "lastAccessed": 1781143257670,
-      "type": "file"
-    },
-    {
       "path": "src/slides/s2d.html",
       "accessCount": 3,
       "lastAccessed": 1781159156828,
@@ -191,6 +191,12 @@
       "path": "src/js/hooks-s3c.js",
       "accessCount": 2,
       "lastAccessed": 1781142237547,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s3b.html",
+      "accessCount": 2,
+      "lastAccessed": 1781162732939,
       "type": "file"
     },
     {
@@ -287,12 +293,6 @@
       "path": "src/slides/s2e.html",
       "accessCount": 1,
       "lastAccessed": 1781141960468,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s3b.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141967316,
       "type": "file"
     },
     {

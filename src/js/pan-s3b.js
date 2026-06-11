@@ -159,20 +159,20 @@
       if(inner){ inner.style.transform=''; inner.style.transition=''; }
     }
 
-    /* Hook into slide lifecycle */
+    /* WP-MAG: 자동 패닝 폐지 — 캡처는 풀샷(CSS object-fit:contain)으로 정지 표시.
+       라이브 탐색(↓)은 iframe-manager가 그대로 담당한다.
+       훅은 완전 no-op — stopS3bPan()을 부르면 getPanEls()가 .capture-pan-inner 래퍼를
+       생성하고, 그 래퍼용 규칙(object-fit:unset→fill)이 풀샷 contain을 덮어버린다. */
     registerHook('s3b',{
-      onEnter(){ startS3bPan(); },
-      onLeave(){ stopS3bPan(); }
+      onEnter(){},
+      onLeave(){}
     });
 
-    /* P key on s3b: toggle pause/resume */
+    /* P key 위임 체인 보존: s3b에서는 no-op, 그 외 슬라이드는 기존 토글로 전달 */
     const origPanToggle=deck.pan.toggle;
     deck.pan.toggle=function(){
       const id=slides[cur]&&slides[cur].id;
-      if(id==='s3b'){
-        if(!panRunning){ startS3bPan(); }
-        else if(panPaused){ panPaused=false; }
-        else { panPaused=true; }
-      } else if(origPanToggle){ origPanToggle(); }
+      if(id==='s3b'){ /* 풀샷 모드 — 패닝 없음 */ }
+      else if(origPanToggle){ origPanToggle(); }
     };
   })();
