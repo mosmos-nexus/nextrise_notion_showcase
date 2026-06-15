@@ -17,6 +17,7 @@
     { "file": "src/chrome.html" },
     { "file": "src/slides/s0.html" },
     { "file": "src/slides/s1.html" },
+    { "file": "src/slides/s1b.html" },
     { "file": "src/slides/s2a.html" },
     { "file": "src/slides/s2b.html" },
     { "file": "src/slides/s2c.html" },

@@ -30,3 +30,23 @@
 #s1 .tl-notion span{font-size:var(--fs-c2);font-weight:700;color:var(--text-strong)}
 #s1 .s1-sub{position:absolute;left:0;right:0;bottom:74px;text-align:center;font-size:var(--fs-sub);color:var(--bgray-dark);font-weight:500}
 #s1 .s1-sub b{color:var(--text-strong)}
+
+/* ============================================================
+   S1b · 두 주인공 소개 (Mos·Mon·mosmos) — 콜드 청중 앵커
+   ============================================================ */
+#s1b{--bloom:.25}
+#s1b .intro-cols{position:absolute;left:128px;right:128px;top:300px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch}
+#s1b .intro-card{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e2);
+  padding:36px 48px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
+#s1b .intro-card .face{height:190px;display:flex;align-items:center;justify-content:center;gap:26px}
+#s1b .intro-card .face .mos-face{width:188px;height:auto}
+#s1b .intro-card .face .mon{width:86px;height:86px}
+#s1b .intro-card h3{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s1b .intro-card p{font-size:var(--fs-c2);line-height:1.55;color:var(--bgray-dark)}
+#s1b .intro-card p b{color:var(--text-strong)}
+#s1b .intro-foot{position:absolute;left:128px;right:128px;bottom:88px;display:flex;align-items:center;gap:28px;
+  background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
+#s1b .intro-foot .tag{flex:none;font-size:var(--fs-badge);font-weight:800;letter-spacing:.04em;color:#fff;
+  background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
+#s1b .intro-foot p{font-size:var(--fs-c1);line-height:1.45;font-weight:600;color:var(--text-body)}
+#s1b .intro-foot p b{color:var(--blue-core)}

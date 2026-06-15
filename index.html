@@ -479,6 +479,26 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s1 .s1-sub b{color:var(--text-strong)}
 
 /* ============================================================
+   S1b · 두 주인공 소개 (Mos·Mon·mosmos) — 콜드 청중 앵커
+   ============================================================ */
+#s1b{--bloom:.25}
+#s1b .intro-cols{position:absolute;left:128px;right:128px;top:300px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch}
+#s1b .intro-card{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--e2);
+  padding:36px 48px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
+#s1b .intro-card .face{height:190px;display:flex;align-items:center;justify-content:center;gap:26px}
+#s1b .intro-card .face .mos-face{width:188px;height:auto}
+#s1b .intro-card .face .mon{width:86px;height:86px}
+#s1b .intro-card h3{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
+#s1b .intro-card p{font-size:var(--fs-c2);line-height:1.55;color:var(--bgray-dark)}
+#s1b .intro-card p b{color:var(--text-strong)}
+#s1b .intro-foot{position:absolute;left:128px;right:128px;bottom:88px;display:flex;align-items:center;gap:28px;
+  background:rgba(255,255,255,.92);border:1px solid var(--border-subtle);border-radius:20px;padding:26px 36px;box-shadow:var(--e2);backdrop-filter:blur(6px)}
+#s1b .intro-foot .tag{flex:none;font-size:var(--fs-badge);font-weight:800;letter-spacing:.04em;color:#fff;
+  background:var(--gradient-bloom);border-radius:var(--r-pill);padding:10px 22px}
+#s1b .intro-foot p{font-size:var(--fs-c1);line-height:1.45;font-weight:600;color:var(--text-body)}
+#s1b .intro-foot p b{color:var(--blue-core)}
+
+/* ============================================================
    S2 · 중헌아카이브 (5화면) — WP4
    ============================================================ */
 #s2a{--bloom:.3}
@@ -1117,21 +1137,21 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
         <svg class="mon m-research rv-pop" style="--d:1.35s"><use href="#mon-body"/><use href="#p-research"/></svg></div>
       <span class="stage-tag">개인 · 블로그</span>
       <span class="nm">중헌아카이브</span>
-      <span class="ds">Notion으로 지은 제2의 뇌</span>
+      <span class="ds">Notion으로 지은 내 지식 창고</span>
     </div>
     <div class="tl-node n2 rv" style="--d:1.35s">
       <div class="disc"><img src="assets/logo/proact0.svg" alt="Proact0">
         <svg class="mon m-analysis rv-pop" style="--d:1.85s"><use href="#mon-body"/><use href="#p-analysis"/></svg></div>
       <span class="stage-tag">오픈소스 · 커뮤니티</span>
       <span class="nm">Proact0</span>
-      <span class="ds">사람과 에이전트의 CoAX 허브</span>
+      <span class="ds">사람과 AI가 함께 일한 오픈소스 팀</span>
     </div>
     <div class="tl-node n3 rv" style="--d:1.85s">
       <div class="disc"><img src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos">
         <svg class="mon m-organize rv-pop" style="--d:2.35s"><use href="#mon-body"/><use href="#p-organize"/></svg></div>
       <span class="stage-tag">비즈니스 · 스타트업</span>
       <span class="nm">mosmos</span>
-      <span class="ds">Notion-native 운영 OS</span>
+      <span class="ds">노션으로 굴러가는 AI 스타트업</span>
     </div>
     <div class="tl-notion rv" style="--d:2.6s"><!-- M-fix: 발표 호흡 밖(3.2s+)으로 밀리던 꼬리 트림 -->
       <img src="assets/logo/notion.svg" alt="Notion">
@@ -1139,6 +1159,45 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
   </div>
   <p class="s1-sub rv" style="--d:2.8s">개인(블로그) → 오픈소스(Proact0) → 비즈니스(Mosmos) — 변하지 않은 건, 늘 그 중심에 <b>Notion</b>이 있었다는 것</p>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     S1b · 두 주인공 소개 — Mos·Mon·mosmos를 쉬운 말로 (콜드 청중 앵커)
+     여정(s1) 다음, 첫 딥다이브 전에 "이게 뭐고 내게 뭐가 좋은지" 한 장.
+     data-section="1" → 오비트 '여정' 노드가 함께 커버.
+     ════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s1b" data-section="1">
+  <div class="bg">
+    <div class="grid-lines"></div>
+    <div class="glow g1"></div><div class="glow g3"></div>
+    <span class="blk b1"></span><span class="blk b4"></span><span class="blk b5"></span>
+  </div>
+  <header>
+    <div class="kicker rv" style="--d:.05s">본격적인 이야기 전에, 잠깐</div>
+    <h2 class="headline rv" style="--d:.18s">오늘의 두 주인공, <em>Mos와 Mon</em></h2>
+  </header>
+  <div class="intro-cols">
+    <div class="intro-card rv" style="--d:.4s">
+      <div class="face">
+        <img class="mos-face" src="deck-assets/mos-greeting.png" alt="Mos 캐릭터">
+      </div>
+      <h3>Mos — 나를 닮아가는 내 AI</h3>
+      <p>쓸수록 내 기억과 일하는 방식을 배워서,<br><b>점점 나처럼 일하는</b> AI 비서예요.</p>
+    </div>
+    <div class="intro-card rv" style="--d:.55s">
+      <div class="face mon-face">
+        <svg class="mon m-research float rv-pop" style="--d:.95s"><use href="#mon-body"/><use href="#p-research"/></svg>
+        <svg class="mon m-organize float f2 rv-pop" style="--d:1.1s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+        <svg class="mon m-execute float f3 rv-pop" style="--d:1.25s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+      </div>
+      <h3>Mon — Mos가 부리는 일꾼들</h3>
+      <p>조사·정리·실행·소통 등 <b>저마다 특기를 가진</b><br>작은 AI들이 일을 나눠 맡아요.</p>
+    </div>
+  </div>
+  <div class="intro-foot rv" style="--d:.8s">
+    <span class="tag">한 줄 요약</span>
+    <p><b>목표만 말하면, Mos가 Mon들을 움직여 끝까지 해냅니다.</b> 혼자서도 한 팀처럼 일하는 것 — 그게 mosmos예요.</p>
+  </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -1151,7 +1210,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <span class="blk b1"></span><span class="blk b4"></span><span class="blk b5"></span>
   </div>
   <header>
-    <div class="kicker rv" style="--d:.05s">개인 단위 AX의 출발점</div>
+    <div class="kicker rv" style="--d:.05s">모든 건, 내 노션 한 칸에서 시작됐어요</div>
     <h2 class="headline rv" style="--d:.18s">블로그가 아니라, <em>제2의 뇌</em></h2>
   </header>
   <div class="cols">
@@ -1182,7 +1241,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <img class="lg" src="assets/logo/joongheon_archive.svg" alt="">
       <div>
         <div class="t1">중헌아카이브 — 실제로 돌아가는 모습</div>
-        <div class="t2">Notion으로 짓고 <img src="assets/logo/oopy.webp" alt="Oopy"> Oopy로 호스팅하는 라이브 사이트</div>
+        <div class="t2">Notion으로 만든 걸 <img src="assets/logo/oopy.webp" alt="Oopy"> 그대로 웹사이트로 — 지금 살아있는 사이트예요</div>
       </div>
     </div>
   </div>
@@ -1246,8 +1305,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   </div>
   <div class="slide-inner">
     <div class="flow-header rv" style="--d:.05s">
-      <div class="kicker">n8n → Notion 자동화 파이프라인</div>
-      <h2 class="headline" style="margin-top:16px">글이 <em>스스로 분류·적재</em>되는 구조</h2>
+      <div class="kicker">글을 자동으로 분류해 노션에 쌓는 흐름</div>
+      <h2 class="headline" style="margin-top:16px">글이 <em>알아서 분류돼 쌓이는</em> 구조</h2>
     </div>
   </div>
   <div class="flow-card rv" style="--d:.3s">
@@ -1256,9 +1315,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
          alt="n8n에서 Notion DB로 이어지는 자동화 플로우" id="s2d-flow-img">
     <!-- Stage label chips: 수집 → AI 분류 → Notion DB 적재 -->
     <div class="flow-stage-chips">
-      <div class="stage-chip" id="s2d-chip1"><span class="cdot"></span>수집</div>
-      <div class="stage-chip" id="s2d-chip2"><span class="cdot"></span>AI 분류</div>
-      <div class="stage-chip" id="s2d-chip3"><span class="cdot"></span>Notion DB 적재</div>
+      <div class="stage-chip" id="s2d-chip1"><span class="cdot"></span>글 모아오기</div>
+      <div class="stage-chip" id="s2d-chip2"><span class="cdot"></span>AI가 분류</div>
+      <div class="stage-chip" id="s2d-chip3"><span class="cdot"></span>노션에 자동 저장</div>
     </div>
   </div>
   <!-- Mon decorations (조사/정리 theme) -->
@@ -1276,7 +1335,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <span class="blk b2"></span><span class="blk b3"></span><span class="blk b5"></span>
   </div>
   <header>
-    <div class="kicker rv" style="--d:.05s">Notion 위에 구조를 갖춘 뒤의 변화</div>
+    <div class="kicker rv" style="--d:.05s">구조를 갖추니, 이렇게 자랐어요</div>
     <h2 class="headline rv" style="--d:.18s">숫자가 말해주는 <em>자라는 워크스페이스</em></h2>
   </header>
   <div class="grid4">
@@ -1305,7 +1364,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <svg class="mon m-organize mon b float f3 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-organize"/></svg>
   <div class="takeaway rv" style="--d:1.05s">
     <span class="tag">TAKEAWAY</span>
-    <p>개인 워크스페이스도 구조를 갖추면 자랍니다 — <b>DB 설계 + AI 분류 + 자동화 연동</b> 패턴은 오늘 바로 가져가실 수 있어요.</p>
+    <p>혼자 쓰는 노션도 구조를 갖추면 이렇게 자랍니다 — <b>표 설계 + AI 분류 + 자동화</b>, 오늘 바로 따라 해보실 수 있어요.</p>
   </div>
   <!-- QR 고정 배지 (D6) — corner-fixed, separated from hero/takeaway -->
   <div class="qr-badge rv" style="--d:1.4s">
@@ -1326,11 +1385,11 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <span class="blk b1"></span><span class="blk b4"></span><span class="blk b5"></span>
   </div>
   <header>
-    <div class="kicker rv" style="--d:.05s">조직 단위 AX의 무대</div>
+    <div class="kicker rv" style="--d:.05s">혼자에서, 팀으로</div>
     <h2 class="headline rv" style="--d:.18s">혼자가 아니라, <em>함께 가는 조직</em></h2>
   </header>
   <div class="cols">
-    <p class="sub rv" style="--d:.45s">개인의 워크스페이스를 조직 운영으로 넓히자,<br>사람과 AI 에이전트가 <b>같은 보드 위에서</b> 움직이기 시작했어요.<br><br>
+    <p class="sub rv" style="--d:.45s">개인의 워크스페이스를 조직 운영으로 넓히자,<br>사람과 AI가 <b>같은 보드 위에서</b> 함께 움직이기 시작했어요.<br><br>
       역할은 또렷하게, 의존은 느슨하게 —<br>오픈소스로 공개한 <b>조직 운영의 실험</b>, Proact0입니다.</p>
     <div class="visual rv" style="--d:.6s">
       <div class="logo-card"><img src="assets/logo/proact0.svg" alt="Proact0 로고"></div>
@@ -1353,9 +1412,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   </div>
   <!-- D4: 떠 있던 코너 로고를 킥커 행 안으로 — 한 덩어리의 센터 그룹으로 응집 -->
   <div class="center">
-    <div class="kicker rv" style="--d:.05s"><img class="plogo-inline" src="assets/logo/proact0.svg" alt="Proact0">개인 → 조직 단위 AX로</div>
+    <div class="kicker rv" style="--d:.05s"><img class="plogo-inline" src="assets/logo/proact0.svg" alt="Proact0">혼자 쓰던 방식을, 팀으로</div>
     <h2 class="headline rv" style="--d:.18s">이번엔, 조직을 <em>설계</em>로 운영했다</h2>
-    <p class="sub rv" style="--d:.4s">사람과 AI 에이전트가 함께 일하는 <b>CoAX</b> —<br>Notion·Discord·GitHub 위에서 굴러가는 오픈소스 허브</p>
+    <p class="sub rv" style="--d:.4s">사람과 AI가 한 팀처럼 일하는 방식을,<br>누구나 가져다 쓰게 <b>오픈소스로 공개</b>했어요. (노션·디스코드·깃허브 기반)</p>
   </div>
   <div class="banner rv" style="--d:.7s">
     <img src="assets/resources/proact0/lead_by_design.svg" alt="Lead by Design — Proact0 조직 설계 원칙">
@@ -1381,7 +1440,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <img class="lg" src="assets/logo/proact0.svg" alt="">
       <div>
         <div class="t1">Proact0 — 조직 운영도, Notion 하나로</div>
-        <div class="t2">오픈소스 CoAX 허브 — Notion으로 운영하고 Oopy로 공개한 조직 홈</div>
+        <div class="t2">노션으로 운영하고 그대로 웹에 공개한, 오픈소스 팀의 홈</div>
       </div>
     </div>
   </div>
@@ -1402,15 +1461,15 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="right">
       <div class="chip rv" style="--d:.5s">
         <div class="ci"><svg data-lucide="boxes"></svg></div>
-        <div><h4>고응집 · 저결합 조직 설계</h4><p>역할은 또렷하게, 의존은 느슨하게 — 사람과 에이전트가 섞여도 흔들리지 않는 구조</p></div>
+        <div><h4>흔들리지 않는 팀 구조</h4><p>역할은 또렷하게, 의존은 느슨하게 — 사람과 AI가 섞여도 흔들리지 않아요</p></div>
       </div>
       <div class="chip rv" style="--d:.65s">
         <div class="ci"><svg data-lucide="list-checks"></svg></div>
-        <div><h4>Notion 스프린트 보드로 Agile 운영</h4><p>계획·실행·회고가 한 보드에서 — 회의록이 아니라 보드가 조직을 움직여요</p></div>
+        <div><h4>노션 보드 하나로 팀 운영</h4><p>계획·실행·회고가 한 보드에서 — 회의록이 아니라 보드가 팀을 움직여요</p></div>
       </div>
       <div class="chip rv" style="--d:.8s">
         <div class="ci"><svg data-lucide="git-branch"></svg></div>
-        <div><h4>오픈소스 act-operator</h4><p>기획·R&amp;D 관리를 Notion 하나로 — 누구나 가져다 쓸 수 있게 공개했어요</p></div>
+        <div><h4>통째로 공개한 운영 도구</h4><p>기획·연구 관리 도구를 노션 하나로 묶어, 누구나 가져다 쓰게 공개했어요</p></div>
       </div>
     </div>
   </div>
@@ -1435,7 +1494,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <span class="blk b1"></span><span class="blk b4"></span><span class="blk b5"></span>
   </div>
   <header>
-    <div class="kicker rv" style="--d:.05s">Notion을 SSOT로 — 도구는 Notion으로 모인다</div>
+    <div class="kicker rv" style="--d:.05s">흩어진 도구들이, 노션 하나로 모여요</div>
     <h2 class="headline rv" style="--d:.18s">하나의 허브, <em>일곱 갈래의 연결</em></h2>
   </header>
   <!-- Full-screen hubmap (no stats column) -->
@@ -1457,11 +1516,11 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <!-- Notion hub: center-left -->
     <div class="hub rv-pop" style="--d:.3s">
       <div class="disc"><img src="assets/logo/notion.svg" alt="Notion"></div>
-      <div class="hlbl">Notion 허브<small>스프린트 보드 · SSOT 문서</small></div>
+      <div class="hlbl">Notion 허브<small>모든 정보의 원본</small></div>
     </div>
     <!-- Group A: NOTION MCP로 연결 -->
     <div class="ghead" id="s3c-gh1" style="left:1100px;top:10px">
-      <img src="assets/logo/mcp.svg" alt="MCP">NOTION MCP로 연결
+      <img src="assets/logo/mcp.svg" alt="MCP">노션과 바로 연결되는 AI
     </div>
     <div class="pill" id="s3c-p1" style="left:1100px;top:36px">
       <img src="assets/logo/claude.svg" alt="Claude"><span>Claude</span>
@@ -1476,7 +1535,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <img src="assets/logo/perplexity.svg" alt="Perplexity"><span>Perplexity</span>
     </div>
     <!-- Group B: 함께 쓰는 협업 스택 -->
-    <div class="ghead" id="s3c-gh2" style="left:1140px;top:470px">함께 쓰는 협업 스택</div>
+    <div class="ghead" id="s3c-gh2" style="left:1140px;top:470px">함께 쓰는 협업 도구</div>
     <div class="pill" id="s3c-p5" style="left:1168px;top:498px">
       <img src="assets/logo/oopy.webp" alt="Oopy"><span>Oopy</span>
     </div>
@@ -1503,23 +1562,23 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   </div>
   <header>
     <div class="kicker rv" style="--d:.05s">Notion 위에 조직을 세운 뒤의 변화</div>
-    <h2 class="headline rv" style="--d:.18s">숫자가 말해주는 <em>CoAX 운영의 성과</em></h2>
+    <h2 class="headline rv" style="--d:.18s">숫자로 보는 <em>팀 운영의 변화</em></h2>
   </header>
   <div class="grid4">
     <div class="metric rv" style="--d:.4s">
       <div class="mi"><svg data-lucide="trending-up"></svg></div>
       <div class="num">+<span class="count" data-to="30" data-suffix="%">0</span></div>
-      <div class="lbl">Notion 스프린트 운영으로 Sprint 효율</div>
+      <div class="lbl">노션 보드로 운영해 일정 효율</div>
     </div>
     <div class="metric rv" style="--d:.55s">
       <div class="mi"><svg data-lucide="users"></svg></div>
       <div class="num"><span class="count" data-to="40" data-suffix="+">0</span></div>
-      <div class="lbl">Actor R&amp;D — Notion DB로 통합 관리</div>
+      <div class="lbl">AI 에이전트 연구를 노션 하나로 관리</div>
     </div>
     <div class="metric rv" style="--d:.7s">
       <div class="mi"><svg data-lucide="git-branch"></svg></div>
       <div class="num" style="font-size:46px;line-height:1.2">act-operator<br>오픈소스 공개</div>
-      <div class="lbl">기획·R&amp;D 관리를 Notion 하나로</div>
+      <div class="lbl">기획·연구 관리를 노션 하나로</div>
     </div>
   </div>
   <!-- 분석/실행 Mon decorations -->
@@ -1527,7 +1586,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <svg class="mon b m-execute float f3 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-execute"/></svg>
   <div class="takeaway rv" style="--d:1.05s">
     <span class="tag">TAKEAWAY</span>
-    <p>사람과 에이전트가 같은 보드에서 일하려면 조직을 먼저 설계하세요 — <b>Notion을 SSOT로 두는 CoAX 운영 패턴</b>이에요.</p>
+    <p>사람과 AI가 같은 보드에서 일하려면, 먼저 팀 구조부터 설계하세요 — <b>모든 정보의 원본을 노션 한곳에</b> 두는 게 핵심이에요.</p>
   </div>
   <!-- QR 고정 배지 (D6) -->
   <div class="qr-badge rv" style="--d:1.4s">
@@ -1550,12 +1609,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <span class="blk b1"></span><span class="blk b4"></span><span class="blk b5"></span>
   </div>
   <header>
-    <div class="kicker rv" style="--d:.05s">비즈니스 단위 AX의 무대</div>
+    <div class="kicker rv" style="--d:.05s">팀에서, 회사로</div>
     <h2 class="headline rv" style="--d:.18s">실험이 아니라, <em>하나의 회사</em>로</h2>
   </header>
   <div class="cols">
-    <p class="sub rv" style="--d:.45s">개인에서 시작한 운영 방식이,<br>이제 <b>회사를 움직이는 운영 OS</b>가 됐어요.<br><br>
-      Mos와 Mon이 함께 일하는 <b>Notion-native 스타트업</b> —<br>개인 → 오픈소스 → 비즈니스, 그 <b>마지막 무대</b>입니다.</p>
+    <p class="sub rv" style="--d:.45s">개인에서 시작한 운영 방식이,<br>이제 <b>회사 전체를 움직이는 중심</b>이 됐어요.<br><br>
+      내 AI(Mos)와 일꾼들(Mon)이 함께 일하는, <b>노션으로 굴러가는 스타트업</b> —<br>개인 → 오픈소스 → 비즈니스, 그 <b>마지막 무대</b>입니다.</p>
     <div class="visual rv" style="--d:.6s">
       <div class="logo-card"><img src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos 심볼"></div>
       <svg class="mon m-create float f2 rv-pop" style="--d:1.2s"><use href="#mon-body"/><use href="#p-create"/></svg>
@@ -1578,7 +1637,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <div class="center">
     <div class="kicker rv" style="--d:.05s">개인의 습관이, 회사의 시스템으로</div>
     <h2 class="headline rv" style="--d:.18s">제품보다 먼저 만든 건, <em>운영 체계</em>였다</h2>
-    <p class="sub rv" style="--d:.4s">Mosmos는 런칭 전부터 Notion을 <b>운영 OS</b>로 세운 Notion-native 스타트업이에요.</p>
+    <p class="sub rv" style="--d:.4s">Mosmos는 제품을 만들기 전부터, <b>노션으로 회사 전체를 운영</b>해온 스타트업이에요.</p>
   </div>
   <!-- WP6 A6: 2 Mon decorations (생성/소통 theme) -->
   <svg class="mon-deco a m-create float rv-pop" style="--d:.9s"><use href="#mon-body"/><use href="#p-create"/></svg>
@@ -1586,18 +1645,18 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <div class="pillars">
     <div class="pillar p1 rv" style="--d:.6s">
       <div class="pi"><svg data-lucide="sprout"></svg></div>
-      <h3>생명력 있는 Mos</h3>
-      <p><b>내 기억이 성품이 된다</b> — 쓸수록 나를 닮아가는 개인 AI 화신</p>
+      <h3>나를 닮아가는 AI, Mos</h3>
+      <p><b>쓸수록 나를 닮아가요</b> — 내 기억과 방식을 배워 점점 나처럼 일하는 AI</p>
     </div>
     <div class="pillar p2 rv" style="--d:.78s">
       <div class="pi"><svg data-lucide="compass"></svg></div>
-      <h3>결정 피로 없는 실행</h3>
-      <p><b>말만 하면 된다</b> — Mos가 필요한 Mon을 골라 결과까지</p>
+      <h3>말만 하면 끝나는 실행</h3>
+      <p><b>목표만 말하면 끝</b> — Mos가 알맞은 일꾼(Mon)을 골라 결과까지</p>
     </div>
     <div class="pillar p3 rv" style="--d:.96s">
       <div class="pi"><svg data-lucide="refresh-ccw"></svg></div>
-      <h3>성장 루프 (Prosumer)</h3>
-      <p><b>노하우가 자산이 된다</b> — 좋은 방식이 Skill·Mon이 되어 쌓여요</p>
+      <h3>쓸수록 똑똑해져요</h3>
+      <p><b>노하우가 자산이 돼요</b> — 잘 통한 방법은 저장돼, 다음엔 더 빠르고 정확하게</p>
     </div>
   </div>
 </section>
@@ -1621,8 +1680,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
     <div class="right">
       <img class="hlogo rv" style="--d:.45s" src="design-system/assets/logos/mosmos-horizontal-color.svg" alt="mosmos">
-      <h3 class="rv" style="--d:.6s">개인 AI 실행 플랫폼</h3>
-      <p class="cp rv" style="--d:.75s">목표만 말하면, <b>Mos가 Mon을 조율해 끝냅니다.</b><br>쓰던 노하우는 Skill이 되어 다시 내 자산이 돼요.</p>
+      <h3 class="rv" style="--d:.6s">목표만 말하면 끝나는, 내 AI 팀</h3>
+      <p class="cp rv" style="--d:.75s">목표만 말하면, <b>내 AI(Mos)가 일꾼들(Mon)을 조율해 끝까지 해냅니다.</b><br>잘 통한 방법은 저장돼, 다음엔 더 빨라져요.</p>
       <div class="universe rv" style="--d:.9s">
         <div class="orbit-ring"></div>
         <!-- E2: 자동 시뮬레이션 — 목표 카드가 Mos에 흡수되면 완료 배지가 떠오른다 (12초 무한 루프) -->
@@ -1657,25 +1716,25 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="demos">
       <div class="demo rv" style="--d:.4s">
         <div class="di"><svg data-lucide="bot"></svg></div>
-        <h4>커스텀 에이전트</h4><p>우리 회사 맥락을 아는 Notion AI 에이전트</p>
+        <h4>우리 회사 전용 AI</h4><p>우리 일과 맥락을 아는 노션 AI 비서</p>
       </div>
       <div class="demo rv" style="--d:.55s">
         <div class="di"><svg data-lucide="sparkles"></svg></div>
-        <h4>AI Skills</h4><p>반복 업무를 절차로 저장해 다시 쓰기</p>
+        <h4>AI 스킬</h4><p>반복 업무를 저장해 두고 다시 쓰기</p>
       </div>
       <div class="demo rv" style="--d:.7s">
         <div class="di"><img src="assets/logo/slack.svg" alt="Slack"></div>
-        <h4>Slack 연동</h4><p>대화가 곧바로 Notion 업무로 이어지는 흐름</p>
+        <h4>Slack 연동</h4><p>Slack 대화가 곧바로 노션 업무로 이어져요</p>
       </div>
       <div class="demo rv" style="--d:.85s">
         <div class="di"><svg data-lucide="database"></svg></div>
-        <h4>DB 자동화</h4><p>입력 한 번이면 DB가 알아서 굴러가요</p>
+        <h4>자동 정리</h4><p>한 번 입력하면 표가 알아서 채워져요</p>
       </div>
     </div>
     <div class="preview rv" style="--d:.7s">
       <div class="card">
         <img src="assets/resources/mosmos/notion_ai.png" alt="Notion AI 커스텀 에이전트 — Mosmos C Level Agent">
-        <div class="pcap">Notion AI 개인화 — Mosmos C-Level Agent</div>
+        <div class="pcap">우리 회사를 통째로 아는 AI 비서</div>
       </div>
     </div>
   </div>
@@ -1703,10 +1762,10 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="center">
       <h2 class="rv" style="--d:.1s">이제, 직접 보여드릴게요</h2>
       <div class="chips">
-        <span class="kw rv" style="--d:.5s"><i class="cdot" style="background:var(--mon-execute)"></i>커스텀 에이전트</span>
-        <span class="kw rv" style="--d:.65s"><i class="cdot" style="background:var(--mon-create)"></i>AI Skills</span>
+        <span class="kw rv" style="--d:.5s"><i class="cdot" style="background:var(--mon-execute)"></i>우리 회사 전용 AI</span>
+        <span class="kw rv" style="--d:.65s"><i class="cdot" style="background:var(--mon-create)"></i>AI 스킬</span>
         <span class="kw rv" style="--d:.8s"><img src="assets/logo/slack.svg" alt="">Slack 연동</span>
-        <span class="kw rv" style="--d:.95s"><i class="cdot" style="background:var(--mon-organize)"></i>데이터베이스 자동화</span>
+        <span class="kw rv" style="--d:.95s"><i class="cdot" style="background:var(--mon-organize)"></i>자동 정리</span>
       </div>
     </div>
     <div class="stage-shots">
@@ -1779,19 +1838,19 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <svg class="mon m-execute"><use href="#mon-body"/><use href="#p-execute"/></svg>
       <div class="ai"><svg data-lucide="users"></svg></div>
       <h4>팀원</h4>
-      <p>AI Native 마케터 · 디자이너 · 엔지니어</p>
+      <p>AI로 일하는 마케터 · 디자이너 · 엔지니어</p>
     </div>
     <div class="axis step-item">
       <svg class="mon m-create"><use href="#mon-body"/><use href="#p-create"/></svg>
       <div class="ai"><svg data-lucide="puzzle"></svg></div>
       <h4>생태계 참여자</h4>
-      <p>AI Agent·Tool을 만드는 Author — 개인·기업 무관</p>
+      <p>AI 도구를 만드는 분 — 개인·기업 누구나</p>
     </div>
     <div class="axis step-item">
       <svg class="mon m-comm"><use href="#mon-body"/><use href="#p-comm"/></svg>
       <div class="ai"><svg data-lucide="rocket"></svg></div>
       <h4>엑셀러레이터 · 투자자</h4>
-      <p>운영으로 증명하는 Notion-native 팀과 함께</p>
+      <p>노션으로 운영을 증명해온 팀과 함께</p>
     </div>
   </div>
 </section>
