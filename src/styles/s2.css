@@ -53,7 +53,7 @@
    background-color는 프레임(#1D2026)과 동일 — SVG 좌우 여백이 투명이라, 흰색이면 확대 시
    여백이 흰 바탕으로 비쳐 보였다. 화면색과 맞춰 자연스럽게 블렌딩.
    pointer-events:none 이라 mousemove는 항상 이미지로 전달된다 */
-#s2c .zoom-lens{position:absolute;width:570px;height:420px;border-radius:16px;
+#s2c .zoom-lens{position:absolute;width:800px;height:420px;border-radius:16px;
   border:3px solid var(--blue-core);background-color:#1D2026;background-repeat:no-repeat;
   box-shadow:0 14px 40px rgba(15,111,218,.42);
   pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}

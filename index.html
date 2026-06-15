@@ -533,7 +533,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
    background-color는 프레임(#1D2026)과 동일 — SVG 좌우 여백이 투명이라, 흰색이면 확대 시
    여백이 흰 바탕으로 비쳐 보였다. 화면색과 맞춰 자연스럽게 블렌딩.
    pointer-events:none 이라 mousemove는 항상 이미지로 전달된다 */
-#s2c .zoom-lens{position:absolute;width:570px;height:420px;border-radius:16px;
+#s2c .zoom-lens{position:absolute;width:800px;height:420px;border-radius:16px;
   border:3px solid var(--blue-core);background-color:#1D2026;background-repeat:no-repeat;
   box-shadow:0 14px 40px rgba(15,111,218,.42);
   pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}
@@ -2426,7 +2426,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     deck.pan.toggle=function(){};
 
     const ZOOM=2.8;                 /* 표시 크기 대비 배율 (SVG라 벡터로 선명) */
-    const LENS_W=570, LENS_H=420;   /* CSS .zoom-lens와 동일 (로컬 px) — 기존比 1.5배 */
+    const LENS_W=800, LENS_H=420;   /* CSS #s2c .zoom-lens 의 width/height와 반드시 일치 (로컬 px).
+                                       불일치 시 렌즈가 커서 기준 가로로 어긋나고 배율이 틀어진다. */
 
     let img=null, lens=null, wrap=null, bound=false;
 

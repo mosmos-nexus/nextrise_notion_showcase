@@ -18,7 +18,8 @@
     deck.pan.toggle=function(){};
 
     const ZOOM=2.8;                 /* 표시 크기 대비 배율 (SVG라 벡터로 선명) */
-    const LENS_W=800, LENS_H=420;   /* CSS .zoom-lens와 동일 (로컬 px) — 기존比 1.5배 */
+    const LENS_W=800, LENS_H=420;   /* CSS #s2c .zoom-lens 의 width/height와 반드시 일치 (로컬 px).
+                                       불일치 시 렌즈가 커서 기준 가로로 어긋나고 배율이 틀어진다. */
 
     let img=null, lens=null, wrap=null, bound=false;
 
