@@ -2,16 +2,19 @@
    S2 · 중헌아카이브 (5화면) — WP4
    ============================================================ */
 #s2a{--bloom:.3}
-#s2a .cols{position:absolute;left:128px;right:128px;top:300px;bottom:96px;display:grid;grid-template-columns:1fr 620px;gap:90px;align-items:center}
-#s2a .visual{position:relative;height:600px}
-#s2a .visual .logo-card{position:absolute;left:40px;top:30px;width:430px;height:430px;border-radius:56px;
+/* WP-ENTRY: s2a(중헌아카이브 진입) 레이아웃을 .sec-entry로 공유 — Proact0(s3intro)·
+   Mosmos(s4intro) 진입부가 동일 골격을 쓴다. s2a 외형은 불변(선택자만 추가). */
+#s2a .cols,.sec-entry .cols{position:absolute;left:128px;right:128px;top:300px;bottom:96px;display:grid;grid-template-columns:1fr 620px;gap:90px;align-items:center}
+#s2a .visual,.sec-entry .visual{position:relative;height:600px}
+#s2a .visual .logo-card,.sec-entry .visual .logo-card{position:absolute;left:40px;top:30px;width:430px;height:430px;border-radius:56px;
   background:#fff;border:1.5px solid var(--border-default);box-shadow:var(--e3);
   display:flex;align-items:center;justify-content:center}
-#s2a .visual .logo-card img{width:300px;height:300px;border-radius:40px}
-#s2a .visual .mos{position:absolute;right:0;bottom:0;width:330px}
-#s2a .visual .mon{position:absolute;left:-6px;top:-10px;width:56px;height:56px}
-#s2a .visual .mon2{position:absolute;right:-16px;top:180px;width:52px;height:52px}
-#s2a .sub{max-width:880px}
+/* object-fit:contain — 비정사각 로고(proact0 490×659, mosmos 심볼 가로형) 왜곡 방지. 정사각(중헌)은 영향 없음 */
+#s2a .visual .logo-card img,.sec-entry .visual .logo-card img{width:300px;height:300px;border-radius:40px;object-fit:contain}
+#s2a .visual .mos,.sec-entry .visual .mos{position:absolute;right:0;bottom:0;width:330px}
+#s2a .visual .mon,.sec-entry .visual .mon{position:absolute;left:-6px;top:-10px;width:56px;height:56px}
+#s2a .visual .mon2,.sec-entry .visual .mon2{position:absolute;right:-16px;top:180px;width:52px;height:52px}
+#s2a .sub,.sec-entry .sub{max-width:880px}
 
 /* s2b — Oopy 중헌아카이브 LIVE IFRAME (WP4: structural replacement, kenburns/hero/scrim removed) */
 #s2b{--bloom:.35}

@@ -3,6 +3,7 @@
    ============================================================ */
 
 /* s3a — Lead by Design whole-asset + stagger (WP5) */
+#s3intro{--bloom:.5}  /* WP-ENTRY: Proact0 섹션 진입 (s2e .48 → 여기 → s3a .5) */
 #s3a{--bloom:.5}
 /* D4: 한 덩어리 센터 그룹 — 로고는 킥커 행에 인라인, 카피→배너 리듬 통일 */
 #s3a .center{position:absolute;left:0;right:0;top:168px;display:flex;flex-direction:column;align-items:center;text-align:center}

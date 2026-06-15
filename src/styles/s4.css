@@ -1,6 +1,9 @@
 /* ============================================================
    S4 · Mosmos = Notion-native Startup (3화면)
    ============================================================ */
+#s4intro{--bloom:.75}  /* WP-ENTRY: mosmos 섹션 진입 (s3d .7 → 여기 → s4a .8) */
+/* mosmos 심볼은 viewBox 내 여백이 커 contain 시 작게 보임 — Proact0 로고와 시각 무게 맞춤 */
+#s4intro .visual .logo-card img{width:360px;height:360px}
 #s4a{--bloom:.8}
 #s4a .center{position:absolute;left:0;right:0;top:172px;display:flex;flex-direction:column;align-items:center;text-align:center}
 #s4a .center .kicker{justify-content:center}
