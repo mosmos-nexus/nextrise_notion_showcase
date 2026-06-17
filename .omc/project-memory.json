@@ -18,7 +18,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -1 && node scripts/build.mjs --check 2>&1 | tail -1\nnode /tmp/qr_v3.js 2>&1 | tail -2",
+    "buildCommand": "npm run build 2>&1 | tail -1 && node scripts/build.mjs --check 2>&1 | tail -1\ncat > /tmp/tap_nav.js <<'JS'\nconst { chromium } = require('/home/honeybee/workspace/mosmos/nextrise_notion_showcase/node_modules/playwright-core');\nconst os=require('os'),path=require('path');\nconst EXE=path.join(os.homedir(),'.cache/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-linux64/chrome-headless-shell');\nconst URL='file://'+path.join('/home/honeybee/workspace/mosmos/nextrise_notion_showcase','index.html');\n(async()=>{\n  const b=await chromium.launch({executablePath:EXE});\n  const ctx=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});\n  const p=await ctx.newPage();\n  await p.goto(URL,{waitUntil:'networkidle'});\n  await p.waitForTimeout(600);\n  const idx=()=>p.evaluate(()=>{const a=[...document.querySelectorAll('.slide')].findIndex(s=>s.classList.contains('active'));return a;});\n  const tap=(x,y)=>p.touchscreen.tap(x,y);\n  let log=[];\n  log.push('start='+await idx());\n  // tap right side → next (a few times; s0 may have bloom/hold)\n  for(let i=0;i<4;i++){ await tap(300,420); await p.waitForTimeout(700); log.push('afterRightTap='+await idx()); }\n  // tap left quarter → prev\n  await tap(40,420); await p.waitForTimeout(700); log.push('afterLeftTap='+await idx());\n  console.log(log.join('  '));\n  await b.close();\n})().catch(e=>{console.error(e);process.exit(1)});\nJS\nnode /tmp/tap_nav.js",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -131,6 +131,12 @@
       "type": "file"
     },
     {
+      "path": "src/js/engine.js",
+      "accessCount": 6,
+      "lastAccessed": 1781708852528,
+      "type": "file"
+    },
+    {
       "path": "src/slides/s4a.html",
       "accessCount": 5,
       "lastAccessed": 1781687577059,
@@ -152,12 +158,6 @@
       "path": "src/slides/s4intro.html",
       "accessCount": 4,
       "lastAccessed": 1781687584049,
-      "type": "file"
-    },
-    {
-      "path": "src/js/engine.js",
-      "accessCount": 4,
-      "lastAccessed": 1781703853743,
       "type": "file"
     },
     {
