@@ -24,8 +24,8 @@
 #s4a .hlogo{position:absolute;top:54px;right:128px;height:54px;width:auto}
 /* WP6 A6: s4a Mon decorations (생성/소통 theme — 2 Mons) */
 #s4a .mon-deco{position:absolute;z-index:5}
-#s4a .mon-deco.a{right:130px;top:90px;width:52px;height:52px}
-#s4a .mon-deco.b{left:130px;bottom:140px;width:48px;height:48px}
+#s4a .mon-deco.a{right:130px;top:90px;width:82px;height:82px}
+#s4a .mon-deco.b{left:130px;bottom:140px;width:78px;height:78px}
 
 #s4b{--bloom:1}
 #s4b .cols{position:absolute;left:118px;right:118px;top:120px;bottom:100px;display:grid;grid-template-columns:980px 1fr;gap:64px;align-items:center}
@@ -45,7 +45,7 @@
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
 #s4b .orbiter{position:absolute;left:50%;top:54%;width:0;height:0;
   animation:orbit 22s linear infinite;animation-delay:calc(var(--i)*-3.6666s)}
-#s4b .orbiter .mon{position:absolute;left:-24px;top:-24px;width:48px;height:48px}
+#s4b .orbiter .mon{position:absolute;left:-39px;top:-39px;width:78px;height:78px}
 @keyframes orbit{from{transform:rotate(0deg) translateX(240px) rotate(0deg)}
                  to{transform:rotate(360deg) translateX(240px) rotate(-360deg)}}
 /* E2-smooth: 우주 전체(Mos+궤도+심)는 전역 rise(36px) 대신 절제된 12px 소프트 라이즈 —
@@ -70,8 +70,8 @@
 #s4c .preview .pcap{font-size:var(--fs-c3);color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
 /* WP6 A6: s4c Mon decorations (생성/소통 theme — 2 Mons) */
 #s4c .mon-deco{position:absolute;z-index:5}
-#s4c .mon-deco.a{right:130px;top:90px;width:52px;height:52px}
-#s4c .mon-deco.b{left:130px;bottom:90px;width:48px;height:48px}
+#s4c .mon-deco.a{right:130px;top:90px;width:82px;height:82px}
+#s4c .mon-deco.b{left:130px;bottom:90px;width:78px;height:78px}
 
 /* ── E2: s4b 자동 시뮬레이션 — 목표 카드 → Mos 흡수 → 완료 배지 (12s 루프, CSS 전용) ── */
 #s4b .sim-goal{position:absolute;left:50%;top:54%;width:82px;height:64px;margin:-32px 0 0 -41px;

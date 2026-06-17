@@ -34,3 +34,10 @@
 #s0 .s0-foot b{color:var(--text-strong)}
 #s0 .s0-mos{position:absolute;right:150px;bottom:120px;width:300px;transition-delay:1.9s}
 #s0 .s0-mon{position:absolute;right:118px;bottom:400px;transition-delay:2.4s}
+#s0 .s0-slogan{font-size:var(--fs-c2);font-weight:600;color:var(--bgray-med);margin-top:14px;transition-delay:2.5s}
+/* D6: 표지 발표자료 QR — 좌하단, Mos(우)와 대칭 */
+#s0 .s0-qr{position:absolute;left:140px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:12px;width:208px;text-align:center;transition-delay:2.7s;z-index:6}
+#s0 .s0-qr-card{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:14px;box-shadow:var(--e2);line-height:0}
+#s0 .s0-qr-card img{width:148px;height:148px;display:block}
+#s0 .s0-qr-label{font-size:var(--fs-c3);font-weight:600;color:var(--text-muted);line-height:1.4}
+#s0 .s0-qr-label b{color:var(--text-strong);font-weight:800}

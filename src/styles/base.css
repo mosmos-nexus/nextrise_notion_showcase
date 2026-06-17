@@ -333,7 +333,8 @@ body.no-fade .slide,body.no-fade .slide.active{
    variant는 --mc(바디)·소품으로 구분: 조사·분석·정리·창작·실행·소통
    ============================================================ */
 /* max-width:100% 글로벌 규칙이 0폭 부모(궤도 래퍼) 안에서 svg를 붕괴시키므로 해제 */
-.mon{width:48px;height:48px;max-width:none;max-height:none;overflow:visible;filter:drop-shadow(0 8px 14px rgba(29,32,38,.16))}
+.mon{width:80px;height:80px;max-width:none;max-height:none;overflow:visible;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(29,32,38,.16))}
+.mon-deco,.mon-finale,.flymon{object-fit:contain;max-width:none;max-height:none}
 .m-research{--mc:var(--mon-research)} .m-analysis{--mc:var(--mon-analysis)}
 .m-organize{--mc:var(--mon-organize)} .m-create{--mc:var(--mon-create)}
 .m-execute{--mc:var(--mon-execute)}  .m-comm{--mc:var(--mon-comm)}
@@ -372,6 +373,13 @@ body.no-fade .slide,body.no-fade .slide.active{
   font-size:20px;color:var(--bgray-dark);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
 .edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto}
 .edit-toggle.active{background:var(--blue-core);color:#fff}
+/* D6: 상시 발표자료 QR (chrome) — 좌하단, 표지에서는 숨김 */
+.persistent-qr{position:fixed;left:22px;bottom:18px;z-index:880;display:flex;flex-direction:column;align-items:center;gap:5px;
+  background:rgba(255,255,255,.9);border:1px solid var(--border-subtle);border-radius:12px;padding:8px 8px 6px;box-shadow:var(--e1);backdrop-filter:blur(6px);transition:opacity .5s}
+.persistent-qr img{width:72px;height:72px;display:block}
+.persistent-qr span{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.04em}
+body.at-cover .persistent-qr{opacity:0;pointer-events:none}
+@media print{.persistent-qr{display:none}}
 body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset:-3px}
 
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */

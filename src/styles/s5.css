@@ -25,7 +25,7 @@
   border-left:1.5px solid var(--border-default);border-bottom:1.5px solid var(--border-default);
   transform:rotate(45deg);border-bottom-left-radius:6px}
 /* Mon 선진입 — 워크스페이스 카드 속으로 빨려 들어간다 */
-#s5a .flymon{position:absolute;z-index:7;width:52px;height:52px;left:var(--sx);top:var(--sy);opacity:0}
+#s5a .flymon{position:absolute;z-index:7;width:80px;height:80px;left:var(--sx);top:var(--sy);opacity:0}
 /* M-fix: 고정 1.7s ease-in → 거리 정규화 var(--fd) — 비행거리(565~725px)와 무관하게
    동일 듀레이션이라 빠른 놈은 ~700px/s로 '휙 지나가던' 문제. 마크업의 --fd가
    ~280px/s 등속 기준으로 개별 지정되고, 가시 구간(opacity 창)도 넓혔다. */

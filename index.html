@@ -357,7 +357,8 @@ body.no-fade .slide,body.no-fade .slide.active{
    variant는 --mc(바디)·소품으로 구분: 조사·분석·정리·창작·실행·소통
    ============================================================ */
 /* max-width:100% 글로벌 규칙이 0폭 부모(궤도 래퍼) 안에서 svg를 붕괴시키므로 해제 */
-.mon{width:48px;height:48px;max-width:none;max-height:none;overflow:visible;filter:drop-shadow(0 8px 14px rgba(29,32,38,.16))}
+.mon{width:80px;height:80px;max-width:none;max-height:none;overflow:visible;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(29,32,38,.16))}
+.mon-deco,.mon-finale,.flymon{object-fit:contain;max-width:none;max-height:none}
 .m-research{--mc:var(--mon-research)} .m-analysis{--mc:var(--mon-analysis)}
 .m-organize{--mc:var(--mon-organize)} .m-create{--mc:var(--mon-create)}
 .m-execute{--mc:var(--mon-execute)}  .m-comm{--mc:var(--mon-comm)}
@@ -396,6 +397,13 @@ body.no-fade .slide,body.no-fade .slide.active{
   font-size:20px;color:var(--bgray-dark);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
 .edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto}
 .edit-toggle.active{background:var(--blue-core);color:#fff}
+/* D6: 상시 발표자료 QR (chrome) — 좌하단, 표지에서는 숨김 */
+.persistent-qr{position:fixed;left:22px;bottom:18px;z-index:880;display:flex;flex-direction:column;align-items:center;gap:5px;
+  background:rgba(255,255,255,.9);border:1px solid var(--border-subtle);border-radius:12px;padding:8px 8px 6px;box-shadow:var(--e1);backdrop-filter:blur(6px);transition:opacity .5s}
+.persistent-qr img{width:72px;height:72px;display:block}
+.persistent-qr span{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.04em}
+body.at-cover .persistent-qr{opacity:0;pointer-events:none}
+@media print{.persistent-qr{display:none}}
 body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset:-3px}
 
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */
@@ -444,6 +452,13 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s0 .s0-foot b{color:var(--text-strong)}
 #s0 .s0-mos{position:absolute;right:150px;bottom:120px;width:300px;transition-delay:1.9s}
 #s0 .s0-mon{position:absolute;right:118px;bottom:400px;transition-delay:2.4s}
+#s0 .s0-slogan{font-size:var(--fs-c2);font-weight:600;color:var(--bgray-med);margin-top:14px;transition-delay:2.5s}
+/* D6: 표지 발표자료 QR — 좌하단, Mos(우)와 대칭 */
+#s0 .s0-qr{position:absolute;left:140px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:12px;width:208px;text-align:center;transition-delay:2.7s;z-index:6}
+#s0 .s0-qr-card{background:#fff;border:1px solid var(--border-subtle);border-radius:20px;padding:14px;box-shadow:var(--e2);line-height:0}
+#s0 .s0-qr-card img{width:148px;height:148px;display:block}
+#s0 .s0-qr-label{font-size:var(--fs-c3);font-weight:600;color:var(--text-muted);line-height:1.4}
+#s0 .s0-qr-label b{color:var(--text-strong);font-weight:800}
 
 /* ============================================================
    S1 · 여정 한눈에 — 타임라인 3노드 + 중심의 Notion
@@ -461,7 +476,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s1 .tl-node .stage-tag{font-size:var(--fs-badge);font-weight:700;letter-spacing:.1em;color:var(--bgray-med)}
 #s1 .tl-node .nm{font-family:var(--font-display);font-weight:800;font-size:var(--fs-c1);color:var(--text-strong)}
 #s1 .tl-node .ds{font-size:var(--fs-c3);color:var(--text-muted);font-weight:500}
-#s1 .tl-node .mon{position:absolute;right:-12px;top:-12px}
+#s1 .tl-node .mon{position:absolute;right:-16px;top:-16px;width:60px;height:60px}
 /* 노드별 흑백 → 컬러 점등 */
 #s1 .tl-node .disc img{filter:grayscale(1)}
 #s1.active .tl-node .disc img{animation:colorize 1.1s ease both;animation-delay:var(--cd,0s)}
@@ -487,7 +502,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   padding:36px 48px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
 #s1b .intro-card .face{height:190px;display:flex;align-items:center;justify-content:center;gap:26px}
 #s1b .intro-card .face .mos-face{width:188px;height:auto}
-#s1b .intro-card .face .mon{width:86px;height:86px}
+#s1b .intro-card .face .mon{width:96px;height:96px}
 #s1b .intro-card h3{font-family:var(--font-display);font-size:var(--fs-c1);font-weight:800;color:var(--text-strong)}
 #s1b .intro-card p{font-size:var(--fs-c2);line-height:1.55;color:var(--bgray-dark)}
 #s1b .intro-card p b{color:var(--text-strong)}
@@ -512,7 +527,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* object-fit:contain — 비정사각 로고(proact0 490×659, mosmos 심볼 가로형) 왜곡 방지. 정사각(중헌)은 영향 없음 */
 #s2a .visual .logo-card img,.sec-entry .visual .logo-card img{width:300px;height:300px;border-radius:40px;object-fit:contain}
 #s2a .visual .mos,.sec-entry .visual .mos{position:absolute;right:0;bottom:0;width:330px}
-#s2a .visual .mon,.sec-entry .visual .mon{position:absolute;left:-6px;top:-10px;width:56px;height:56px}
+#s2a .visual .mon,.sec-entry .visual .mon{position:absolute;left:-10px;top:-14px;width:86px;height:86px}
 #s2a .visual .mon2,.sec-entry .visual .mon2{position:absolute;right:-16px;top:180px;width:52px;height:52px}
 #s2a .sub,.sec-entry .sub{max-width:880px}
 
@@ -538,8 +553,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2b .live-iframe.hidden{display:none}
 /* Mon decorations */
 #s2b .mon-deco{position:absolute;z-index:5}
-#s2b .mon-deco.a{right:118px;top:86px;width:52px;height:52px}
-#s2b .mon-deco.b{left:96px;bottom:88px;width:48px;height:48px}
+#s2b .mon-deco.a{right:118px;top:86px;width:82px;height:82px}
+#s2b .mon-deco.b{left:96px;bottom:88px;width:78px;height:78px}
 
 /* s2c — 구조 해부 panning annotation (WP4) */
 #s2c{--bloom:.4}
@@ -561,8 +576,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   box-shadow:0 14px 40px rgba(15,111,218,.42);
   pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}
 #s2c .mon-deco{position:absolute;z-index:5}
-#s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
-#s2c .mon-deco.b{right:200px;bottom:84px;width:48px;height:48px}
+#s2c .mon-deco.a{right:118px;top:88px;width:82px;height:82px}
+#s2c .mon-deco.b{right:200px;bottom:84px;width:78px;height:78px}
 
 /* s2d — n8n 자동화 플로우 전용 (WP4) */
 #s2d{--bloom:.42}
@@ -589,8 +604,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   html:not(.force-motion) #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}
 }
 #s2d .mon-deco{position:absolute;z-index:5}
-#s2d .mon-deco.a{right:118px;top:92px;width:52px;height:52px}
-#s2d .mon-deco.b{left:96px;bottom:86px;width:48px;height:48px}
+#s2d .mon-deco.a{right:118px;top:92px;width:82px;height:82px}
+#s2d .mon-deco.b{left:96px;bottom:86px;width:78px;height:78px}
 
 /* s2e — 지표 + Takeaway + QR 배지 (WP4) */
 #s2e{--bloom:.48}
@@ -598,8 +613,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s2e .grid4 .metric{padding:48px 36px;gap:18px}
 #s2e .grid4 .num{font-size:70px}
 #s2e .mon{position:absolute;z-index:3}
-#s2e .mon.a{right:118px;top:292px;width:58px;height:58px}
-#s2e .mon.b{left:104px;top:796px;width:54px;height:54px}
+#s2e .mon.a{right:118px;top:292px;width:88px;height:88px}
+#s2e .mon.b{left:104px;top:796px;width:84px;height:84px}
 /* QR 배지와 겹치지 않게 Takeaway 밴드를 배지 왼쪽에서 마감 */
 #s2e .takeaway{right:332px}
 
@@ -634,9 +649,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3a .banner img{width:100%;object-fit:contain}
 /* Mon decorations (분석/실행 theme) */
 #s3a .mon-deco{position:absolute;z-index:5}
-#s3a .mon-deco.a{left:140px;bottom:120px;width:58px;height:58px}
-#s3a .mon-deco.b{right:140px;top:180px;width:52px;height:52px}
-#s3a .mon-deco.c{left:200px;top:200px;width:48px;height:48px}
+#s3a .mon-deco.a{left:140px;bottom:120px;width:88px;height:88px}
+#s3a .mon-deco.b{right:140px;top:180px;width:82px;height:82px}
+#s3a .mon-deco.c{left:200px;top:200px;width:78px;height:78px}
 
 /* s3b — Proact0 live iframe + capture-pan fallback (WP5) */
 #s3b{--bloom:.55}
@@ -678,9 +693,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3b .chip p{font-size:var(--fs-c2);color:var(--text-muted);margin-top:6px;line-height:1.45;word-break:keep-all;overflow-wrap:break-word}
 /* Mon decorations */
 #s3b .mon-deco{position:absolute;z-index:5}
-#s3b .mon-deco.a{right:118px;top:86px;width:52px;height:52px}
-#s3b .mon-deco.b{left:96px;bottom:88px;width:48px;height:48px}
-#s3b .mon-deco.c{right:160px;bottom:86px;width:44px;height:44px}
+#s3b .mon-deco.a{right:118px;top:86px;width:82px;height:82px}
+#s3b .mon-deco.b{left:96px;bottom:88px;width:78px;height:78px}
+#s3b .mon-deco.c{right:160px;bottom:86px;width:74px;height:74px}
 
 /* s3c — MCP 연결도 DEDICATED FULL SCREEN (WP5: enlarged hub, no metrics) */
 #s3c{--bloom:.65}
@@ -709,8 +724,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s3c .ghead img{width:22px;height:22px;vertical-align:-4px;margin-right:8px}
 /* Mon decorations */
 #s3c .mon-deco{position:absolute;z-index:5}
-#s3c .mon-deco.a{right:120px;top:80px;width:54px;height:54px}
-#s3c .mon-deco.b{left:360px;bottom:80px;width:50px;height:50px}
+#s3c .mon-deco.a{right:120px;top:80px;width:84px;height:84px}
+#s3c .mon-deco.b{left:360px;bottom:80px;width:80px;height:80px}
 /* draw path animation */
 #s3c .rays path.draw{stroke-dasharray:1;stroke-dashoffset:1;
   animation:none}
@@ -730,8 +745,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 /* T-fix: 카피가 QR 배지(우하단 고정) 아래로 깔리지 않게 — s2e와 동일 보정 */
 #s3d .takeaway{right:332px}
 #s3d .mon{position:absolute;z-index:3}
-#s3d .mon.a{right:118px;top:292px;width:58px;height:58px}
-#s3d .mon.b{left:104px;top:796px;width:54px;height:54px}
+#s3d .mon.a{right:118px;top:292px;width:88px;height:88px}
+#s3d .mon.b{left:104px;top:796px;width:84px;height:84px}
 
 /* E1: s3b 탐색 모드 — 그리드가 단일 컬럼 풀스테이지로 */
 #s3b .cols{transition:left .55s var(--ease-out),right .55s var(--ease-out),top .55s var(--ease-out),bottom .55s var(--ease-out)}
@@ -766,8 +781,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4a .hlogo{position:absolute;top:54px;right:128px;height:54px;width:auto}
 /* WP6 A6: s4a Mon decorations (생성/소통 theme — 2 Mons) */
 #s4a .mon-deco{position:absolute;z-index:5}
-#s4a .mon-deco.a{right:130px;top:90px;width:52px;height:52px}
-#s4a .mon-deco.b{left:130px;bottom:140px;width:48px;height:48px}
+#s4a .mon-deco.a{right:130px;top:90px;width:82px;height:82px}
+#s4a .mon-deco.b{left:130px;bottom:140px;width:78px;height:78px}
 
 #s4b{--bloom:1}
 #s4b .cols{position:absolute;left:118px;right:118px;top:120px;bottom:100px;display:grid;grid-template-columns:980px 1fr;gap:64px;align-items:center}
@@ -787,7 +802,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
 #s4b .orbiter{position:absolute;left:50%;top:54%;width:0;height:0;
   animation:orbit 22s linear infinite;animation-delay:calc(var(--i)*-3.6666s)}
-#s4b .orbiter .mon{position:absolute;left:-24px;top:-24px;width:48px;height:48px}
+#s4b .orbiter .mon{position:absolute;left:-39px;top:-39px;width:78px;height:78px}
 @keyframes orbit{from{transform:rotate(0deg) translateX(240px) rotate(0deg)}
                  to{transform:rotate(360deg) translateX(240px) rotate(-360deg)}}
 /* E2-smooth: 우주 전체(Mos+궤도+심)는 전역 rise(36px) 대신 절제된 12px 소프트 라이즈 —
@@ -812,8 +827,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s4c .preview .pcap{font-size:var(--fs-c3);color:var(--text-muted);font-weight:600;text-align:center;margin-top:14px}
 /* WP6 A6: s4c Mon decorations (생성/소통 theme — 2 Mons) */
 #s4c .mon-deco{position:absolute;z-index:5}
-#s4c .mon-deco.a{right:130px;top:90px;width:52px;height:52px}
-#s4c .mon-deco.b{left:130px;bottom:90px;width:48px;height:48px}
+#s4c .mon-deco.a{right:130px;top:90px;width:82px;height:82px}
+#s4c .mon-deco.b{left:130px;bottom:90px;width:78px;height:78px}
 
 /* ── E2: s4b 자동 시뮬레이션 — 목표 카드 → Mos 흡수 → 완료 배지 (12s 루프, CSS 전용) ── */
 #s4b .sim-goal{position:absolute;left:50%;top:54%;width:82px;height:64px;margin:-32px 0 0 -41px;
@@ -877,7 +892,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   border-left:1.5px solid var(--border-default);border-bottom:1.5px solid var(--border-default);
   transform:rotate(45deg);border-bottom-left-radius:6px}
 /* Mon 선진입 — 워크스페이스 카드 속으로 빨려 들어간다 */
-#s5a .flymon{position:absolute;z-index:7;width:52px;height:52px;left:var(--sx);top:var(--sy);opacity:0}
+#s5a .flymon{position:absolute;z-index:7;width:80px;height:80px;left:var(--sx);top:var(--sy);opacity:0}
 /* M-fix: 고정 1.7s ease-in → 거리 정규화 var(--fd) — 비행거리(565~725px)와 무관하게
    동일 듀레이션이라 빠른 놈은 ~700px/s로 '휙 지나가던' 문제. 마크업의 --fd가
    ~280px/s 등속 기준으로 개별 지정되고, 가시 구간(opacity 창)도 넓혔다. */
@@ -936,7 +951,7 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6b .axes{position:absolute;left:140px;right:140px;top:448px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
 #s6b .axis{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
   padding:68px 44px 52px;box-shadow:var(--e2);text-align:center}
-#s6b .axis .mon{position:absolute;left:50%;top:-30px;margin-left:-26px;width:52px;height:52px;
+#s6b .axis .mon{position:absolute;left:50%;top:-46px;margin-left:-40px;width:80px;height:80px;
   opacity:0;transform:translateY(-80px);transition:none}
 #s6b .axis.step-shown .mon{opacity:1;transform:none;
   animation:land 1s cubic-bezier(.34,1.56,.64,1) both}
@@ -965,8 +980,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 #s6c .hlogo-foot{position:absolute;left:64px;bottom:48px;height:40px;width:auto;opacity:.8}
 /* CTA 화면 Mon 2기 — 밀도 규칙(2-3) 충족, CTA 시선 방해 없는 측면 배치 */
 #s6c .mon-deco{position:absolute;z-index:4}
-#s6c .mon-deco.a{width:56px;height:56px;left:336px;top:330px}
-#s6c .mon-deco.b{width:50px;height:50px;right:336px;top:580px}
+#s6c .mon-deco.a{width:86px;height:86px;left:336px;top:330px}
+#s6c .mon-deco.b{width:80px;height:80px;right:336px;top:580px}
 
 /* ============================================================
    S6d · 마침 — Mos greeting + ALL Mon + typewriter tagline
@@ -983,12 +998,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 6.2s ease-in-out infinite;
   animation-delay:var(--d,0s), calc(var(--d,0s) + .9s)}
 /* 중앙 메시지 좌우 → Mos를 향해 내려오는 아치 — 피날레 밀도 */
-#s6d .mon-finale.mf1{width:64px;height:64px;left:392px;top:496px}
-#s6d .mon-finale.mf2{width:54px;height:54px;left:556px;top:664px}
-#s6d .mon-finale.mf3{width:60px;height:60px;left:736px;top:800px}
-#s6d .mon-finale.mf4{width:58px;height:58px;right:392px;top:496px}
-#s6d .mon-finale.mf5{width:64px;height:64px;right:556px;top:664px}
-#s6d .mon-finale.mf6{width:50px;height:50px;right:736px;top:800px}
+#s6d .mon-finale.mf1{width:92px;height:92px;left:392px;top:496px}
+#s6d .mon-finale.mf2{width:84px;height:84px;left:556px;top:664px}
+#s6d .mon-finale.mf3{width:90px;height:90px;left:736px;top:800px}
+#s6d .mon-finale.mf4{width:88px;height:88px;right:392px;top:496px}
+#s6d .mon-finale.mf5{width:92px;height:92px;right:556px;top:664px}
+#s6d .mon-finale.mf6{width:80px;height:80px;right:736px;top:800px}
 #s6d .vlogo{position:absolute;left:50%;top:84px;transform:translateX(-50%);height:140px;width:auto}
 /* D8: 축하 글로우 — Mos 뒤 은은한 파스텔 광원 */
 #s6d .finale-glow{position:absolute;left:50%;bottom:40px;width:1240px;height:720px;transform:translateX(-50%);
@@ -1072,6 +1087,11 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <button class="pnode" data-sec="6"><svg class="mon m-execute"><use href="#mon-body"/></svg><span class="plabel">함께</span></button>
 </nav>
 <div class="pager" id="pager">01 / 13</div>
+<!-- D6: 상시 발표자료 QR — 모든 슬라이드 좌하단(표지에선 숨김) -->
+<div class="persistent-qr" id="deckQr">
+  <img src="assets/resources/nextrise_showcase_qr_code.svg" alt="이 발표자료를 휴대폰으로 여는 QR 코드">
+  <span>발표자료</span>
+</div>
 <div class="edit-hotzone" id="editHotzone"></div>
 <button class="edit-toggle" id="editToggle" title="편집 모드 (E) · Ctrl+S 저장">✎</button>
 
@@ -1103,9 +1123,15 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
     <h1 class="s0-title type" data-text="혼자 쓰던 워크스페이스가,\n회사가 되기까지"><span class="caret"></span></h1>
     <p class="s0-sub late">내 AI가 자라는 세계, Mosmos<span class="en"> — A world where my AI grows up.</span></p>
+    <p class="s0-slogan late">자잘한 일은 맡기고, 중요한 것에 집중하세요</p>
   </div>
   <img class="s0-mos mos float late" src="deck-assets/mos-greeting.png" alt="Mos가 인사하는 모습">
-  <svg class="mon m-research s0-mon float f2 late" width="56" height="56"><use href="#mon-body"/><use href="#p-research"/></svg>
+  <img class="mon m-research s0-mon float f2 late" width="86" height="86" src="deck-assets/mon-research.png" alt="">
+  <!-- D6: 발표자료 접속 QR — 청중이 폰으로 함께 보도록 (표지 강조본) -->
+  <div class="s0-qr late">
+    <div class="s0-qr-card"><img src="assets/resources/nextrise_showcase_qr_code.svg" alt="이 발표자료를 휴대폰으로 여는 QR 코드"></div>
+    <span class="s0-qr-label"><b>휴대폰으로 함께 보세요</b><br>QR을 찍으면 이 발표를 폰에서 바로</span>
+  </div>
   <footer class="s0-foot late"><b>박중헌</b> · Founder, Mosmos · Notion Startup Showcase @ NextRise 2026 · SESSION 03</footer>
 </section>
 
@@ -1134,21 +1160,21 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </svg>
     <div class="tl-node n1 rv" style="--d:.85s">
       <div class="disc"><img src="assets/logo/joongheon_archive.svg" alt="중헌아카이브">
-        <svg class="mon m-research rv-pop" style="--d:1.35s"><use href="#mon-body"/><use href="#p-research"/></svg></div>
+        <img class="mon m-research rv-pop" style="--d:1.35s" src="deck-assets/mon-research.png" alt=""></div>
       <span class="stage-tag">개인 · 블로그</span>
       <span class="nm">중헌아카이브</span>
       <span class="ds">Notion으로 지은 내 지식 창고</span>
     </div>
     <div class="tl-node n2 rv" style="--d:1.35s">
       <div class="disc"><img src="assets/logo/proact0.svg" alt="Proact0">
-        <svg class="mon m-analysis rv-pop" style="--d:1.85s"><use href="#mon-body"/><use href="#p-analysis"/></svg></div>
+        <img class="mon m-analysis rv-pop" style="--d:1.85s" src="deck-assets/mon-research.png" alt=""></div>
       <span class="stage-tag">오픈소스 · 커뮤니티</span>
       <span class="nm">Proact0</span>
       <span class="ds">사람과 AI가 함께 일한 오픈소스 팀</span>
     </div>
     <div class="tl-node n3 rv" style="--d:1.85s">
       <div class="disc"><img src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos">
-        <svg class="mon m-organize rv-pop" style="--d:2.35s"><use href="#mon-body"/><use href="#p-organize"/></svg></div>
+        <img class="mon m-organize rv-pop" style="--d:2.35s" src="deck-assets/mon-organize.png" alt=""></div>
       <span class="stage-tag">비즈니스 · 스타트업</span>
       <span class="nm">mosmos</span>
       <span class="ds">노션으로 굴러가는 AI 스타트업</span>
@@ -1182,21 +1208,21 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
         <img class="mos-face" src="deck-assets/mos-greeting.png" alt="Mos 캐릭터">
       </div>
       <h3>Mos — 나를 닮아가는 내 AI</h3>
-      <p>쓸수록 내 기억과 일하는 방식을 배워서,<br><b>점점 나처럼 일하는</b> AI 비서예요.</p>
+      <p>쓸수록 내 일하는 방식이 손에 익어,<br><b>점점 나와 손발이 맞는</b> AI 비서예요.</p>
     </div>
     <div class="intro-card rv" style="--d:.55s">
       <div class="face mon-face">
-        <svg class="mon m-research float rv-pop" style="--d:.95s"><use href="#mon-body"/><use href="#p-research"/></svg>
-        <svg class="mon m-organize float f2 rv-pop" style="--d:1.1s"><use href="#mon-body"/><use href="#p-organize"/></svg>
-        <svg class="mon m-execute float f3 rv-pop" style="--d:1.25s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+        <img class="mon m-research float rv-pop" style="--d:.95s" src="deck-assets/mon-research.png" alt="리서치 Mon">
+        <img class="mon m-organize float f2 rv-pop" style="--d:1.1s" src="deck-assets/mon-organize.png" alt="정리 Mon">
+        <img class="mon m-create float f3 rv-pop" style="--d:1.25s" src="deck-assets/mon-design.png" alt="창작 Mon">
       </div>
-      <h3>Mon — Mos가 부리는 일꾼들</h3>
-      <p>조사·정리·실행·소통 등 <b>저마다 특기를 가진</b><br>작은 AI들이 일을 나눠 맡아요.</p>
+      <h3>Mon — Mos가 일을 맡기는 전문가들</h3>
+      <p>리서치·정리·창작 등 <b>저마다 전문 분야가 있는</b><br>작은 AI들이 일을 나눠 맡아요.</p>
     </div>
   </div>
   <div class="intro-foot rv" style="--d:.8s">
     <span class="tag">한 줄 요약</span>
-    <p><b>목표만 말하면, Mos가 Mon들을 움직여 끝까지 해냅니다.</b> 혼자서도 한 팀처럼 일하는 것 — 그게 mosmos예요.</p>
+    <p><b>목표만 말하면, Mos가 Mon에게 맡겨 결과까지 가져와요.</b> 혼자서도 한 팀처럼 일하는 것 — 그게 mosmos예요.</p>
   </div>
 </section>
 
@@ -1219,8 +1245,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="visual rv" style="--d:.6s">
       <div class="logo-card"><img src="assets/logo/joongheon_archive.svg" alt="중헌아카이브 로고"></div>
       <!-- WP4 A6: was 1 Mon → now 2-3 Mons to meet floor -->
-      <svg class="mon m-research float f2 rv-pop" style="--d:1.2s"><use href="#mon-body"/><use href="#p-research"/></svg>
-      <svg class="mon mon2 m-organize float f3 rv-pop" style="--d:1.5s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+      <img class="mon m-research float f2 rv-pop" style="--d:1.2s" src="deck-assets/mon-research.png" alt="">
+      <img class="mon mon2 m-organize float f3 rv-pop" style="--d:1.5s" src="deck-assets/mon-organize.png" alt="">
       <img class="mos float" src="deck-assets/mos-curious.png" alt="Mos가 궁금해하는 모습">
     </div>
   </div>
@@ -1260,8 +1286,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
   </div>
   <!-- Mon decorations (조사/정리 theme — S2 section) -->
-  <svg class="mon-deco a m-research float rv-pop" style="--d:.8s"><use href="#mon-body"/><use href="#p-research"/></svg>
-  <svg class="mon-deco b m-organize float f3 rv-pop" style="--d:1.0s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+  <img class="mon-deco a m-research float rv-pop" style="--d:.8s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-deco b m-organize float f3 rv-pop" style="--d:1.0s" src="deck-assets/mon-organize.png" alt="">
   <div class="explore-hint" aria-hidden="true"><span class="eh-in">↓ 라이브 탐색</span><span class="eh-out">↑ 돌아가기</span></div>
 </section>
 
@@ -1289,8 +1315,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="zoom-lens" id="s2c-lens" aria-hidden="true"></div>
   </div>
   <!-- Mon decorations -->
-  <svg class="mon-deco a m-research float rv-pop" style="--d:.7s"><use href="#mon-body"/><use href="#p-research"/></svg>
-  <svg class="mon-deco b m-organize float f3 rv-pop" style="--d:.9s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+  <img class="mon-deco a m-research float rv-pop" style="--d:.7s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-deco b m-organize float f3 rv-pop" style="--d:.9s" src="deck-assets/mon-organize.png" alt="">
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -1321,8 +1347,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
   </div>
   <!-- Mon decorations (조사/정리 theme) -->
-  <svg class="mon-deco a m-research float rv-pop" style="--d:.8s"><use href="#mon-body"/><use href="#p-research"/></svg>
-  <svg class="mon-deco b m-organize float f3 rv-pop" style="--d:1.0s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+  <img class="mon-deco a m-research float rv-pop" style="--d:.8s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-deco b m-organize float f3 rv-pop" style="--d:1.0s" src="deck-assets/mon-organize.png" alt="">
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -1360,8 +1386,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <div class="lbl">재방문율</div>
     </div>
   </div>
-  <svg class="mon m-research mon a float rv-pop" style="--d:1.15s"><use href="#mon-body"/><use href="#p-research"/></svg>
-  <svg class="mon m-organize mon b float f3 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-organize"/></svg>
+  <img class="mon m-research mon a float rv-pop" style="--d:1.15s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon m-organize mon b float f3 rv-pop" style="--d:1.3s" src="deck-assets/mon-organize.png" alt="">
   <div class="takeaway rv" style="--d:1.05s">
     <span class="tag">TAKEAWAY</span>
     <p>혼자 쓰는 노션도 구조를 갖추면 이렇게 자랍니다 — <b>표 설계 + AI 분류 + 자동화</b>, 오늘 바로 따라 해보실 수 있어요.</p>
@@ -1393,8 +1419,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       역할은 또렷하게, 의존은 느슨하게 —<br>오픈소스로 공개한 <b>조직 운영의 실험</b>, Proact0입니다.</p>
     <div class="visual rv" style="--d:.6s">
       <div class="logo-card"><img src="assets/logo/proact0.svg" alt="Proact0 로고"></div>
-      <svg class="mon m-analysis float f2 rv-pop" style="--d:1.2s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-      <svg class="mon mon2 m-execute float f3 rv-pop" style="--d:1.5s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+      <img class="mon m-analysis float f2 rv-pop" style="--d:1.2s" src="deck-assets/mon-research.png" alt="">
+      <img class="mon mon2 m-execute float f3 rv-pop" style="--d:1.5s" src="deck-assets/mon-organize.png" alt="">
       <img class="mos float" src="deck-assets/mos-working.png" alt="Mos가 일하는 모습">
     </div>
   </div>
@@ -1420,9 +1446,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <img src="assets/resources/proact0/lead_by_design.svg" alt="Lead by Design — Proact0 조직 설계 원칙">
   </div>
   <!-- Mon decorations (분석/실행 theme) — WP5 A6: was 0 Mon -->
-  <svg class="mon-deco a m-analysis float rv-pop" style="--d:1.1s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-  <svg class="mon-deco b m-execute float f2 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-execute"/></svg>
-  <svg class="mon-deco c m-analysis float f3 rv-pop" style="--d:1.5s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+  <img class="mon-deco a m-analysis float rv-pop" style="--d:1.1s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-deco b m-execute float f2 rv-pop" style="--d:1.3s" src="deck-assets/mon-organize.png" alt="">
+  <img class="mon-deco c m-analysis float f3 rv-pop" style="--d:1.5s" src="deck-assets/mon-research.png" alt="">
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -1474,9 +1500,9 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
   </div>
   <!-- Mon decorations (분석/실행 theme) — WP5 A6: was 0 Mon -->
-  <svg class="mon-deco a m-analysis float rv-pop" style="--d:.9s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-  <svg class="mon-deco b m-execute float f3 rv-pop" style="--d:1.1s"><use href="#mon-body"/><use href="#p-execute"/></svg>
-  <svg class="mon-deco c m-analysis float f2 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
+  <img class="mon-deco a m-analysis float rv-pop" style="--d:.9s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-deco b m-execute float f3 rv-pop" style="--d:1.1s" src="deck-assets/mon-organize.png" alt="">
+  <img class="mon-deco c m-analysis float f2 rv-pop" style="--d:1.3s" src="deck-assets/mon-research.png" alt="">
   <div class="explore-hint" aria-hidden="true"><span class="eh-in">↓ 라이브 탐색</span><span class="eh-out">↑ 돌아가기</span></div>
 </section>
 
@@ -1546,8 +1572,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
       <img src="assets/logo/discord.svg" alt="Discord"><span>Discord</span>
     </div>
     <!-- Mon decorations -->
-    <svg class="mon-deco a m-analysis float rv-pop" style="--d:2.2s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-    <svg class="mon-deco b m-execute float f2 rv-pop" style="--d:2.4s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+    <img class="mon-deco a m-analysis float rv-pop" style="--d:2.2s" src="deck-assets/mon-research.png" alt="">
+    <img class="mon-deco b m-execute float f2 rv-pop" style="--d:2.4s" src="deck-assets/mon-organize.png" alt="">
   </div>
 </section>
 
@@ -1582,8 +1608,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
   </div>
   <!-- 분석/실행 Mon decorations -->
-  <svg class="mon a m-analysis float rv-pop" style="--d:1.15s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-  <svg class="mon b m-execute float f3 rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-execute"/></svg>
+  <img class="mon a m-analysis float rv-pop" style="--d:1.15s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon b m-execute float f3 rv-pop" style="--d:1.3s" src="deck-assets/mon-organize.png" alt="">
   <div class="takeaway rv" style="--d:1.05s">
     <span class="tag">TAKEAWAY</span>
     <p>사람과 AI가 같은 보드에서 일하려면, 먼저 팀 구조부터 설계하세요 — <b>모든 정보의 원본을 노션 한곳에</b> 두는 게 핵심이에요.</p>
@@ -1614,11 +1640,11 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   </header>
   <div class="cols">
     <p class="sub rv" style="--d:.45s">개인에서 시작한 운영 방식이,<br>이제 <b>회사 전체를 움직이는 중심</b>이 됐어요.<br><br>
-      내 AI(Mos)와 일꾼들(Mon)이 함께 일하는, <b>노션으로 굴러가는 스타트업</b> —<br>개인 → 오픈소스 → 비즈니스, 그 <b>마지막 무대</b>입니다.</p>
+      내 AI(Mos)와 전문가들(Mon)이 함께 일하는, <b>노션으로 굴러가는 스타트업</b> —<br>개인 → 오픈소스 → 비즈니스, 그 <b>마지막 무대</b>입니다.</p>
     <div class="visual rv" style="--d:.6s">
       <div class="logo-card"><img src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos 심볼"></div>
-      <svg class="mon m-create float f2 rv-pop" style="--d:1.2s"><use href="#mon-body"/><use href="#p-create"/></svg>
-      <svg class="mon mon2 m-comm float f3 rv-pop" style="--d:1.5s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+      <img class="mon m-create float f2 rv-pop" style="--d:1.2s" src="deck-assets/mon-design.png" alt="">
+      <img class="mon mon2 m-comm float f3 rv-pop" style="--d:1.5s" src="deck-assets/mon-design.png" alt="">
       <img class="mos float" src="deck-assets/mos-happy.png" alt="Mos가 기뻐하는 모습">
     </div>
   </div>
@@ -1640,18 +1666,18 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <p class="sub rv" style="--d:.4s">Mosmos는 제품을 만들기 전부터, <b>노션으로 회사 전체를 운영</b>해온 스타트업이에요.</p>
   </div>
   <!-- WP6 A6: 2 Mon decorations (생성/소통 theme) -->
-  <svg class="mon-deco a m-create float rv-pop" style="--d:.9s"><use href="#mon-body"/><use href="#p-create"/></svg>
-  <svg class="mon-deco b m-comm float f3 rv-pop" style="--d:1.1s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+  <img class="mon-deco a m-create float rv-pop" style="--d:.9s" src="deck-assets/mon-design.png" alt="">
+  <img class="mon-deco b m-comm float f3 rv-pop" style="--d:1.1s" src="deck-assets/mon-design.png" alt="">
   <div class="pillars">
     <div class="pillar p1 rv" style="--d:.6s">
       <div class="pi"><svg data-lucide="sprout"></svg></div>
       <h3>나를 닮아가는 AI, Mos</h3>
-      <p><b>쓸수록 나를 닮아가요</b> — 내 기억과 방식을 배워 점점 나처럼 일하는 AI</p>
+      <p><b>쓸수록 손발이 맞아요</b> — 내 방식을 배워 점점 나처럼 일하는 AI</p>
     </div>
     <div class="pillar p2 rv" style="--d:.78s">
       <div class="pi"><svg data-lucide="compass"></svg></div>
       <h3>말만 하면 끝나는 실행</h3>
-      <p><b>목표만 말하면 끝</b> — Mos가 알맞은 일꾼(Mon)을 골라 결과까지</p>
+      <p><b>목표만 말하면 끝</b> — Mos가 알맞은 전문가(Mon)를 골라 결과까지</p>
     </div>
     <div class="pillar p3 rv" style="--d:.96s">
       <div class="pi"><svg data-lucide="refresh-ccw"></svg></div>
@@ -1681,19 +1707,19 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="right">
       <img class="hlogo rv" style="--d:.45s" src="design-system/assets/logos/mosmos-horizontal-color.svg" alt="mosmos">
       <h3 class="rv" style="--d:.6s">목표만 말하면 끝나는, 내 AI 팀</h3>
-      <p class="cp rv" style="--d:.75s">목표만 말하면, <b>내 AI(Mos)가 일꾼들(Mon)을 조율해 끝까지 해냅니다.</b><br>잘 통한 방법은 저장돼, 다음엔 더 빨라져요.</p>
+      <p class="cp rv" style="--d:.75s">목표만 말하면, <b>내 AI(Mos)가 전문가들(Mon)을 조율해 결과까지 가져옵니다.</b><br>잘 통한 방법은 저장돼, 다음엔 더 빨라져요.</p>
       <div class="universe rv" style="--d:.9s">
         <div class="orbit-ring"></div>
         <!-- E2: 자동 시뮬레이션 — 목표 카드가 Mos에 흡수되면 완료 배지가 떠오른다 (12초 무한 루프) -->
         <div class="sim-goal" aria-hidden="true"><svg data-lucide="file-text"></svg></div>
         <div class="sim-done" aria-hidden="true"><svg data-lucide="check"></svg></div>
         <img class="mos" src="deck-assets/mos-happy.png" alt="Mos가 기뻐하는 모습">
-        <div class="orbiter" style="--i:0"><svg class="mon m-research"><use href="#mon-body"/><use href="#p-research"/></svg></div>
-        <div class="orbiter" style="--i:1"><svg class="mon m-analysis"><use href="#mon-body"/><use href="#p-analysis"/></svg></div>
-        <div class="orbiter" style="--i:2"><svg class="mon m-organize"><use href="#mon-body"/><use href="#p-organize"/></svg></div>
-        <div class="orbiter" style="--i:3"><svg class="mon m-create"><use href="#mon-body"/><use href="#p-create"/></svg></div>
-        <div class="orbiter" style="--i:4"><svg class="mon m-execute"><use href="#mon-body"/><use href="#p-execute"/></svg></div>
-        <div class="orbiter" style="--i:5"><svg class="mon m-comm"><use href="#mon-body"/><use href="#p-comm"/></svg></div>
+        <div class="orbiter" style="--i:0"><img class="mon m-research" src="deck-assets/mon-research.png" alt=""></div>
+        <div class="orbiter" style="--i:1"><img class="mon m-analysis" src="deck-assets/mon-research.png" alt=""></div>
+        <div class="orbiter" style="--i:2"><img class="mon m-organize" src="deck-assets/mon-organize.png" alt=""></div>
+        <div class="orbiter" style="--i:3"><img class="mon m-create" src="deck-assets/mon-design.png" alt=""></div>
+        <div class="orbiter" style="--i:4"><img class="mon m-execute" src="deck-assets/mon-organize.png" alt=""></div>
+        <div class="orbiter" style="--i:5"><img class="mon m-comm" src="deck-assets/mon-design.png" alt=""></div>
       </div>
     </div>
   </div>
@@ -1743,8 +1769,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <p>제품보다 운영 체계를 먼저 세우세요 — <b>신생 팀이라면 Notion 하나로 충분히 시작</b>할 수 있어요.</p>
   </div>
   <!-- WP6 A6: 2 Mon decorations (생성/소통 theme) -->
-  <svg class="mon-deco a m-create float rv-pop" style="--d:1.3s"><use href="#mon-body"/><use href="#p-create"/></svg>
-  <svg class="mon-deco b m-comm float f2 rv-pop" style="--d:1.5s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+  <img class="mon-deco a m-create float rv-pop" style="--d:1.3s" src="deck-assets/mon-design.png" alt="">
+  <img class="mon-deco b m-comm float f2 rv-pop" style="--d:1.5s" src="deck-assets/mon-design.png" alt="">
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -1778,12 +1804,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     <div class="bubble rv" style="--d:1.3s">그럼, 실제 워크스페이스에서 보여드릴게요 — Mon들이 먼저 준비하고 있어요</div>
     <!-- Mon 선진입 — 화면 곳곳에서 중앙 워크스페이스로 빨려 들어감 -->
     <!-- M-fix: --fd = 거리 정규화 비행시간(~280px/s) — 거리 무관 고정 1.7s라 빠른 놈이 '휙' 지나가던 문제 -->
-    <svg class="flymon mon m-research" style="--sx:420px;--sy:330px;--tx:480px;--ty:430px;--d:1.7s;--fd:2.3s"><use href="#mon-body"/><use href="#p-research"/></svg>
-    <svg class="flymon mon m-analysis" style="--sx:1500px;--sy:300px;--tx:-560px;--ty:460px;--d:1.95s;--fd:2.6s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-    <svg class="flymon mon m-organize" style="--sx:260px;--sy:760px;--tx:660px;--ty:60px;--d:2.2s;--fd:2.4s"><use href="#mon-body"/><use href="#p-organize"/></svg>
-    <svg class="flymon mon m-create" style="--sx:1660px;--sy:700px;--tx:-700px;--ty:110px;--d:2.45s;--fd:2.5s"><use href="#mon-body"/><use href="#p-create"/></svg>
-    <svg class="flymon mon m-execute" style="--sx:760px;--sy:240px;--tx:180px;--ty:540px;--d:2.7s;--fd:2.05s"><use href="#mon-body"/><use href="#p-execute"/></svg>
-    <svg class="flymon mon m-comm" style="--sx:1180px;--sy:250px;--tx:-220px;--ty:520px;--d:2.95s;--fd:2.05s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+    <img class="flymon mon m-research" style="--sx:420px;--sy:330px;--tx:480px;--ty:430px;--d:1.7s;--fd:2.3s" src="deck-assets/mon-research.png" alt="">
+    <img class="flymon mon m-analysis" style="--sx:1500px;--sy:300px;--tx:-560px;--ty:460px;--d:1.95s;--fd:2.6s" src="deck-assets/mon-research.png" alt="">
+    <img class="flymon mon m-organize" style="--sx:260px;--sy:760px;--tx:660px;--ty:60px;--d:2.2s;--fd:2.4s" src="deck-assets/mon-organize.png" alt="">
+    <img class="flymon mon m-create" style="--sx:1660px;--sy:700px;--tx:-700px;--ty:110px;--d:2.45s;--fd:2.5s" src="deck-assets/mon-design.png" alt="">
+    <img class="flymon mon m-execute" style="--sx:760px;--sy:240px;--tx:180px;--ty:540px;--d:2.7s;--fd:2.05s" src="deck-assets/mon-organize.png" alt="">
+    <img class="flymon mon m-comm" style="--sx:1180px;--sy:250px;--tx:-220px;--ty:520px;--d:2.95s;--fd:2.05s" src="deck-assets/mon-design.png" alt="">
   </div>
 </section>
 
@@ -1835,19 +1861,19 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <h2 class="head rv" style="--d:.15s">세 갈래로 찾고 있어요</h2>
   <div class="axes">
     <div class="axis step-item">
-      <svg class="mon m-execute"><use href="#mon-body"/><use href="#p-execute"/></svg>
+      <img class="mon m-execute" src="deck-assets/mon-organize.png" alt="">
       <div class="ai"><svg data-lucide="users"></svg></div>
       <h4>팀원</h4>
       <p>AI로 일하는 마케터 · 디자이너 · 엔지니어</p>
     </div>
     <div class="axis step-item">
-      <svg class="mon m-create"><use href="#mon-body"/><use href="#p-create"/></svg>
+      <img class="mon m-create" src="deck-assets/mon-design.png" alt="">
       <div class="ai"><svg data-lucide="puzzle"></svg></div>
       <h4>생태계 참여자</h4>
       <p>AI 도구를 만드는 분 — 개인·기업 누구나</p>
     </div>
     <div class="axis step-item">
-      <svg class="mon m-comm"><use href="#mon-body"/><use href="#p-comm"/></svg>
+      <img class="mon m-comm" src="deck-assets/mon-design.png" alt="">
       <div class="ai"><svg data-lucide="rocket"></svg></div>
       <h4>엑셀러레이터 · 투자자</h4>
       <p>노션으로 운영을 증명해온 팀과 함께</p>
@@ -1871,8 +1897,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     </div>
     <p class="net-copy rv" style="--d:.5s">적용 방법이 궁금하시면 <b>네트워킹(16:30)</b>에서<br>워크스페이스를 직접 열어 보여드릴게요</p>
   </div>
-  <svg class="mon-deco a m-execute float rv-pop" style="--d:.7s"><use href="#mon-body"/><use href="#p-execute"/></svg>
-  <svg class="mon-deco b m-comm float f2 rv-pop" style="--d:.85s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+  <img class="mon-deco a m-execute float rv-pop" style="--d:.7s" src="deck-assets/mon-organize.png" alt="">
+  <img class="mon-deco b m-comm float f2 rv-pop" style="--d:.85s" src="deck-assets/mon-design.png" alt="">
   <img class="hlogo-foot" src="design-system/assets/logos/mosmos-horizontal-color.svg" alt="mosmos">
 </section>
 
@@ -1888,12 +1914,12 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
   <img class="vlogo rv" style="--d:.1s" src="design-system/assets/logos/mosmos-vertical-color.svg" alt="mosmos">
   <div class="finale-glow" aria-hidden="true"></div>
   <!-- All 6 Mon variants gathered — gentle float, varied sizes -->
-  <svg class="mon-finale mf1 m-execute rv-pop" style="--d:.3s"><use href="#mon-body"/><use href="#p-execute"/></svg>
-  <svg class="mon-finale mf2 m-research rv-pop" style="--d:.5s"><use href="#mon-body"/><use href="#p-research"/></svg>
-  <svg class="mon-finale mf3 m-organize rv-pop" style="--d:.7s"><use href="#mon-body"/><use href="#p-organize"/></svg>
-  <svg class="mon-finale mf4 m-analysis rv-pop" style="--d:.45s"><use href="#mon-body"/><use href="#p-analysis"/></svg>
-  <svg class="mon-finale mf5 m-create rv-pop" style="--d:.6s"><use href="#mon-body"/><use href="#p-create"/></svg>
-  <svg class="mon-finale mf6 m-comm rv-pop" style="--d:.35s"><use href="#mon-body"/><use href="#p-comm"/></svg>
+  <img class="mon-finale mf1 m-execute rv-pop" style="--d:.3s" src="deck-assets/mon-organize.png" alt="">
+  <img class="mon-finale mf2 m-research rv-pop" style="--d:.5s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-finale mf3 m-organize rv-pop" style="--d:.7s" src="deck-assets/mon-organize.png" alt="">
+  <img class="mon-finale mf4 m-analysis rv-pop" style="--d:.45s" src="deck-assets/mon-research.png" alt="">
+  <img class="mon-finale mf5 m-create rv-pop" style="--d:.6s" src="deck-assets/mon-design.png" alt="">
+  <img class="mon-finale mf6 m-comm rv-pop" style="--d:.35s" src="deck-assets/mon-design.png" alt="">
   <img class="mos-greeting rv" style="--d:.55s" src="deck-assets/mos-greeting.png" alt="Mos가 인사하는 모습">
   <p class="tagline"><span class="type2" data-text="감사합니다"></span></p>
   <p class="tag-sub rv" style="--d:2.2s">내 AI가 자라는 세계, <b>mosmos</b></p>
@@ -2118,6 +2144,8 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
     cur=n;
     /* WP1: write position on every show() */
     try{ localStorage.setItem(LS_POS,JSON.stringify({slide:n})); }catch(e){}
+    /* D6: 표지(s0)에서는 상시 발표자료 QR 숨김 */
+    document.body.classList.toggle('at-cover', n===0);
     slides.forEach((s,i)=>{ s.classList.toggle('active',i===n); s.classList.toggle('visible',i===n); });
     const sl=slides[n];
 

@@ -211,6 +211,8 @@
     cur=n;
     /* WP1: write position on every show() */
     try{ localStorage.setItem(LS_POS,JSON.stringify({slide:n})); }catch(e){}
+    /* D6: 표지(s0)에서는 상시 발표자료 QR 숨김 */
+    document.body.classList.toggle('at-cover', n===0);
     slides.forEach((s,i)=>{ s.classList.toggle('active',i===n); s.classList.toggle('visible',i===n); });
     const sl=slides[n];
 

@@ -19,7 +19,7 @@
 #s6b .axes{position:absolute;left:140px;right:140px;top:448px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
 #s6b .axis{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--r-xl);
   padding:68px 44px 52px;box-shadow:var(--e2);text-align:center}
-#s6b .axis .mon{position:absolute;left:50%;top:-30px;margin-left:-26px;width:52px;height:52px;
+#s6b .axis .mon{position:absolute;left:50%;top:-46px;margin-left:-40px;width:80px;height:80px;
   opacity:0;transform:translateY(-80px);transition:none}
 #s6b .axis.step-shown .mon{opacity:1;transform:none;
   animation:land 1s cubic-bezier(.34,1.56,.64,1) both}
@@ -48,8 +48,8 @@
 #s6c .hlogo-foot{position:absolute;left:64px;bottom:48px;height:40px;width:auto;opacity:.8}
 /* CTA 화면 Mon 2기 — 밀도 규칙(2-3) 충족, CTA 시선 방해 없는 측면 배치 */
 #s6c .mon-deco{position:absolute;z-index:4}
-#s6c .mon-deco.a{width:56px;height:56px;left:336px;top:330px}
-#s6c .mon-deco.b{width:50px;height:50px;right:336px;top:580px}
+#s6c .mon-deco.a{width:86px;height:86px;left:336px;top:330px}
+#s6c .mon-deco.b{width:80px;height:80px;right:336px;top:580px}
 
 /* ============================================================
    S6d · 마침 — Mos greeting + ALL Mon + typewriter tagline
@@ -66,12 +66,12 @@
   animation:pop .7s cubic-bezier(.34,1.56,.64,1) both, float 6.2s ease-in-out infinite;
   animation-delay:var(--d,0s), calc(var(--d,0s) + .9s)}
 /* 중앙 메시지 좌우 → Mos를 향해 내려오는 아치 — 피날레 밀도 */
-#s6d .mon-finale.mf1{width:64px;height:64px;left:392px;top:496px}
-#s6d .mon-finale.mf2{width:54px;height:54px;left:556px;top:664px}
-#s6d .mon-finale.mf3{width:60px;height:60px;left:736px;top:800px}
-#s6d .mon-finale.mf4{width:58px;height:58px;right:392px;top:496px}
-#s6d .mon-finale.mf5{width:64px;height:64px;right:556px;top:664px}
-#s6d .mon-finale.mf6{width:50px;height:50px;right:736px;top:800px}
+#s6d .mon-finale.mf1{width:92px;height:92px;left:392px;top:496px}
+#s6d .mon-finale.mf2{width:84px;height:84px;left:556px;top:664px}
+#s6d .mon-finale.mf3{width:90px;height:90px;left:736px;top:800px}
+#s6d .mon-finale.mf4{width:88px;height:88px;right:392px;top:496px}
+#s6d .mon-finale.mf5{width:92px;height:92px;right:556px;top:664px}
+#s6d .mon-finale.mf6{width:80px;height:80px;right:736px;top:800px}
 #s6d .vlogo{position:absolute;left:50%;top:84px;transform:translateX(-50%);height:140px;width:auto}
 /* D8: 축하 글로우 — Mos 뒤 은은한 파스텔 광원 */
 #s6d .finale-glow{position:absolute;left:50%;bottom:40px;width:1240px;height:720px;transform:translateX(-50%);

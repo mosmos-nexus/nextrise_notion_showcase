@@ -12,7 +12,7 @@
 /* object-fit:contain — 비정사각 로고(proact0 490×659, mosmos 심볼 가로형) 왜곡 방지. 정사각(중헌)은 영향 없음 */
 #s2a .visual .logo-card img,.sec-entry .visual .logo-card img{width:300px;height:300px;border-radius:40px;object-fit:contain}
 #s2a .visual .mos,.sec-entry .visual .mos{position:absolute;right:0;bottom:0;width:330px}
-#s2a .visual .mon,.sec-entry .visual .mon{position:absolute;left:-6px;top:-10px;width:56px;height:56px}
+#s2a .visual .mon,.sec-entry .visual .mon{position:absolute;left:-10px;top:-14px;width:86px;height:86px}
 #s2a .visual .mon2,.sec-entry .visual .mon2{position:absolute;right:-16px;top:180px;width:52px;height:52px}
 #s2a .sub,.sec-entry .sub{max-width:880px}
 
@@ -38,8 +38,8 @@
 #s2b .live-iframe.hidden{display:none}
 /* Mon decorations */
 #s2b .mon-deco{position:absolute;z-index:5}
-#s2b .mon-deco.a{right:118px;top:86px;width:52px;height:52px}
-#s2b .mon-deco.b{left:96px;bottom:88px;width:48px;height:48px}
+#s2b .mon-deco.a{right:118px;top:86px;width:82px;height:82px}
+#s2b .mon-deco.b{left:96px;bottom:88px;width:78px;height:78px}
 
 /* s2c — 구조 해부 panning annotation (WP4) */
 #s2c{--bloom:.4}
@@ -61,8 +61,8 @@
   box-shadow:0 14px 40px rgba(15,111,218,.42);
   pointer-events:none;opacity:0;transition:opacity .12s linear;z-index:30}
 #s2c .mon-deco{position:absolute;z-index:5}
-#s2c .mon-deco.a{right:118px;top:88px;width:52px;height:52px}
-#s2c .mon-deco.b{right:200px;bottom:84px;width:48px;height:48px}
+#s2c .mon-deco.a{right:118px;top:88px;width:82px;height:82px}
+#s2c .mon-deco.b{right:200px;bottom:84px;width:78px;height:78px}
 
 /* s2d — n8n 자동화 플로우 전용 (WP4) */
 #s2d{--bloom:.42}
@@ -89,8 +89,8 @@
   html:not(.force-motion) #s2d .flow-stage-chips .stage-chip{opacity:1;transform:none;transition:none}
 }
 #s2d .mon-deco{position:absolute;z-index:5}
-#s2d .mon-deco.a{right:118px;top:92px;width:52px;height:52px}
-#s2d .mon-deco.b{left:96px;bottom:86px;width:48px;height:48px}
+#s2d .mon-deco.a{right:118px;top:92px;width:82px;height:82px}
+#s2d .mon-deco.b{left:96px;bottom:86px;width:78px;height:78px}
 
 /* s2e — 지표 + Takeaway + QR 배지 (WP4) */
 #s2e{--bloom:.48}
@@ -98,8 +98,8 @@
 #s2e .grid4 .metric{padding:48px 36px;gap:18px}
 #s2e .grid4 .num{font-size:70px}
 #s2e .mon{position:absolute;z-index:3}
-#s2e .mon.a{right:118px;top:292px;width:58px;height:58px}
-#s2e .mon.b{left:104px;top:796px;width:54px;height:54px}
+#s2e .mon.a{right:118px;top:292px;width:88px;height:88px}
+#s2e .mon.b{left:104px;top:796px;width:84px;height:84px}
 /* QR 배지와 겹치지 않게 Takeaway 밴드를 배지 왼쪽에서 마감 */
 #s2e .takeaway{right:332px}
 

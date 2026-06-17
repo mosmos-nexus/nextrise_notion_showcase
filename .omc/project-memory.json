@@ -18,7 +18,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "echo \"=== 현재 build-manifest 슬라이드 순서 ===\" && grep -o 'src/slides/[a-z0-9]*\\.html' scripts/build-manifest.json && echo \"\" && echo \"=== src/slides 실제 파일 ===\" && ls src/slides/ && echo \"\" && echo \"=== build:check (현 동기화 상태) ===\" && npm run build:check 2>&1 | tail -3",
+    "buildCommand": "cd /home/hon2yb22/workspace/mosmos/nextrise_notion_showcase\necho \"===== 보이스 잔여 점검 (일꾼/부리는/끝까지/완벽/최고/무엇이든/능숙) =====\"\ngrep -rn \"일꾼\\|부리는\\|끝까지\\|완벽\\|최고\\|무엇이든\\|능숙하게\" src/slides/ src/chrome.html || echo \"  → 없음 (clean)\"\necho \"\"\necho \"===== Mon PNG 참조 카운트 (slides) =====\"\ngrep -rho \"deck-assets/mon-[a-z]*\\.png\" src/slides/ | sort | uniq -c\necho \"\"\necho \"===== 빌드 =====\"\nnpm run build 2>&1 | tail -3",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -119,15 +119,45 @@
   },
   "hotPaths": [
     {
-      "path": "src/slides/s1.html",
-      "accessCount": 2,
-      "lastAccessed": 1781686025343,
+      "path": "src/slides/s1b.html",
+      "accessCount": 7,
+      "lastAccessed": 1781687504711,
       "type": "file"
     },
     {
-      "path": "src/slides/s1b.html",
+      "path": "src/slides/s4a.html",
+      "accessCount": 5,
+      "lastAccessed": 1781687577059,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s0.html",
+      "accessCount": 4,
+      "lastAccessed": 1781687482372,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4b.html",
+      "accessCount": 4,
+      "lastAccessed": 1781687580427,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4intro.html",
+      "accessCount": 4,
+      "lastAccessed": 1781687584049,
+      "type": "file"
+    },
+    {
+      "path": "src/chrome.html",
+      "accessCount": 3,
+      "lastAccessed": 1781687587013,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s1.html",
       "accessCount": 2,
-      "lastAccessed": 1781686026250,
+      "lastAccessed": 1781686025343,
       "type": "file"
     },
     {
@@ -191,24 +221,6 @@
       "type": "file"
     },
     {
-      "path": "src/slides/s4intro.html",
-      "accessCount": 2,
-      "lastAccessed": 1781686049232,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s4a.html",
-      "accessCount": 2,
-      "lastAccessed": 1781686050009,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s4b.html",
-      "accessCount": 2,
-      "lastAccessed": 1781686050469,
-      "type": "file"
-    },
-    {
       "path": "src/slides/s4c.html",
       "accessCount": 2,
       "lastAccessed": 1781686050960,
@@ -251,6 +263,24 @@
       "type": "file"
     },
     {
+      "path": "src/styles/s0.css",
+      "accessCount": 2,
+      "lastAccessed": 1781687591731,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/base.css",
+      "accessCount": 2,
+      "lastAccessed": 1781687595500,
+      "type": "file"
+    },
+    {
+      "path": "src/js/engine.js",
+      "accessCount": 2,
+      "lastAccessed": 1781687597930,
+      "type": "file"
+    },
+    {
       "path": "src/defs.html",
       "accessCount": 1,
       "lastAccessed": 1781685636627,
@@ -281,15 +311,27 @@
       "type": "file"
     },
     {
-      "path": "src/slides/s0.html",
+      "path": "src/styles/s1.css",
       "accessCount": 1,
-      "lastAccessed": 1781685804471,
+      "lastAccessed": 1781687181730,
       "type": "file"
     },
     {
-      "path": "src/chrome.html",
+      "path": "src/styles/s4.css",
       "accessCount": 1,
-      "lastAccessed": 1781685817574,
+      "lastAccessed": 1781687182180,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/s6.css",
+      "accessCount": 1,
+      "lastAccessed": 1781687182809,
+      "type": "file"
+    },
+    {
+      "path": "scripts/verify/walkdeck.js",
+      "accessCount": 1,
+      "lastAccessed": 1781687702371,
       "type": "file"
     }
   ],
