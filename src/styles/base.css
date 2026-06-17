@@ -378,8 +378,11 @@ body.no-fade .slide,body.no-fade .slide.active{
   background:rgba(255,255,255,.9);border:1px solid var(--border-subtle);border-radius:12px;padding:8px 8px 6px;box-shadow:var(--e1);backdrop-filter:blur(6px);transition:opacity .5s}
 .persistent-qr img{width:72px;height:72px;display:block}
 .persistent-qr span{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.04em}
-body.at-cover .persistent-qr{opacity:0;pointer-events:none}
+/* 표지(s0 활성)에서는 숨김 — JS 타이밍 비의존(:has), at-cover는 폴백 */
+body.at-cover .persistent-qr,body:has(#s0.active) .persistent-qr{opacity:0;pointer-events:none}
 @media print{.persistent-qr{display:none}}
+/* 좁은 화면(폰)에서는 상시 QR 축소 */
+@media (max-width:760px){.persistent-qr{left:12px;bottom:12px;padding:5px;gap:3px}.persistent-qr img{width:48px;height:48px}.persistent-qr span{font-size:9px}}
 body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset:-3px}
 
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */
