@@ -386,6 +386,8 @@ body.no-fade .slide,body.no-fade .slide.active{
 .pnode.cur .plabel{display:block}
 .pline{width:30px;height:2px;border-radius:2px;background:var(--border-default);flex:none}
 /* (축소는 --stage-scale로 스테이지와 동기화 — 별도 너비 분기 불필요) */
+/* 모바일 가로 등 높이가 낮은 화면: 진행바가 본문을 가리므로 숨김 */
+@media (max-height:500px){.orbit-progress{display:none}}
 .pager{position:fixed;right:26px;bottom:20px;z-index:900;font-size:13.5px;font-weight:700;
   letter-spacing:.12em;color:#5C6573;font-variant-numeric:tabular-nums;
   background:rgba(255,255,255,.72);border:1px solid rgba(29,32,38,.08);
