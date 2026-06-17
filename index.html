@@ -370,19 +370,21 @@ body.no-fade .slide,body.no-fade .slide.active{
    6. 덱 크롬 — Mon 궤도 인디케이터(어젠다 겸용) · 페이지 번호
    ============================================================ */
 .orbit-progress{position:fixed;top:18px;left:50%;z-index:900;
-  /* 스테이지와 동일 배율로 축소(1920 기준 원본, 그 이하에서 비례 축소). 확대는 하지 않음 */
-  transform:translateX(-50%) scale(min(1,var(--stage-scale,1)));transform-origin:top center;
-  display:flex;align-items:center;gap:6px;padding:10px 22px;border-radius:var(--r-pill);
+  /* width:max-content → 50%뷰포트 클램프 해제(노드가 찌그러져 라벨이 세로로 줄바꿈되던 문제 방지) */
+  width:max-content;
+  /* 현장(1920·scale=1)에서 2배, 그 이하는 스테이지와 비례 축소. 상한 2배로 캡 */
+  transform:translateX(-50%) scale(min(2,var(--stage-scale,1)*2));transform-origin:top center;
+  display:flex;align-items:center;gap:10px;padding:10px 22px;border-radius:var(--r-pill);
   background:rgba(255,255,255,.78);border:1px solid rgba(29,32,38,.08);
   box-shadow:var(--e1);backdrop-filter:blur(10px)}
 .pnode{display:flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;
-  padding:4px 6px;border-radius:var(--r-pill)}
+  padding:4px 6px;border-radius:var(--r-pill);flex:none}
 .pnode .mon{width:22px;height:22px;filter:grayscale(1) opacity(.38);transition:filter .5s,transform .4s var(--ease-out)}
 .pnode.done .mon{filter:none}
 .pnode.cur .mon{filter:none;transform:scale(1.28)}
-.pnode .plabel{display:none;font-size:14.5px;font-weight:700;color:var(--text-body);letter-spacing:.02em}
+.pnode .plabel{display:none;font-size:14.5px;font-weight:700;color:var(--text-body);letter-spacing:.02em;white-space:nowrap}
 .pnode.cur .plabel{display:block}
-.pline{width:16px;height:2px;border-radius:2px;background:var(--border-default);flex:none}
+.pline{width:30px;height:2px;border-radius:2px;background:var(--border-default);flex:none}
 /* (축소는 --stage-scale로 스테이지와 동기화 — 별도 너비 분기 불필요) */
 .pager{position:fixed;right:26px;bottom:20px;z-index:900;font-size:13.5px;font-weight:700;
   letter-spacing:.12em;color:#5C6573;font-variant-numeric:tabular-nums;
@@ -398,8 +400,8 @@ body.no-fade .slide,body.no-fade .slide.active{
 .edit-toggle.active{background:var(--blue-core);color:#fff}
 /* D6: 상시 발표자료 QR (chrome) — 좌하단, 표지에서는 숨김 */
 .persistent-qr{position:fixed;left:22px;bottom:18px;z-index:880;display:flex;flex-direction:column;align-items:center;gap:5px;
-  /* 좌하단 모서리에 고정한 채 스테이지와 동일 배율로 축소 */
-  transform:scale(min(1,var(--stage-scale,1)));transform-origin:bottom left;
+  /* 좌하단 모서리 고정. 진행바와 동일하게 현장 2배, 이하 비례 축소(상한 2배) */
+  transform:scale(min(2,var(--stage-scale,1)*2));transform-origin:bottom left;
   background:rgba(255,255,255,.9);border:1px solid var(--border-subtle);border-radius:12px;padding:8px 8px 6px;box-shadow:var(--e1);backdrop-filter:blur(6px);transition:opacity .5s}
 .persistent-qr img{width:72px;height:72px;display:block}
 .persistent-qr span{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.04em}

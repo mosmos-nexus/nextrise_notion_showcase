@@ -18,7 +18,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -3 && echo \"---verify hand-edit gone---\" && grep -c \"max-height: 500px\\|max-height:500px\" index.html && echo \"---verify new code present---\" && grep -c \"stage-scale\" index.html",
+    "buildCommand": "npm run build 2>&1 | tail -1 && node scripts/build.mjs --check 2>&1 | tail -1\nnode /tmp/qr_v3.js 2>&1 | tail -2",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -120,8 +120,8 @@
   "hotPaths": [
     {
       "path": "src/styles/base.css",
-      "accessCount": 9,
-      "lastAccessed": 1781703884086,
+      "accessCount": 12,
+      "lastAccessed": 1781704373712,
       "type": "file"
     },
     {
