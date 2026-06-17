@@ -1,19 +1,32 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1781095559051,
-  "projectRoot": "/home/honeybee/workspace/mosmos/nextrise_notion_showcase",
+  "lastScanned": 1781684947043,
+  "projectRoot": "/home/hon2yb22/workspace/mosmos/nextrise_notion_showcase",
   "techStack": {
-    "languages": [],
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
     "frameworks": [],
-    "packageManager": null,
+    "packageManager": "npm",
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -1\ncat > /tmp/mag-probe2.mjs <<'EOF'\nimport pw from '/home/hon2yb22/workspace/mosmos/nextrise_notion_showcase/node_modules/playwright-core/index.js';\nimport fs from 'fs';\nconst {chromium}=pw;\nconst OUT='/tmp/shots-mag2'; fs.mkdirSync(OUT,{recursive:true});\nconst b=await chromium.launch({executablePath:'/home/hon2yb22/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome'});\nconst p=await b.newPage({viewport:{width:1920,height:1080}});\nawait p.goto('http://localhost:8923/index.html',{waitUntil:'load'});\nawait p.waitForTimeout(1000);\nawait p.evaluate(()=>{location.hash='#5';}); await p.waitForTimeout(1200);\nconst base=await p.evaluate(()=>{\n  const i=document.getElementById('s2c-pan-img');const l=document.getElementById('s2c-lens');\n  const w=document.querySelector('#s2c .pan-wrap');\n  return {hint:!!document.querySelector('#s2c .zoom-hint'),\n    lensW:l.offsetWidth,lensH:l.offsetHeight,lensBg:getComputedStyle(l).backgroundColor,\n    imgRect:(r=>({x:Math.round(r.x),y:Math.round(r.y),w:Math.round(r.width),h:Math.round(r.height)}))(i.getBoundingClientRect()),\n    frameH:w.offsetHeight,imgOffTop:i.offsetTop};\n});\nconsole.log('base:',JSON.stringify(base));\nconst r=base.imgRect;\nasync function at(fx,fy){await p.mouse.move(r.x+r.w*fx,r.y+r.h*fy);await p.waitForTimeout(150);\n  return await p.evaluate(()=>{const l=document.getElementById('s2c-lens');\n    return {opacity:getComputedStyle(l).opacity,top:parseFloat(l.style.top),left:parseFloat(l.style.left),bgPos:l.style.backgroundPosition};});}\nconst top=await at(0.5,0.04); await p.screenshot({path:`${OUT}/s2c-top.png`});\nconst bot=await at(0.5,0.985); await p.screenshot({path:`${OUT}/s2c-bottom.png`});\nconst mmarginL=await at(0.06,0.5); await p.screenshot({path:`${OUT}/s2c-marginL.png`});\nconsole.log('near TOP   :',JSON.stringify(top));\nconsole.log('near BOTTOM:',JSON.stringify(bot));\nconsole.log('lens bottom edge (top+H):', (bot.top+base.lensH).toFixed(0), '/ frameH', base.frameH, '→ reaches bottom:', (bot.top+base.lensH)>=base.frameH-8);\nconsole.log('margin(left) bgPos:',JSON.stringify(marginL));\nawait b.close();\nEOF\nnode /tmp/mag-probe2.mjs 2>&1 | tail -10",
+    "buildCommand": "echo \"=== 현재 build-manifest 슬라이드 순서 ===\" && grep -o 'src/slides/[a-z0-9]*\\.html' scripts/build-manifest.json && echo \"\" && echo \"=== src/slides 실제 파일 ===\" && ls src/slides/ && echo \"\" && echo \"=== build:check (현 동기화 상태) ===\" && npm run build:check 2>&1 | tail -3",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
-    "scripts": {}
+    "scripts": {
+      "build": "node scripts/build.mjs",
+      "build:check": "node scripts/build.mjs --check",
+      "verify": "node scripts/verify/walkdeck.js"
+    }
   },
   "conventions": {
     "namingStyle": null,
@@ -25,12 +38,11 @@
     "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [
-      "assets"
+      "assets",
+      "scripts",
+      "src"
     ],
-    "gitBranches": {
-      "defaultBranch": "main",
-      "branchingStrategy": null
-    }
+    "gitBranches": null
   },
   "customNotes": [],
   "directoryMap": {
@@ -38,309 +50,246 @@
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 0,
-      "lastAccessed": 1781095559044,
+      "lastAccessed": 1781684947022,
+      "keyFiles": []
+    },
+    "deck-assets": {
+      "path": "deck-assets",
+      "purpose": null,
+      "fileCount": 10,
+      "lastAccessed": 1781684947031,
+      "keyFiles": [
+        "capture-joongheon-full.png",
+        "capture-joongheon-top.png",
+        "capture-proact0-full.png",
+        "capture-proact0-top.png",
+        "mos-curious.png"
+      ]
+    },
+    "design-system": {
+      "path": "design-system",
+      "purpose": null,
+      "fileCount": 7,
+      "lastAccessed": 1781684947032,
+      "keyFiles": [
+        "SKILL.md",
+        "_adherence.oxlintrc.json",
+        "_ds_bundle.js",
+        "_ds_manifest.json",
+        "readme.md"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 2,
+      "lastAccessed": 1781684947035,
+      "keyFiles": [
+        "build-manifest.json",
+        "build.mjs"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 7,
+      "lastAccessed": 1781684947036,
+      "keyFiles": [
+        "body-open.html",
+        "chrome.html",
+        "defs.html",
+        "head.html",
+        "lucide-script.html"
+      ]
+    },
+    "design-system/assets": {
+      "path": "design-system/assets",
+      "purpose": "Static assets",
+      "fileCount": 0,
+      "lastAccessed": 1781684947038,
+      "keyFiles": []
+    },
+    "design-system/components": {
+      "path": "design-system/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1781684947039,
       "keyFiles": []
     }
   },
   "hotPaths": [
     {
-      "path": "index.html",
-      "accessCount": 215,
-      "lastAccessed": 1781140262779,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/base.css",
-      "accessCount": 30,
-      "lastAccessed": 1781158983838,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s2.css",
-      "accessCount": 24,
-      "lastAccessed": 1781164682225,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s4.css",
-      "accessCount": 22,
-      "lastAccessed": 1781159927938,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s6.css",
-      "accessCount": 20,
-      "lastAccessed": 1781159931646,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s3.css",
-      "accessCount": 18,
-      "lastAccessed": 1781163083305,
-      "type": "file"
-    },
-    {
-      "path": "src/js/engine.js",
-      "accessCount": 17,
-      "lastAccessed": 1781143215117,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s5.css",
-      "accessCount": 17,
-      "lastAccessed": 1781159062037,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s0.css",
-      "accessCount": 12,
-      "lastAccessed": 1781159901622,
-      "type": "file"
-    },
-    {
-      "path": "src/js/pan-s2c.js",
-      "accessCount": 12,
-      "lastAccessed": 1781164710865,
-      "type": "file"
-    },
-    {
-      "path": "src/js/starfield.js",
-      "accessCount": 11,
-      "lastAccessed": 1781143245944,
-      "type": "file"
-    },
-    {
-      "path": "src/js/iframe-manager.js",
-      "accessCount": 7,
-      "lastAccessed": 1781142013229,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s5a.html",
-      "accessCount": 7,
-      "lastAccessed": 1781143181926,
-      "type": "file"
-    },
-    {
       "path": "src/slides/s1.html",
-      "accessCount": 7,
-      "lastAccessed": 1781143187307,
+      "accessCount": 2,
+      "lastAccessed": 1781686025343,
       "type": "file"
     },
     {
-      "path": "src/slides/s4b.html",
-      "accessCount": 6,
-      "lastAccessed": 1781142997324,
+      "path": "src/slides/s1b.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686026250,
       "type": "file"
     },
     {
-      "path": "src/js/pan-s3b.js",
-      "accessCount": 6,
-      "lastAccessed": 1781163170917,
+      "path": "src/slides/s2a.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686026865,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s2b.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686027570,
       "type": "file"
     },
     {
       "path": "src/slides/s2c.html",
-      "accessCount": 6,
-      "lastAccessed": 1781164687960,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s6d.html",
-      "accessCount": 5,
-      "lastAccessed": 1781159137220,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/s1.css",
-      "accessCount": 4,
-      "lastAccessed": 1781159003828,
-      "type": "file"
-    },
-    {
-      "path": "QA_REPORT.md",
-      "accessCount": 3,
-      "lastAccessed": 1781113076947,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s3a.html",
-      "accessCount": 3,
-      "lastAccessed": 1781141966836,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s5b.html",
-      "accessCount": 3,
-      "lastAccessed": 1781141977445,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s0.html",
-      "accessCount": 3,
-      "lastAccessed": 1781142883210,
+      "accessCount": 2,
+      "lastAccessed": 1781686028224,
       "type": "file"
     },
     {
       "path": "src/slides/s2d.html",
-      "accessCount": 3,
-      "lastAccessed": 1781159156828,
+      "accessCount": 2,
+      "lastAccessed": 1781686028614,
       "type": "file"
     },
     {
-      "path": "src/js/hooks-s3c.js",
+      "path": "src/slides/s2e.html",
       "accessCount": 2,
-      "lastAccessed": 1781142237547,
+      "lastAccessed": 1781686029088,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s3intro.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686030100,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s3a.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686030531,
       "type": "file"
     },
     {
       "path": "src/slides/s3b.html",
       "accessCount": 2,
-      "lastAccessed": 1781162732939,
-      "type": "file"
-    },
-    {
-      "path": "design-system/readme.md",
-      "accessCount": 1,
-      "lastAccessed": 1781096910192,
-      "type": "file"
-    },
-    {
-      "path": "design-system/assets/character/mos-greeting.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096972183,
-      "type": "file"
-    },
-    {
-      "path": "design-system/assets/character/mos-happy.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096973433,
-      "type": "file"
-    },
-    {
-      "path": "design-system/assets/character/mos-working.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096974528,
-      "type": "file"
-    },
-    {
-      "path": "design-system/assets/character/mos-curious.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096974887,
-      "type": "file"
-    },
-    {
-      "path": "assets/resources/mosmos/world_notion.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096988158,
-      "type": "file"
-    },
-    {
-      "path": "assets/resources/mosmos/notion_ai.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096988493,
-      "type": "file"
-    },
-    {
-      "path": "assets/resources/proact0/homepage.png",
-      "accessCount": 1,
-      "lastAccessed": 1781096988549,
-      "type": "file"
-    },
-    {
-      "path": "deck-assets/capture-joongheon-top.png",
-      "accessCount": 1,
-      "lastAccessed": 1781105127447,
-      "type": "file"
-    },
-    {
-      "path": "deck-assets/capture-proact0-top.png",
-      "accessCount": 1,
-      "lastAccessed": 1781105127873,
-      "type": "file"
-    },
-    {
-      "path": "scripts/verify/e12-export.js",
-      "accessCount": 1,
-      "lastAccessed": 1781114692919,
-      "type": "file"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 1,
-      "lastAccessed": 1781115390615,
-      "type": "file"
-    },
-    {
-      "path": "scripts/verify/walkdeck.js",
-      "accessCount": 1,
-      "lastAccessed": 1781115395173,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s2a.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141958279,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s2b.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141958726,
-      "type": "file"
-    },
-    {
-      "path": "src/slides/s2e.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141960468,
+      "lastAccessed": 1781686030989,
       "type": "file"
     },
     {
       "path": "src/slides/s3c.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141967793,
+      "accessCount": 2,
+      "lastAccessed": 1781686031902,
       "type": "file"
     },
     {
       "path": "src/slides/s3d.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141968794,
+      "accessCount": 2,
+      "lastAccessed": 1781686032191,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4intro.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686049232,
       "type": "file"
     },
     {
       "path": "src/slides/s4a.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141969228,
+      "accessCount": 2,
+      "lastAccessed": 1781686050009,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s4b.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686050469,
       "type": "file"
     },
     {
       "path": "src/slides/s4c.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141970216,
+      "accessCount": 2,
+      "lastAccessed": 1781686050960,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s5a.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686051891,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s5b.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686052367,
       "type": "file"
     },
     {
       "path": "src/slides/s6a.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141977924,
+      "accessCount": 2,
+      "lastAccessed": 1781686052838,
       "type": "file"
     },
     {
       "path": "src/slides/s6b.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141978902,
+      "accessCount": 2,
+      "lastAccessed": 1781686053797,
       "type": "file"
     },
     {
       "path": "src/slides/s6c.html",
-      "accessCount": 1,
-      "lastAccessed": 1781141979333,
+      "accessCount": 2,
+      "lastAccessed": 1781686054257,
       "type": "file"
     },
     {
-      "path": "src/js/hooks-s2d.js",
+      "path": "src/slides/s6d.html",
+      "accessCount": 2,
+      "lastAccessed": 1781686054638,
+      "type": "file"
+    },
+    {
+      "path": "src/defs.html",
       "accessCount": 1,
-      "lastAccessed": 1781142011810,
+      "lastAccessed": 1781685636627,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mon-design.png",
+      "accessCount": 1,
+      "lastAccessed": 1781685709293,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mon-research.png",
+      "accessCount": 1,
+      "lastAccessed": 1781685709732,
+      "type": "file"
+    },
+    {
+      "path": "design-system/assets/character/mon-organize.png",
+      "accessCount": 1,
+      "lastAccessed": 1781685710695,
+      "type": "file"
+    },
+    {
+      "path": "deck-assets/mos-greeting.png",
+      "accessCount": 1,
+      "lastAccessed": 1781685711837,
+      "type": "file"
+    },
+    {
+      "path": "src/slides/s0.html",
+      "accessCount": 1,
+      "lastAccessed": 1781685804471,
+      "type": "file"
+    },
+    {
+      "path": "src/chrome.html",
+      "accessCount": 1,
+      "lastAccessed": 1781685817574,
       "type": "file"
     }
   ],

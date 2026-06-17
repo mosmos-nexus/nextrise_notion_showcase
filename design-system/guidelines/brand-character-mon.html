@@ -1,0 +1,55 @@
+<!-- @dsCard group="Brand" viewport="700x360" name="Mon Character" subtitle="Role-based companions — Design · Organize · Research" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-body); background: var(--surface-page); padding: var(--space-lg); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-base); }
+  .card {
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-e1);
+    padding: 20px var(--space-base) var(--space-base);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .card.design  { background: linear-gradient(160deg, #FFF0F4 0%, #FDFAFA 100%); }
+  .card.organize{ background: linear-gradient(160deg, #EDFAF0 0%, #F7FDF8 100%); }
+  .card.research{ background: linear-gradient(160deg, #F0EEFF 0%, #F8F7FD 100%); }
+  .card img { width: 112px; height: 112px; object-fit: contain; }
+  .role-pill {
+    font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: 2px 10px; border-radius: 99px;
+  }
+  .design  .role-pill { background: #FFD6E3; color: #C43A6B; }
+  .organize .role-pill { background: #C9F0D4; color: #2A7A48; }
+  .research .role-pill { background: #DDD6FF; color: #5B3FBF; }
+  .name { font-size: 15px; font-weight: 700; color: var(--text-strong); }
+  .use  { font-size: 11px; color: var(--text-body); text-align: center; line-height: 1.55; }
+  .color-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="card design">
+      <img src="../assets/character/mon-design.png" alt="Mon Design">
+      <span class="role-pill">Design</span>
+      <span class="name">Mon Design</span>
+      <span class="use">창작 · UI/UX · 콘텐츠 제작<br>페인트브러시를 들고 즐겁게 작업 중</span>
+    </div>
+    <div class="card organize">
+      <img src="../assets/character/mon-organize.png" alt="Mon Organize">
+      <span class="role-pill">Organize</span>
+      <span class="name">Mon Organize</span>
+      <span class="use">정리 · 일정 · 데이터 분류<br>안경을 쓰고 카드를 꼼꼼히 검토 중</span>
+    </div>
+    <div class="card research">
+      <img src="../assets/character/mon-research.png" alt="Mon Research">
+      <span class="role-pill">Research</span>
+      <span class="name">Mon Research</span>
+      <span class="use">조사 · 학습 · 분석<br>노트북을 열고 차분하게 탐구 중</span>
+    </div>
+  </div>
+</body>
+</html>

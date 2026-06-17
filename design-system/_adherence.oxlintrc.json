@@ -17,9 +17,7 @@
           {
             "group": [
               "components/display/**",
-              "components/forms/**",
-              "ui_kits/landing/**",
-              "ui_kits/waitlist/**"
+              "components/forms/**"
             ],
             "message": "Import design-system components from 'index.js', not component internals."
           }
