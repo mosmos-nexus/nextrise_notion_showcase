@@ -345,7 +345,9 @@ body.no-fade .slide,body.no-fade .slide.active{
 /* ============================================================
    6. 덱 크롬 — Mon 궤도 인디케이터(어젠다 겸용) · 페이지 번호
    ============================================================ */
-.orbit-progress{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:900;
+.orbit-progress{position:fixed;top:18px;left:50%;z-index:900;
+  /* 스테이지와 동일 배율로 축소(1920 기준 원본, 그 이하에서 비례 축소). 확대는 하지 않음 */
+  transform:translateX(-50%) scale(min(1,var(--stage-scale,1)));transform-origin:top center;
   display:flex;align-items:center;gap:6px;padding:10px 22px;border-radius:var(--r-pill);
   background:rgba(255,255,255,.78);border:1px solid rgba(29,32,38,.08);
   box-shadow:var(--e1);backdrop-filter:blur(10px)}
@@ -357,10 +359,7 @@ body.no-fade .slide,body.no-fade .slide.active{
 .pnode .plabel{display:none;font-size:14.5px;font-weight:700;color:var(--text-body);letter-spacing:.02em}
 .pnode.cur .plabel{display:block}
 .pline{width:16px;height:2px;border-radius:2px;background:var(--border-default);flex:none}
-/* 좁은 창에서 고정 크롬이 스테이지 대비 비대해지는 것 완화 (현장 1920 기준은 원본 크기) */
-@media (max-width:1320px){
-  .orbit-progress{top:12px;transform:translateX(-50%) scale(.82);transform-origin:top center}
-}
+/* (축소는 --stage-scale로 스테이지와 동기화 — 별도 너비 분기 불필요) */
 .pager{position:fixed;right:26px;bottom:20px;z-index:900;font-size:13.5px;font-weight:700;
   letter-spacing:.12em;color:#5C6573;font-variant-numeric:tabular-nums;
   background:rgba(255,255,255,.72);border:1px solid rgba(29,32,38,.08);
@@ -375,14 +374,15 @@ body.no-fade .slide,body.no-fade .slide.active{
 .edit-toggle.active{background:var(--blue-core);color:#fff}
 /* D6: 상시 발표자료 QR (chrome) — 좌하단, 표지에서는 숨김 */
 .persistent-qr{position:fixed;left:22px;bottom:18px;z-index:880;display:flex;flex-direction:column;align-items:center;gap:5px;
+  /* 좌하단 모서리에 고정한 채 스테이지와 동일 배율로 축소 */
+  transform:scale(min(1,var(--stage-scale,1)));transform-origin:bottom left;
   background:rgba(255,255,255,.9);border:1px solid var(--border-subtle);border-radius:12px;padding:8px 8px 6px;box-shadow:var(--e1);backdrop-filter:blur(6px);transition:opacity .5s}
 .persistent-qr img{width:72px;height:72px;display:block}
 .persistent-qr span{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.04em}
 /* 표지(s0 활성)에서는 숨김 — JS 타이밍 비의존(:has), at-cover는 폴백 */
 body.at-cover .persistent-qr,body:has(#s0.active) .persistent-qr{opacity:0;pointer-events:none}
 @media print{.persistent-qr{display:none}}
-/* 좁은 화면(폰)에서는 상시 QR 축소 */
-@media (max-width:760px){.persistent-qr{left:12px;bottom:12px;padding:5px;gap:3px}.persistent-qr img{width:48px;height:48px}.persistent-qr span{font-size:9px}}
+/* (QR 축소도 --stage-scale로 스테이지와 동기화 — 별도 너비 분기 불필요) */
 body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset:-3px}
 
 /* ── E1: 라이브 탐색 서브페이지 (data-explore 슬라이드: ↓ 확장 / ↑ 복귀) ── */

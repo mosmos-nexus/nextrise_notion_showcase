@@ -123,6 +123,8 @@
     const f=Math.min(innerWidth/1920,innerHeight/1080);
     const x=(innerWidth-1920*f)/2, y=(innerHeight-1080*f)/2;
     stage.style.transform=`translate(${x}px,${y}px) scale(${f})`;
+    /* 고정 크롬(상단 진행바·좌하단 QR)이 스테이지와 같은 비율로 축소되도록 노출 */
+    document.documentElement.style.setProperty('--stage-scale', f);
   }
   fit(); addEventListener('resize',fit);
 
