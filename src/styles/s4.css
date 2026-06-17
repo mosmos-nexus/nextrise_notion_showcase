@@ -24,8 +24,8 @@
 #s4a .hlogo{position:absolute;top:54px;right:128px;height:54px;width:auto}
 /* WP6 A6: s4a Mon decorations (생성/소통 theme — 2 Mons) */
 #s4a .mon-deco{position:absolute;z-index:5}
-#s4a .mon-deco.a{right:130px;top:90px;width:82px;height:82px}
-#s4a .mon-deco.b{left:130px;bottom:140px;width:78px;height:78px}
+#s4a .mon-deco.a{right:130px;top:290px;width:82px;height:82px}
+#s4a .mon-deco.b{left:70px;bottom:440px;width:78px;height:78px}
 
 #s4b{--bloom:1}
 #s4b .cols{position:absolute;left:118px;right:118px;top:120px;bottom:100px;display:grid;grid-template-columns:980px 1fr;gap:64px;align-items:center}
@@ -40,10 +40,10 @@
 #s4b .right p.cp{font-size:var(--fs-c2);line-height:1.55;color:var(--bgray-dark);margin-top:10px;max-width:560px;
   position:relative;z-index:3}
 #s4b .universe{position:relative;width:560px;height:404px;margin-top:12px}
-#s4b .universe .mos{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:280px}
-#s4b .orbit-ring{position:absolute;left:50%;top:54%;width:480px;height:480px;margin:-240px 0 0 -240px;
+#s4b .universe .mos{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);width:280px}
+#s4b .orbit-ring{position:absolute;left:50%;top:60%;width:480px;height:480px;margin:-240px 0 0 -240px;
   border:1.5px dashed rgba(15,111,218,.28);border-radius:50%}
-#s4b .orbiter{position:absolute;left:50%;top:54%;width:0;height:0;
+#s4b .orbiter{position:absolute;left:50%;top:60%;width:0;height:0;
   animation:orbit 22s linear infinite;animation-delay:calc(var(--i)*-3.6666s)}
 #s4b .orbiter .mon{position:absolute;left:-39px;top:-39px;width:78px;height:78px}
 @keyframes orbit{from{transform:rotate(0deg) translateX(240px) rotate(0deg)}
@@ -71,15 +71,15 @@
 /* WP6 A6: s4c Mon decorations (생성/소통 theme — 2 Mons) */
 #s4c .mon-deco{position:absolute;z-index:5}
 #s4c .mon-deco.a{right:130px;top:90px;width:82px;height:82px}
-#s4c .mon-deco.b{left:130px;bottom:90px;width:78px;height:78px}
+#s4c .mon-deco.b{left:70px;bottom:90px;width:78px;height:78px}
 
 /* ── E2: s4b 자동 시뮬레이션 — 목표 카드 → Mos 흡수 → 완료 배지 (12s 루프, CSS 전용) ── */
-#s4b .sim-goal{position:absolute;left:50%;top:54%;width:82px;height:64px;margin:-32px 0 0 -41px;
+#s4b .sim-goal{position:absolute;left:50%;top:60%;width:82px;height:64px;margin:-32px 0 0 -41px;
   background:#fff;border:1.5px solid var(--border-default);border-radius:14px;box-shadow:var(--e2);
   display:flex;align-items:center;justify-content:center;color:var(--blue-core);
   opacity:0;z-index:7;pointer-events:none}
 #s4b .sim-goal svg{width:32px;height:32px}
-#s4b .sim-done{position:absolute;left:50%;top:54%;width:56px;height:56px;margin:-28px 0 0 -28px;
+#s4b .sim-done{position:absolute;left:50%;top:60%;width:56px;height:56px;margin:-28px 0 0 -28px;
   background:#4FA136;border-radius:50%;box-shadow:0 8px 22px rgba(79,161,54,.35);
   display:flex;align-items:center;justify-content:center;color:#fff;
   opacity:0;z-index:7;pointer-events:none}
