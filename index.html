@@ -399,10 +399,6 @@ body.no-fade .slide,body.no-fade .slide.active{
 .edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto}
 .edit-toggle.active{background:var(--blue-core);color:#fff}
 /* D6: 상시 발표자료 QR (chrome) — 좌하단, 표지에서는 숨김 */
-.persistent-qr{position:fixed;left:22px;bottom:18px;z-index:880;display:flex;flex-direction:column;align-items:center;gap:5px;
-  /* 좌하단 모서리 고정. 진행바와 동일하게 현장 2배, 이하 비례 축소(상한 2배) */
-  transform:scale(min(1.2,var(--stage-scale,1)*1.2));transform-origin:bottom left;
-  background:rgba(255,255,255,.9);border:1px solid var(--border-subtle);border-radius:12px;padding:8px 8px 6px;box-shadow:var(--e1);backdrop-filter:blur(6px);transition:opacity .5s}
 .persistent-qr img{width:72px;height:72px;display:block}
 .persistent-qr span{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.04em}
 /* 표지(s0 활성)에서는 숨김 — JS 타이밍 비의존(:has), at-cover는 폴백 */
@@ -1113,31 +1109,70 @@ body.editing .slide.active{outline:3px dashed rgba(15,111,218,.4);outline-offset
 <section class="slide active" id="s0" data-section="0">
   <div class="bg">
     <div class="grid-lines"></div>
-    <div class="glow g1"></div><div class="glow g2"></div>
-    <span class="blk b1"></span><span class="blk b2"></span><span class="blk b3"></span>
-    <span class="blk b4"></span><span class="blk b5"></span>
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <span class="blk b1"></span><span class="blk b2"></span
+    ><span class="blk b3"></span> <span class="blk b4"></span
+    ><span class="blk b5"></span>
   </div>
   <div class="s0-top">
-    <img src="assets/logo/notion.svg" alt="Notion">
+    <img src="assets/logo/notion.svg" alt="Notion" />
     <span>Notion Startup Showcase @ NextRise 2026 · SESSION 03</span>
   </div>
   <div class="s0-center">
     <div class="s0-block">
-      <img class="sym-mono" src="design-system/assets/logos/mosmos-symbol-black.svg" alt="">
-      <img class="sym-grad" src="design-system/assets/logos/mosmos-symbol-gradient.svg" alt="mosmos symbol">
+      <img
+        class="sym-mono"
+        src="design-system/assets/logos/mosmos-symbol-black.svg"
+        alt=""
+      />
+      <img
+        class="sym-grad"
+        src="design-system/assets/logos/mosmos-symbol-gradient.svg"
+        alt="mosmos symbol"
+      />
     </div>
-    <h1 class="s0-title type" data-text="혼자 쓰던 워크스페이스가,\n회사가 되기까지"><span class="caret"></span></h1>
-    <p class="s0-sub late">내 AI가 자라는 세계, Mosmos<span class="en"> — A world where my AI grows up.</span></p>
+    <h1
+      class="s0-title type"
+      data-text="혼자 쓰던 워크스페이스가,\n회사가 되기까지"
+    >
+      <span class="caret"></span>
+    </h1>
+    <p class="s0-sub late">
+      내 AI가 자라는 세계, Mosmos<span class="en">
+        — A world where my AI grows up.</span
+      >
+    </p>
     <p class="s0-slogan late">자잘한 일은 맡기고, 중요한 것에 집중하세요</p>
   </div>
-  <img class="s0-mos mos float late" src="deck-assets/mos-greeting.png" alt="Mos가 인사하는 모습">
-  <img class="mon m-research s0-mon float f2 late" width="86" height="86" src="deck-assets/mon-research.png" alt="">
+  <img
+    class="s0-mos mos float late"
+    src="deck-assets/mos-greeting.png"
+    alt="Mos가 인사하는 모습"
+  />
+  <img
+    class="mon m-research s0-mon float f2 late"
+    width="86"
+    height="86"
+    src="deck-assets/mon-research.png"
+    alt=""
+  />
   <!-- D6: 발표자료 접속 QR — 청중이 폰으로 함께 보도록 (표지 강조본) -->
   <div class="s0-qr late">
-    <div class="s0-qr-card"><img src="assets/resources/nextrise_showcase_qr_code.svg" alt="이 발표자료를 휴대폰으로 여는 QR 코드"></div>
-    <span class="s0-qr-label"><b>휴대폰으로 함께 보세요</b><br>QR을 찍으면 이 발표를 폰에서 바로</span>
+    <div class="s0-qr-card">
+      <img
+        src="assets/resources/nextrise_showcase_qr_code.svg"
+        alt="이 발표자료를 휴대폰으로 여는 QR 코드"
+      />
+    </div>
+    <span class="s0-qr-label"
+      ><b>휴대폰으로 해당 PPT를 볼 수 있습니다.</b></span
+    >
   </div>
-  <footer class="s0-foot late"><b>박중헌</b> · Founder, Mosmos · Notion Startup Showcase @ NextRise 2026 · SESSION 03</footer>
+  <footer class="s0-foot late">
+    <b>박중헌</b> · Founder, Mosmos · Notion Startup Showcase @ NextRise 2026 ·
+    SESSION 03
+  </footer>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════
