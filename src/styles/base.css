@@ -349,7 +349,7 @@ body.no-fade .slide,body.no-fade .slide.active{
   /* width:max-content → 50%뷰포트 클램프 해제(노드가 찌그러져 라벨이 세로로 줄바꿈되던 문제 방지) */
   width:max-content;
   /* 현장(1920·scale=1)에서 2배, 그 이하는 스테이지와 비례 축소. 상한 2배로 캡 */
-  transform:translateX(-50%) scale(min(2,var(--stage-scale,1)*2));transform-origin:top center;
+  transform:translateX(-50%) scale(min(1.5,var(--stage-scale,1)*1.5));transform-origin:top center;
   display:flex;align-items:center;gap:10px;padding:10px 22px;border-radius:var(--r-pill);
   background:rgba(255,255,255,.78);border:1px solid rgba(29,32,38,.08);
   box-shadow:var(--e1);backdrop-filter:blur(10px)}
